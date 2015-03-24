@@ -11,5 +11,10 @@
     "judge"
   ],
   "author": "Thor",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "async": "^0.9.0",
+    "socket.io-client": "^1.3.5",
+    "strftime": "^0.9.0"
+  }
 }
