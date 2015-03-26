@@ -4,11 +4,11 @@
 
 var fs = require('fs');
 
-function log(path) {
+function log(path, callback) {
     this.path = path;
     var self = this;
     this.write = function (data, callback) {
-        fs.appendFile(self.path, '[' + (new Date()).toISOString() + '] ' + data + '\n', callback);
+        fs.appendFile(self.path, '[' + (new Date()).toLocaleString() + '] ' + data + '\n', callback);
     }
 }
 

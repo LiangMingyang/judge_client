@@ -3,13 +3,6 @@ var crypto = require('crypto');
 var async = require('async');
 var log = require('./log');
 
-var configs = [{
-    name: 'judge0',
-    secret_key: 'alimengmengda',
-    create_time: '2015-3-23 20:35',
-    url: 'http://localhost:3000/',
-    log_path: './judge_judge0.log'
-}];
 
 function judge_client(data, callback) {
     this.name = data.name;
@@ -22,12 +15,78 @@ function judge_client(data, callback) {
     this.socket = undefined;
 
     var self = this;
-
+    /**
+     * start the process
+     */
     this.start = function () {
-        this.socket = io.connect(self.url);
+        self.socket = io.connect(self.url)
+            .on('connect', function () {
+                self.log.write('connected with ' + self.config);
+                self.status = 'ready';
+                self.log_in();
+            })
+            .on('message', function (msg) {
+                self.log.write('Receive a piece of message: ' + msg);
+            })
+            .on('disconnect', function () {
+                self.log.write('Disconnected');
+            })
+            .on('connect_error', function (err) {
+                self.log.write('Error! err.message = ' + err.message);
+            })
+            .on('connect_timeout', function () {
+                self.log.write('Connection timeout');
+            })
+            .on('reconnect', function (num) {
+                self.log.write('Reconnect with number:' + num);
+                //self.log_in();
+            })
+            .on('reconnect_attempt', function () {
+                self.log.write('Trying reconnect');
+            })
+            .on('task', function (task, confirm) {
+                self.log.write('Got a task:' + task);
+                self.work(task);
+                confirm();
+            })
+            .on('command', function (command, confirm) {
+                self.log.write('Receive command');
+                confirm();
+                //self.exec(command)
+            });
+        process.on('SIGTERM', function () {
+            if (self.socket === undefined) return;
+            self.stop(function () {
+                process.disconnect && process.disconnect();
+            });
+        });
     };
 
+    /**
+     * stop the process
+     * @param callback
+     */
 
+    this.stop = function (callback) {
+        if(self.status == 'ready') {
+
+        } else {
+            self.fail(callback);
+        }
+    };
+
+    /**
+     * when failed report failed
+     * @param callback
+     */
+
+    this.fail = function (callback) {
+        callback && callback();
+    };
+
+    /**
+     * log in on connect event
+     */
     this.log_in = function () {
         var post_time = new Date().toISOString();
         self.socket.emit('login', {
@@ -44,21 +103,37 @@ function judge_client(data, callback) {
         });
     };
 
+    /**
+     * prepare environment for judging
+     * @param callback
+     */
+
     this.pre_env = function (callback) {
         //TODO: 环境准备
         setTimeout(function () {
             console.log("preparing environment");
-            callback(null, "prepared");
+            callback && callback();
         }, 1000 + Math.random() * 100);
     };
+    /**
+     * prepare files for judging
+     * @param task
+     * @param callback
+     */
 
     this.pre_file = function (task, callback) {
         //TODO: 文件准备
         setTimeout(function () {
             console.log("preparing files");
-            callback(null, "prepared");
+            callback && callback();
         }, 1000 + Math.random() * 100);
     };
+
+    /**
+     * prepare for juding
+     * @param task
+     * @param callback
+     */
 
     this.prepare = function (task, callback) {
         self.status = 'preparing';
@@ -75,6 +150,12 @@ function judge_client(data, callback) {
         ], callback);
     };
 
+    /**
+     * when everything is ready, it will start judging
+     * @param task
+     * @param callback
+     */
+
     this.judge = function (task, callback) {
         self.status = 'judging';
         self.socket.emit('status', self.status, function () {
@@ -85,10 +166,15 @@ function judge_client(data, callback) {
             task.result = 'Accepted';
             task.timecost = '1000';
             task.memorycost = '100';
-            callback(null, task);
+            callback && callback();
         });
         // TODO : 进行评测
     };
+
+    /**
+     * work on the task
+     * @param task
+     */
 
     this.work = function (task) {
         async.series([
@@ -106,7 +192,7 @@ function judge_client(data, callback) {
                     self.socket.emit('report', self.status, task, function () {
                         self.log.write('Finished with ' + task);
                         self.status = 'ready';
-                        if (callba)callback(null, 'reported');
+                        callback && callback();
                     });
                 }
             ],
@@ -121,66 +207,11 @@ function judge_client(data, callback) {
         // 以上需要严格串行
     };
 
-    this.socket
-        .on('connect', function () {
-            self.log.write('connected with ' + self.config);
-            self.status = 'ready';
-            self.log_in();
-        })
-        .on('message', function (msg) {
-            self.log.write('Receive a piece of message: ' + msg);
-        })
-        .on('disconnect', function () {
-            self.log.write('Disconnected');
-        })
-        .on('connect_error', function (err) {
-            self.log.write('Error! err.message = ' + err.message);
-        })
-        .on('connect_timeout', function () {
-            self.log.write('Connection timeout');
-        })
-        .on('reconnect', function (num) {
-            self.log.write('Reconnect with number:' + num);
-            //self.log_in();
-        })
-        .on('reconnect_attempt', function () {
-            self.log.write('Trying reconnect');
-        })
-        .on('task', function (task, confirm) {
-            self.log.write('Got a task:' + task);
-            self.work(task);
-            confirm();
-        })
-        .on('command', function (command, confirm) {
-            self.log.write('Receive command');
-            confirm();
-            //self.exec(command)
-        });
-    if (callback) callback(null);
+    callback && callback();
 }
 
-function judge_clients(configs) {
-    this.configs = configs;
-    this.judges = [];
 
-    var self = this;
-    self.configs.forEach(function (ele, index) {
-        self.judges[index] = new judge_client(ele);
-    });
-
-    this.start = function () {
-        self.judges.forEach(function (ele, index) {
-            ele.start();
-        });
-    };
-}
-
-module.exports = judge_clients;
-
-//var client = new judge_client(config);
-var judge = new judge_clients(configs);
-
-judge.start();
+module.exports = judge_client;
 
 
 
