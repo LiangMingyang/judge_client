@@ -70,7 +70,8 @@ if(cluster.isMaster) {
     /**
     * Restart the workers
     */
-    process.on('SIGNUP', function () {
+    process.on('SIGHUP', function () {
+        console.log('Got SIGHUP');
         killAllWorkers('SIGTERM');
         createWorkers(config);
     });

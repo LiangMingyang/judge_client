@@ -6,11 +6,13 @@ var log = require('./log');
 
 function judge_client(data, callback) {
     this.name = data.name;
+    this.id = data.id;
+    this.tmpfs_size = data.tmpfs_size || 500;
     this.secret_key = data.secret_key;
     this.create_time = data.create_time;
     this.log = new log(data.log_path);
     this.config = JSON.stringify(data);
-    this.status = 'unknown';
+    this.status = undefined;
     this.url = data.url;
     this.socket = undefined;
 
@@ -60,6 +62,11 @@ function judge_client(data, callback) {
                 process.disconnect && process.disconnect();
             });
         });
+        child_process
+            .spawn('python', ['./workstation.py', 'mount', self.id, self.tmpfs_size], {stdio:'inherit'})
+            .on('exit', function () {
+                callback && callback();
+            });
     };
 
     /**
@@ -73,6 +80,11 @@ function judge_client(data, callback) {
         } else {
             self.fail(callback);
         }
+        child_process
+            .spawn('python', ['./workstation.py', 'clean_all', self.id, self.tmpfs_size], {stdio:'inherit'})
+            .on('exit', function () {
+                callback && callback();
+            });
     };
 
     /**
@@ -109,11 +121,11 @@ function judge_client(data, callback) {
      */
 
     this.pre_env = function (callback) {
-        //TODO: 环境准备
-        setTimeout(function () {
-            console.log("preparing environment");
-            callback && callback();
-        }, 1000 + Math.random() * 100);
+        child_process
+            .spawn('python', ['./workstation.py', 'clean_all', self.id, self.tmpfs_size], {stdio:'inherit'})
+            .on('exit', function () {
+                callback && callback();
+            });
     };
     /**
      * prepare files for judging
@@ -169,6 +181,8 @@ function judge_client(data, callback) {
             callback && callback();
         });
         // TODO : 进行评测
+
+        // TODO : unmount
     };
 
     /**

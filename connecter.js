@@ -22,8 +22,8 @@ function stop() {
             console.log(err.message);
             return;
         }
-        console.log('The pid is' + PID);
-        child_process.spawn('kill',['-TERM',PID]).on('exit', function () {
+        console.log('The pid is ' + PID);
+        child_process.spawn('kill',['-TERM',PID], {stdio:'inherit'}).on('exit', function () {
             console.log('killed');
         });
     });
@@ -37,6 +37,10 @@ function start() {
         return ;
     }
     console.log('starting');
+    if(!commander.force && fs.existsSync(PIDFILE)) {
+        console.log('But it is already running');
+        return ;
+    }
     if(commander.no_daemon) {
         child_process.spawn('node',['./judge_controller.js'],{stdio:'inherit'});
     } else {
@@ -85,4 +89,5 @@ commander
 
 commander
     .option('-n --no_daemon', 'if it will run as daemon')
+    .option('-f --force', 'force start')
     .parse(process.argv);
