@@ -3,6 +3,9 @@ var crypto = require('crypto');
 var async = require('async');
 var log = require('./log');
 var child_process = require('child_process');
+var ss = require('socket.io-stream');
+
+var res_dir = "./res";
 
 
 function judge_client(data, callback) {
@@ -22,14 +25,27 @@ function judge_client(data, callback) {
     this.socket = undefined;
 
     var self = this;
+
+    this.change_status = function (status, message, callback) {
+        self.status = status;
+        self.socket.emit('status', self.status, function () {
+            self.log.write(message);
+            callback && callback();
+        });
+    };
+
     /**
      * start the process
      */
-    this.start = function () {
+    this.start = function (callback) {
+        child_process
+            .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+            .on('exit', function () {
+                self.change_status('ready', 'mounted');
+            });
         self.socket = io.connect(self.url)
             .on('connect', function () {
                 self.log.write('connected with ' + self.config);
-                self.status = 'ready';
                 self.log_in();
             })
             .on('message', function (msg) {
@@ -46,7 +62,6 @@ function judge_client(data, callback) {
             })
             .on('reconnect', function (num) {
                 self.log.write('Reconnect with number:' + num);
-                //self.log_in();
             })
             .on('reconnect_attempt', function () {
                 self.log.write('Trying reconnect');
@@ -67,11 +82,7 @@ function judge_client(data, callback) {
                 process.disconnect && process.disconnect();
             });
         });
-        child_process
-            .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-            .on('exit', function () {
-                callback && callback();
-            });
+
     };
 
     /**
@@ -98,6 +109,7 @@ function judge_client(data, callback) {
      */
 
     this.fail = function (callback) {
+        // TODO: fail the work
         console.log('failed');
         callback && callback();
     };
@@ -134,17 +146,50 @@ function judge_client(data, callback) {
             });
     };
     /**
+     * extract_file extract file from file_path to judge_res
+     * @param file_path
+     * @param callback
+     */
+    this.extract_file = function (file_path, callback) {
+        // TODO: extract to the file_dir
+    };
+    /**
      * prepare files for judging
      * @param task
      * @param callback
      */
-
     this.pre_file = function (task, callback) {
-        //TODO: 文件准备同时把测试设置写入环境
-        setTimeout(function () {
-            console.log("preparing files");
-            callback && callback();
-        }, 1000 + Math.random() * 100);
+        var file_path = res_dir + task.file_name;
+        fs.exists(file_path, function (exists) {
+            if(exists) {
+                self.extract_file(file_path, callback);
+            } else {
+                var stream = ss.createStream();
+                ss(socket).emit('file', stream, task.file_name);
+                stream.pipe(fs.createWriteStream(task.file_name))
+                    .on('finish', function () {
+                        console.log('stream end.');
+                        self.extract_file(file_path, callback);
+                    })
+                    .on('error', function () {
+                        ss(socket).emit('file', stream, task.file_name); /// resent the request
+                        console.log('error');
+                    });
+            }
+        });
+    };
+
+    /**
+     * prepare submission and test_setting
+     * @param task
+     * @param callback
+     */
+    this.pre_submission = function (task, callback) {
+        child_process
+            .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, task.source_code, task.source_lang, task.test_setting], {stdio:'inherit'})
+            .on('exit', function () {
+                callback && callback();
+            });
     };
 
     /**
@@ -154,13 +199,13 @@ function judge_client(data, callback) {
      */
 
     this.prepare = function (task, callback) {
-        self.status = 'preparing';
-        self.socket.emit('status', self.status, function () {
-            self.log.write('Preparing for judging');
-        });
+        self.change_status('preparing','Preparing for judging');
         async.parallel([
             function (callback) {
                 self.pre_env(callback);
+            },
+            function (callback) {
+                self.pre_submission(task, callback);
             },
             function (callback) {
                 self.pre_file(task, callback);
@@ -175,11 +220,7 @@ function judge_client(data, callback) {
      */
 
     this.judge = function (task, callback) {
-        self.status = 'judging';
-        self.socket.emit('status', self.status, function () {
-            self.log.write('Judging');
-        });
-
+        self.change_status('judging', 'Judging');
         child_process
             .spawn('python', ['./judge.py', self.id, self.tmpfs_size, task.sumbit_code, task.submit_lang], {stdio:'inherit'})
             .on('exit', function () {
@@ -192,7 +233,7 @@ function judge_client(data, callback) {
      * @param task
      */
 
-    this.work = function (task) {
+    this.work = function (task, callback) {
         async.series([
                 //preparing
                 function (callback) {
@@ -204,10 +245,9 @@ function judge_client(data, callback) {
                 },
                 //reporting
                 function (callback) {
-                    self.status = 'reporting';
-                    self.socket.emit('report', self.status, task, function () {
-                        self.log.write('Finished with ' + task);
-                        self.status = 'ready';
+                    self.change_status('reporting', 'Reporting');
+                    self.socket.emit('report', task, function () {
+                        self.change_status('ready', 'Finished with ' + task + ' and ready now.');
                         callback && callback();
                     });
                 }
@@ -221,6 +261,7 @@ function judge_client(data, callback) {
         );
 
         // 以上需要严格串行
+        callback && callback();
     };
 
     callback && callback();

@@ -74,6 +74,13 @@ class Work_Station:
     def clean_all(self):
         os.system('rm %s/* -r -f' % self.tmp_dir)
 
+################################################################################
+# Judge
+################################################################################
+
+submission_dirname  = 'submission'
+data_dirname        = 'data'
+
 class Judge:
     def __init__(self, id, tmpfs_size, cpu_mask, *args, **kwargs):
         self.id = id
@@ -93,6 +100,19 @@ class Judge:
         return subprocess.call(command, lmy = self.__child_preexec,
             cwd = self.run_cwd, env = env, close_fds = True, stderr = file('/dev/null'))
 
+    def prepare_submission(self, source_code, source_lang, test_setting):
+        self.fs.new_file(('%s/__main__' % submission_dirname), source_code)
+        self.fs.new_file(('%s/__lang__' % submission_dirname), source_lang)
+        submission_dir = os.path.join(self.fs.root, submission_dirname)
+        os.system('chown %s:%s %s' % (TEST_MASTER, TEST_MASTER, submission_dir))
+        os.system('chmod o= %s' % submission_dir)
+		write_file('%s/__setting_code__' % storage, test_setting)
+    
+    '''
+    def prepare_file
+        clean and zip data to %storage%
+    '''
+
 
 if __name__ == '__main__':
     opt = sys.argv[1]
@@ -108,6 +128,11 @@ if __name__ == '__main__':
         judge.fs.unmount()
     elif opt == 'judge':
         judge.judge()
+    elif opt == 'prepare':
+        source_code = sys.argv[5]
+        source_lang = sys.argv[6]
+        test_setting = sys.argv[7]
+        judge.prepare_submission(source_code, source_lang, test_setting)
         
         
 	
