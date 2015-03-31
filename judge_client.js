@@ -2,12 +2,17 @@ var io = require('socket.io-client');
 var crypto = require('crypto');
 var async = require('async');
 var log = require('./log');
+var child_process = require('child_process');
 
 
 function judge_client(data, callback) {
     this.name = data.name;
     this.id = data.id;
     this.tmpfs_size = data.tmpfs_size || 500;
+    this.cpu_mask = 0;
+    data.cpu.forEach(function (ele) {
+        this.cpu_mask += (1 << ele);
+    });
     this.secret_key = data.secret_key;
     this.create_time = data.create_time;
     this.log = new log(data.log_path);
@@ -63,7 +68,7 @@ function judge_client(data, callback) {
             });
         });
         child_process
-            .spawn('python', ['./workstation.py', 'mount', self.id, self.tmpfs_size], {stdio:'inherit'})
+            .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
             .on('exit', function () {
                 callback && callback();
             });
@@ -81,7 +86,7 @@ function judge_client(data, callback) {
             self.fail(callback);
         }
         child_process
-            .spawn('python', ['./workstation.py', 'clean_all', self.id, self.tmpfs_size], {stdio:'inherit'})
+            .spawn('python', ['./judge.py', 'unmount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
             .on('exit', function () {
                 callback && callback();
             });
@@ -93,6 +98,7 @@ function judge_client(data, callback) {
      */
 
     this.fail = function (callback) {
+        console.log('failed');
         callback && callback();
     };
 
@@ -122,7 +128,7 @@ function judge_client(data, callback) {
 
     this.pre_env = function (callback) {
         child_process
-            .spawn('python', ['./workstation.py', 'clean_all', self.id, self.tmpfs_size], {stdio:'inherit'})
+            .spawn('python', ['./judge.py', 'clean_all', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
             .on('exit', function () {
                 callback && callback();
             });
@@ -134,7 +140,7 @@ function judge_client(data, callback) {
      */
 
     this.pre_file = function (task, callback) {
-        //TODO: 文件准备
+        //TODO: 文件准备同时把测试设置写入环境
         setTimeout(function () {
             console.log("preparing files");
             callback && callback();
@@ -173,16 +179,12 @@ function judge_client(data, callback) {
         self.socket.emit('status', self.status, function () {
             self.log.write('Judging');
         });
-        setTimeout(function () {
-            console.log('judging');
-            task.result = 'Accepted';
-            task.timecost = '1000';
-            task.memorycost = '100';
-            callback && callback();
-        });
-        // TODO : 进行评测
 
-        // TODO : unmount
+        child_process
+            .spawn('python', ['./judge.py', self.id, self.tmpfs_size, task.sumbit_code, task.submit_lang], {stdio:'inherit'})
+            .on('exit', function () {
+                callback && callback();
+            });
     };
 
     /**

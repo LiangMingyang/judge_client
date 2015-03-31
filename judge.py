@@ -22,6 +22,8 @@ TEST_MASTER = '8193'
 tmp_dirname_prefix  = 'tmp'
 work_dirname_prefix = 'work'
 default_tmpfs_size  = 500 #MB
+data_root           = '/usr/share/oj3rd'
+storage_root        = '/usr/share/oj3rd/storage/%s/'
 
 def write_file(filepath, content, own = TEST_MASTER, own_group = TEST_MASTER, umask = 'u=rw,g=r,o='):
     dirname = os.path.dirname(filepath)
@@ -36,8 +38,8 @@ def write_file(filepath, content, own = TEST_MASTER, own_group = TEST_MASTER, um
 
 class Work_Station:
     def __init__(self, id, tmpfs_size = default_tmpfs_size, *args, **kwargs):
-        self.id = id
-        self.tmpfs_size = tmpfs_size
+        self.id = int(id)
+        self.tmpfs_size = int(tmpfs_size)
         self.tmp_dir    = os.path.join(data_root, '%s_%d' % (tmp_dirname_prefix,  self.id))
         self.root       = os.path.join(data_root, '%s_%d' % (work_dirname_prefix, self.id))
 
@@ -72,21 +74,40 @@ class Work_Station:
     def clean_all(self):
         os.system('rm %s/* -r -f' % self.tmp_dir)
 
+class Judge:
+    def __init__(self, id, tmpfs_size, cpu_mask, *args, **kwargs):
+        self.id = id
+        self.cpu_mask = cpu_mask
+        self.fs = Work_Station(id, tmpfs_size)
+
+    def __child_preexec(self):
+        os.chroot(self.run_cwd)
+        os.chdir('/')
+
+    def judge(self):
+        self.run_cwd = os.path.abspath(self.fs.root)
+        cpu_mask = self.cpu_mask
+        command = ['judge_cpu_limiter', cpu_mask.__str__(), '/__judge__']
+        env = os.environ.copy()
+        env.pop('LANG', None)
+        return subprocess.call(command, lmy = self.__child_preexec,
+            cwd = self.run_cwd, env = env, close_fds = True, stderr = file('/dev/null'))
+
+
 if __name__ == '__main__':
-    if sys.argv[1] == 'mount':
-        id = sys.argv[2]
-        tmpfs_size = sys.argv[3]
-        ws = WorkStation(id, tmpfs_size)
-        ws.mount()
-    elif sys.argv[1] == 'clean_all':
-        id = sys.argv[2]
-        tmpfs_size = sys.argv[3]
-        ws = WorkStation(id, tmpfs_size)
-        ws.clean_all()
-    elif sys.argv[1] == 'unmount':
-        id = sys.argv[2]
-        tmpfs_size = sys.argv[3]
-        ws = WorkStation(id, tmpfs_size)
-        ws.unmount()
+    opt = sys.argv[1]
+    id = sys.argv[2]
+    tmpfs_size = sys.argv[3]
+    cpu_mask = sys.argv[4]
+    judge = Judge(id, tmpfs_size, cpu_mask)
+    if opt == 'mount':
+        judge.fs.mount()
+    elif opt == 'clean_all':
+        judge.fs.clean_all()
+    elif opt == 'unmount':
+        judge.fs.unmount()
+    elif opt == 'judge':
+        judge.judge()
+        
         
 	
