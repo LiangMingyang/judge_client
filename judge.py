@@ -108,10 +108,12 @@ class Judge:
         os.system('chmod o= %s' % submission_dir)
 		write_file('%s/__setting_code__' % storage, test_setting)
     
-    '''
-    def prepare_file
-        clean and zip data to %storage%
-    '''
+    def prepare_res(self, res_path):
+        data_dir = os.path.join(self.fs.root, data_dirname)
+        os.system('mkdir %s -p' % data_dir)
+        os.system('tar xzvf %s %s' % (res_path, data_dir) )
+        os.system('chown %s:%s %s' % (TEST_MASTER, TEST_MASTER, data_dir))
+        os.system('chmod o= %s' % data_dir) 
 
 
 if __name__ == '__main__':
@@ -133,6 +135,9 @@ if __name__ == '__main__':
         source_lang = sys.argv[6]
         test_setting = sys.argv[7]
         judge.prepare_submission(source_code, source_lang, test_setting)
+    elif opt == 'resource':
+        res_path = sys.argv[5]
+        judge.prepare_res(res_path)
         
         
 	

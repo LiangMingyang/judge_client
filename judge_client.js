@@ -4,8 +4,9 @@ var async = require('async');
 var log = require('./log');
 var child_process = require('child_process');
 var ss = require('socket.io-stream');
+var path = require('path');
 
-var res_dir = "./res";
+var resource_dir = "/resource";
 
 
 function judge_client(data, callback) {
@@ -14,7 +15,7 @@ function judge_client(data, callback) {
     this.tmpfs_size = data.tmpfs_size || 500;
     this.cpu_mask = 0;
     data.cpu.forEach(function (ele) {
-        this.cpu_mask += (1 << ele);
+        self.cpu_mask += (1 << ele);
     });
     this.secret_key = data.secret_key;
     this.create_time = data.create_time;
@@ -82,7 +83,7 @@ function judge_client(data, callback) {
                 process.disconnect && process.disconnect();
             });
         });
-
+        callback && callback();
     };
 
     /**
@@ -109,9 +110,10 @@ function judge_client(data, callback) {
      */
 
     this.fail = function (callback) {
-        // TODO: fail the work
         console.log('failed');
-        callback && callback();
+        self.socket.emit('fail', task, function () {
+            callback && callback();
+        });
     };
 
     /**
@@ -151,7 +153,11 @@ function judge_client(data, callback) {
      * @param callback
      */
     this.extract_file = function (file_path, callback) {
-        // TODO: extract to the file_dir
+        child_process
+            .spawn('python', ['./judge.py', 'resource', self.id, self.tmpfs_size, self.cpu_mask, file_path], {stdio:'inherit'})
+            .on('exit', function () {
+                callback && callback();
+            });
     };
     /**
      * prepare files for judging
@@ -159,16 +165,15 @@ function judge_client(data, callback) {
      * @param callback
      */
     this.pre_file = function (task, callback) {
-        var file_path = res_dir + task.file_name;
+        var file_path = path.join(__dirname,resource_dir,task.filename);
         fs.exists(file_path, function (exists) {
             if(exists) {
                 self.extract_file(file_path, callback);
             } else {
                 var stream = ss.createStream();
                 ss(socket).emit('file', stream, task.file_name);
-                stream.pipe(fs.createWriteStream(task.file_name))
+                stream.pipe(fs.createWriteStream(file_path))
                     .on('finish', function () {
-                        console.log('stream end.');
                         self.extract_file(file_path, callback);
                     })
                     .on('error', function () {
@@ -229,8 +234,9 @@ function judge_client(data, callback) {
     };
 
     /**
-     * work on the task
+     * main work
      * @param task
+     * @param callback
      */
 
     this.work = function (task, callback) {
