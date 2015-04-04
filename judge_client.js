@@ -17,6 +17,7 @@ function judge_client(data, callback) {
     data.cpu.forEach(function (ele) {
         self.cpu_mask += (1 << ele);
     });
+    this.task = undefined;
     this.secret_key = data.secret_key;
     this.create_time = data.create_time;
     this.log = new log(data.log_path);
@@ -36,7 +37,8 @@ function judge_client(data, callback) {
     };
 
     /**
-     * start the process
+     * start the judge
+     * @param callback
      */
     this.start = function (callback) {
         child_process
@@ -68,18 +70,31 @@ function judge_client(data, callback) {
                 self.log.write('Trying reconnect');
             })
             .on('task', function (task, confirm) {
-                self.log.write('Got a task:' + task);
-                self.work(task);
-                confirm();
+                self.task = task;
+                confirm(); //confirm that it got the task
+                self.log.write('Got a task:' + self.task);
+                self.work(function (err) {
+                    if(err) {
+                        self.log.write(err.message);
+                        return ;
+                    }
+                    self.log.write('Finished');
+                });
+
             })
             .on('command', function (command, confirm) {
                 self.log.write('Receive command');
                 confirm();
-                //self.exec(command)
             });
+        //noinspection JSUnresolvedVariable
         process.on('SIGTERM', function () {
             if (self.socket === undefined) return;
-            self.stop(function () {
+            self.stop(function (err) {
+                if(err) {
+                    console.log(err.message);
+                    self.log.write(err.message);
+                }
+                //noinspection JSUnresolvedVariable
                 process.disconnect && process.disconnect();
             });
         });
@@ -92,28 +107,33 @@ function judge_client(data, callback) {
      */
 
     this.stop = function (callback) {
-        if(self.status == 'ready') {
-
-        } else {
-            self.fail(callback);
-        }
-        child_process
-            .spawn('python', ['./judge.py', 'unmount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-            .on('exit', function () {
-                callback && callback();
-            });
+        async.parallel(
+        [   function (callback) {
+                if(self.status == 'ready') {
+                    callback && callback();
+                } else {
+                    self.fail(callback); // If it has the task not complete
+                }
+            },
+            function (callback) {
+                child_process
+                    .spawn('python', ['./judge.py', 'unmount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+                    .on('exit', function () {
+                        callback && callback();
+                    });
+            }
+        ], callback
+        );
     };
 
     /**
-     * when failed report failed
+     * report failure
      * @param callback
      */
 
     this.fail = function (callback) {
         console.log('failed');
-        self.socket.emit('fail', task, function () {
-            callback && callback();
-        });
+        self.socket.emit('fail', self.task, callback);
     };
 
     /**
@@ -122,6 +142,7 @@ function judge_client(data, callback) {
     this.log_in = function () {
         var post_time = new Date().toISOString();
         self.socket.emit('login', {
+            id: self.id,
             name: self.name,
             post_time: post_time,
             token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex'),
@@ -143,9 +164,7 @@ function judge_client(data, callback) {
     this.pre_env = function (callback) {
         child_process
             .spawn('python', ['./judge.py', 'clean_all', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-            .on('exit', function () {
-                callback && callback();
-            });
+            .on('exit', callback); //Please check the exit-code
     };
     /**
      * extract_file extract file from file_path to judge_res
@@ -155,29 +174,27 @@ function judge_client(data, callback) {
     this.extract_file = function (file_path, callback) {
         child_process
             .spawn('python', ['./judge.py', 'resource', self.id, self.tmpfs_size, self.cpu_mask, file_path], {stdio:'inherit'})
-            .on('exit', function () {
-                callback && callback();
-            });
+            .on('exit', callback); //Please check the exit-code
     };
     /**
      * prepare files for judging
-     * @param task
      * @param callback
      */
-    this.pre_file = function (task, callback) {
-        var file_path = path.join(__dirname,resource_dir,task.filename);
+    this.pre_file = function (callback) {
+        var file_path;
+        file_path = path.join(__dirname, resource_dir, self.task.filename);
         fs.exists(file_path, function (exists) {
-            if(exists) {
+            if (exists) {
                 self.extract_file(file_path, callback);
             } else {
                 var stream = ss.createStream();
-                ss(socket).emit('file', stream, task.file_name);
+                ss(socket).emit('file', stream, self.task.filename);
                 stream.pipe(fs.createWriteStream(file_path))
                     .on('finish', function () {
                         self.extract_file(file_path, callback);
                     })
                     .on('error', function () {
-                        ss(socket).emit('file', stream, task.file_name); /// resent the request
+                        ss(socket).emit('file', stream, self.task.filename); /// resent the request
                         console.log('error');
                     });
             }
@@ -186,74 +203,63 @@ function judge_client(data, callback) {
 
     /**
      * prepare submission and test_setting
-     * @param task
      * @param callback
      */
-    this.pre_submission = function (task, callback) {
+    this.pre_submission = function (callback) {
+        // test_setting should be right format
+        self.task.source_code = self.task.source_code || '';
+        self.task.source_lang = self.task.source_lang || '';
+        self.task.test_setting = self.task.test_setting || '';
         child_process
-            .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, task.source_code, task.source_lang, task.test_setting], {stdio:'inherit'})
-            .on('exit', function () {
-                callback && callback();
-            });
+            .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.source_code, self.task.source_lang, self.task.test_setting], {stdio:'inherit'})
+            .on('exit', callback);
     };
 
     /**
      * prepare for juding
-     * @param task
      * @param callback
      */
 
-    this.prepare = function (task, callback) {
+    this.prepare = function (callback) {
         self.change_status('preparing','Preparing for judging');
         async.parallel([
-            function (callback) {
-                self.pre_env(callback);
-            },
-            function (callback) {
-                self.pre_submission(task, callback);
-            },
-            function (callback) {
-                self.pre_file(task, callback);
-            }
+            self.pre_env,
+            self.pre_submission,
+            self.pre_file
         ], callback);
     };
 
     /**
      * when everything is ready, it will start judging
-     * @param task
      * @param callback
      */
 
-    this.judge = function (task, callback) {
+    this.judge = function (callback) {
         self.change_status('judging', 'Judging');
+        self.task.sumbit_code = self.task.sumbit_code || '';
+        self.task.submit_lang = self.task.submit_lang || '';
         child_process
-            .spawn('python', ['./judge.py', self.id, self.tmpfs_size, task.sumbit_code, task.submit_lang], {stdio:'inherit'})
-            .on('exit', function () {
-                callback && callback();
-            });
+            .spawn('python', ['./judge.py', self.id, self.tmpfs_size, self.task.sumbit_code, self.task.submit_lang], {stdio:'inherit'})
+            .on('exit', callback);
     };
 
     /**
      * main work
-     * @param task
      * @param callback
      */
 
-    this.work = function (task, callback) {
+    this.work = function (callback) {
         async.series([
                 //preparing
-                function (callback) {
-                    self.prepare(task, callback);
-                },
+                self.prepare,
                 //judging
-                function (callback) {
-                    self.judge(task, callback);
-                },
+                self.judge,
                 //reporting
+                //self.report
                 function (callback) {
                     self.change_status('reporting', 'Reporting');
-                    self.socket.emit('report', task, function () {
-                        self.change_status('ready', 'Finished with ' + task + ' and ready now.');
+                    self.socket.emit('report', self.task, function () {
+                        self.change_status('ready', 'Finished with ' + self.task + ' and ready now.');
                         callback && callback();
                     });
                 }
