@@ -233,7 +233,18 @@ function judge_client(data, callback) {
         // test_setting should be right format
         self.task.source_code = self.task.source_code || '';
         self.task.source_lang = self.task.source_lang || '';
-        self.task.test_setting = self.task.test_setting || '';
+        self.task.test_setting = self.task.test_setting || {};
+
+        var test_setting;
+        test_setting = '';
+        for(var i in self.task.test_setting)
+            if(self.task.test_setting.hasOwnProperty(i))
+                test_setting = i + '=' + self.task.test_setting[i].join(',') + '\n';
+
+        self.task.test_setting = test_setting;
+
+        console.log(self.task.test_setting);
+
         child_process
             .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.source_code, self.task.source_lang, self.task.test_setting], {stdio:'inherit'})
             .on('exit', function (code) {
