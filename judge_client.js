@@ -28,11 +28,15 @@ function judge_client(data, callback) {
 
     var self = this;
 
-    this.change_status = function (status, message, callback) {
+    /**
+     * emit status event when changed status
+     * @param status : string - self.status changed to
+     * @param message : string - which will be logged
+     */
+    this.change_status = function (status, message) {
         self.status = status;
         self.socket.emit('status', self.status, function () {
             self.log.write(message);
-            callback && callback();
         });
     };
 
@@ -43,8 +47,12 @@ function judge_client(data, callback) {
     this.start = function (callback) {
         child_process
             .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-            .on('exit', function () {
-                self.change_status('ready', 'mounted');
+            .on('exit', function (code){
+                if(code != 0) {
+                    console.log('mount failed');
+                    return ;
+                }
+                self.change_status("ready", "mounted");
             });
         self.socket = io.connect(self.url)
             .on('connect', function () {
@@ -118,7 +126,11 @@ function judge_client(data, callback) {
             function (callback) {
                 child_process
                     .spawn('python', ['./judge.py', 'unmount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-                    .on('exit', function () {
+                    .on('exit', function (code) {
+                        if(code != 0) {
+                            console.log('unmount failed');
+                            return ;
+                        }
                         callback && callback();
                     });
             }
@@ -127,7 +139,7 @@ function judge_client(data, callback) {
     };
 
     /**
-     * report failure
+     * report the failure
      * @param callback
      */
 
@@ -135,14 +147,13 @@ function judge_client(data, callback) {
         console.log('failed');
         self.socket.emit('fail', self.task, callback);
     };
-
     /**
-     * log in on connect event
+     * login when socket got connect
+     * @param callback
      */
-    this.log_in = function () {
+    this.log_in = function (callback) {
         var post_time = new Date().toISOString();
         self.socket.emit('login', {
-            id: self.id,
             name: self.name,
             post_time: post_time,
             token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex'),
@@ -153,6 +164,7 @@ function judge_client(data, callback) {
                 return;
             }
             self.log.write('Logged in');
+            callback && callback();
         });
     };
 
@@ -164,7 +176,13 @@ function judge_client(data, callback) {
     this.pre_env = function (callback) {
         child_process
             .spawn('python', ['./judge.py', 'clean_all', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-            .on('exit', callback); //Please check the exit-code
+            .on('exit', function (code) {
+                if(code != 0) {
+                    console.log('clean_all failed');
+                    return ;
+                }
+                callback && callback();
+            }); //Please check the exit-code
     };
     /**
      * extract_file extract file from file_path to judge_res
@@ -174,7 +192,13 @@ function judge_client(data, callback) {
     this.extract_file = function (file_path, callback) {
         child_process
             .spawn('python', ['./judge.py', 'resource', self.id, self.tmpfs_size, self.cpu_mask, file_path], {stdio:'inherit'})
-            .on('exit', callback); //Please check the exit-code
+            .on('exit', function (code) {
+                if(code != 0) {
+                    console.log('resource failed');
+                    return ;
+                }
+                callback && callback();
+            }); //Please check the exit-code
     };
     /**
      * prepare files for judging
@@ -212,7 +236,13 @@ function judge_client(data, callback) {
         self.task.test_setting = self.task.test_setting || '';
         child_process
             .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.source_code, self.task.source_lang, self.task.test_setting], {stdio:'inherit'})
-            .on('exit', callback);
+            .on('exit', function (code) {
+                if(code != 0) {
+                    console.log('prepare failed');
+                    return ;
+                }
+                callback && callback();
+            });
     };
 
     /**
@@ -221,7 +251,7 @@ function judge_client(data, callback) {
      */
 
     this.prepare = function (callback) {
-        self.change_status('preparing','Preparing for judging');
+        self.change_status('preparing','Preparing.');
         async.parallel([
             self.pre_env,
             self.pre_submission,
@@ -235,12 +265,29 @@ function judge_client(data, callback) {
      */
 
     this.judge = function (callback) {
-        self.change_status('judging', 'Judging');
+        self.change_status('judging', 'Judging.');
         self.task.sumbit_code = self.task.sumbit_code || '';
         self.task.submit_lang = self.task.submit_lang || '';
         child_process
-            .spawn('python', ['./judge.py', self.id, self.tmpfs_size, self.task.sumbit_code, self.task.submit_lang], {stdio:'inherit'})
-            .on('exit', callback);
+            .spawn('python', ['./judge.py', 'judge', self.id, self.tmpfs_size, self.task.sumbit_code, self.task.submit_lang], {stdio:'inherit'})
+            .on('exit', function (code) {
+                if(code != 0) {
+                    console.log('judge failed');
+                    return ;
+                }
+                callback && callback();
+            });
+    };
+    /**
+     * report task when finished it
+     * @param callback
+     */
+    this.report = function (callback) {
+        self.change_status('reporting', 'Reporting');
+        self.socket.emit('report', self.task, function () {
+            self.change_status('ready', 'Finished with ' + self.task + ' and ready now.');
+            callback && callback();
+        });
     };
 
     /**
@@ -250,30 +297,14 @@ function judge_client(data, callback) {
 
     this.work = function (callback) {
         async.series([
-                //preparing
                 self.prepare,
-                //judging
                 self.judge,
-                //reporting
-                //self.report
-                function (callback) {
-                    self.change_status('reporting', 'Reporting');
-                    self.socket.emit('report', self.task, function () {
-                        self.change_status('ready', 'Finished with ' + self.task + ' and ready now.');
-                        callback && callback();
-                    });
-                }
+                self.report
             ],
-            function (err) {
-                if (err) {
-                    self.log.write(err.message);
-                }
-                //console.log(result);
-            }
+            callback
         );
 
         // 以上需要严格串行
-        callback && callback();
     };
 
     callback && callback();
