@@ -34,8 +34,8 @@ function judge_client(data, callback) {
 
     /**
      * emit status event when changed status
-     * @param status : string - self.status changed to
-     * @param message : string - which will be logged
+     * @param status {string} self.status changed to
+     * @param message {string} which will be logged
      */
     this.change_status = function (status, message) {
         self.status = status;
@@ -43,10 +43,9 @@ function judge_client(data, callback) {
             self.log.write(message);
         });
     };
-
     /**
-     * start the judge
-     * @param callback
+     * mount and clean_all
+     * @param callback {Function} called after started
      */
     this.start = function (callback) {
         child_process
@@ -58,11 +57,22 @@ function judge_client(data, callback) {
                     return ;
                 }
                 self.change_status("ready", "mounted");
+                callback && callback();
             });
+    };
+
+    /**
+     * init the judge
+     * @param callback {Function} called after inited
+     */
+    this.init = function (callback) {
+
         self.socket = io.connect(self.url)
             .on('connect', function () {
                 self.log.write('connected with ' + self.config);
-                self.log_in();
+                self.log_in(function () {
+                    console.log('login');
+                });
             })
             .on('message', function (msg) {
                 self.log.write('Receive a piece of message: ' + msg);
@@ -93,9 +103,9 @@ function judge_client(data, callback) {
                 });
 
             })
-            .on('command', function (command, confirm) {
+            .on('command', function (command, callback) {
                 self.log.write('Receive command');
-                confirm();
+                self.command(command, callback);
             });
         //noinspection JSUnresolvedVariable
         process.on('SIGTERM', function () {
@@ -109,12 +119,24 @@ function judge_client(data, callback) {
                 process.disconnect && process.disconnect();
             });
         });
-        callback && callback();
+        self.start(callback);
+    };
+    /**
+     * server can command client
+     * @param command {String} the command from server
+     * @param callback {Function}
+     */
+    this.command = function (command, callback) {
+        switch (command) {
+            case 'stop': self.stop(callback);break;
+            case 'restart': self.stop(self.start(callback));break;
+            default:console.log(command);
+        }
     };
 
     /**
      * stop the process
-     * @param callback
+     * @param callback {Function}
      */
 
     this.stop = function (callback) {
@@ -144,7 +166,7 @@ function judge_client(data, callback) {
 
     /**
      * report the failure
-     * @param callback
+     * @param callback {Function}
      */
 
     this.fail = function (callback) {
@@ -154,7 +176,7 @@ function judge_client(data, callback) {
     };
     /**
      * login when socket got connect
-     * @param callback
+     * @param callback {Function}
      */
     this.log_in = function (callback) {
         var post_time = new Date().toISOString();
@@ -175,7 +197,7 @@ function judge_client(data, callback) {
 
     /**
      * prepare environment for judging
-     * @param callback
+     * @param callback {Function}
      */
 
     this.pre_env = function (callback) {
@@ -192,8 +214,8 @@ function judge_client(data, callback) {
     };
     /**
      * extract_file extract file from file_path to judge_res
-     * @param file_path
-     * @param callback
+     * @param file_path {String} path to the file
+     * @param callback {Function}
      */
     this.extract_file = function (file_path, callback) {
         child_process
@@ -209,7 +231,7 @@ function judge_client(data, callback) {
     };
     /**
      * prepare files for judging
-     * @param callback
+     * @param callback {Function}
      */
     this.pre_file = function (callback) {
         var file_path;
@@ -235,7 +257,7 @@ function judge_client(data, callback) {
 
     /**
      * prepare submission and test_setting
-     * @param callback
+     * @param callback {Function}
      */
     this.pre_submission = function (callback) {
         // test_setting should be right format
@@ -265,7 +287,7 @@ function judge_client(data, callback) {
 
     /**
      * prepare for juding
-     * @param callback
+     * @param callback {Function}
      */
 
     this.prepare = function (callback) {
@@ -279,7 +301,7 @@ function judge_client(data, callback) {
 
     /**
      * when everything is ready, it will start judging
-     * @param callback
+     * @param callback {Function}
      */
 
     this.judge = function (callback) {
@@ -297,7 +319,7 @@ function judge_client(data, callback) {
     };
     /**
      * report task when finished it
-     * @param callback
+     * @param callback {Function}
      */
     this.report = function (callback) {
         self.change_status('reporting', 'Reporting');
@@ -312,8 +334,8 @@ function judge_client(data, callback) {
     };
 
     /**
-     * main work
-     * @param callback
+     * main work to the self.task
+     * @param callback {Function}
      */
 
     this.work = function (callback) {
@@ -324,8 +346,6 @@ function judge_client(data, callback) {
             ],
             callback
         );
-
-        // 以上需要严格串行
     };
 
     callback && callback();

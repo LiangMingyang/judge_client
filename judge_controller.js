@@ -100,7 +100,7 @@ if(cluster.isMaster) {
     process.on('message', function (config) {
         console.log('created a worker with ', config);
         var judge = new judge_client(config);
-        judge.start();
+        judge.init();
     });
 }
 
