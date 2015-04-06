@@ -5,8 +5,11 @@ var log = require('./log');
 var child_process = require('child_process');
 var ss = require('socket.io-stream');
 var path = require('path');
+var fs = require('fs');
 
 var resource_dir = "/resource";
+var test_script_path =path.join(__dirname, "/judge_script.py");
+var data_root = '/usr/share/oj4th';
 
 
 function judge_client(data, callback) {
@@ -14,6 +17,7 @@ function judge_client(data, callback) {
     this.id = data.id;
     this.tmpfs_size = data.tmpfs_size || 500;
     this.cpu_mask = 0;
+    var self = this;
     data.cpu.forEach(function (ele) {
         self.cpu_mask += (1 << ele);
     });
@@ -26,7 +30,7 @@ function judge_client(data, callback) {
     this.url = data.url;
     this.socket = undefined;
 
-    var self = this;
+
 
     /**
      * emit status event when changed status
@@ -50,6 +54,7 @@ function judge_client(data, callback) {
             .on('exit', function (code){
                 if(code != 0) {
                     console.log('mount failed');
+                    self.log.write('mount failed');
                     return ;
                 }
                 self.change_status("ready", "mounted");
@@ -80,13 +85,11 @@ function judge_client(data, callback) {
             .on('task', function (task, confirm) {
                 self.task = task;
                 confirm(); //confirm that it got the task
-                self.log.write('Got a task:' + self.task);
+                self.log.write('Got a task:' + JSON.stringify(self.task));
                 self.work(function (err) {
                     if(err) {
                         self.log.write(err.message);
-                        return ;
                     }
-                    self.log.write('Finished');
                 });
 
             })
@@ -125,10 +128,11 @@ function judge_client(data, callback) {
             },
             function (callback) {
                 child_process
-                    .spawn('python', ['./judge.py', 'unmount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+                    .spawn('python', ['./judge.py', 'umount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
                     .on('exit', function (code) {
                         if(code != 0) {
-                            console.log('unmount failed');
+                            console.log('umount failed');
+                            self.log.write('umount failed');
                             return ;
                         }
                         callback && callback();
@@ -145,6 +149,7 @@ function judge_client(data, callback) {
 
     this.fail = function (callback) {
         console.log('failed');
+        self.log.write('failed');
         self.socket.emit('fail', self.task, callback);
     };
     /**
@@ -179,6 +184,7 @@ function judge_client(data, callback) {
             .on('exit', function (code) {
                 if(code != 0) {
                     console.log('clean_all failed');
+                    self.log.write('clean_all failed');
                     return ;
                 }
                 callback && callback();
@@ -195,6 +201,7 @@ function judge_client(data, callback) {
             .on('exit', function (code) {
                 if(code != 0) {
                     console.log('resource failed');
+                    self.log.write('getting resource failed');
                     return ;
                 }
                 callback && callback();
@@ -212,14 +219,15 @@ function judge_client(data, callback) {
                 self.extract_file(file_path, callback);
             } else {
                 var stream = ss.createStream();
-                ss(socket).emit('file', stream, self.task.filename);
+                ss(self.socket).emit('file', stream, self.task.filename);
                 stream.pipe(fs.createWriteStream(file_path))
                     .on('finish', function () {
                         self.extract_file(file_path, callback);
                     })
-                    .on('error', function () {
-                        ss(socket).emit('file', stream, self.task.filename); /// resent the request
-                        console.log('error');
+                    .on('error', function (err) {
+                        ss(self.socket).emit('file', stream, self.task.filename); /// resent the request
+                        console.log('trans error');
+                        self.log.write(err.message);
                     });
             }
         });
@@ -239,17 +247,16 @@ function judge_client(data, callback) {
         test_setting = '';
         for(var i in self.task.test_setting)
             if(self.task.test_setting.hasOwnProperty(i))
-                test_setting = i + '=' + self.task.test_setting[i].join(',') + '\n';
+                test_setting = test_setting + i + '=' + self.task.test_setting[i].join(',') + '\n';
 
         self.task.test_setting = test_setting;
 
-        console.log(self.task.test_setting);
-
         child_process
-            .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.source_code, self.task.source_lang, self.task.test_setting], {stdio:'inherit'})
+            .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.source_code, self.task.source_lang, self.task.test_setting, test_script_path], {stdio:'inherit'})
             .on('exit', function (code) {
                 if(code != 0) {
                     console.log('prepare failed');
+                    self.log.write('prepare failed');
                     return ;
                 }
                 callback && callback();
@@ -277,13 +284,12 @@ function judge_client(data, callback) {
 
     this.judge = function (callback) {
         self.change_status('judging', 'Judging.');
-        self.task.sumbit_code = self.task.sumbit_code || '';
-        self.task.submit_lang = self.task.submit_lang || '';
         child_process
-            .spawn('python', ['./judge.py', 'judge', self.id, self.tmpfs_size, self.task.sumbit_code, self.task.submit_lang], {stdio:'inherit'})
+            .spawn('python', ['./judge.py', 'judge', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
             .on('exit', function (code) {
                 if(code != 0) {
                     console.log('judge failed');
+                    self.log.write('judge failed');
                     return ;
                 }
                 callback && callback();
@@ -295,9 +301,13 @@ function judge_client(data, callback) {
      */
     this.report = function (callback) {
         self.change_status('reporting', 'Reporting');
-        self.socket.emit('report', self.task, function () {
-            self.change_status('ready', 'Finished with ' + self.task + ' and ready now.');
-            callback && callback();
+        fs.readFile(path.join(data_root,'work_'+self.id,'__report__'), function (err, data) {
+            self.task.report = data.toString();
+            console.log(self.task.report);
+            self.socket.emit('report', self.task, function () {
+                self.change_status('ready', 'Finished with ' + JSON.stringify(self.task) + ' and ready now.');
+                callback && callback();
+            });
         });
     };
 
