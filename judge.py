@@ -51,7 +51,8 @@ class Work_Station:
         os.system('mount -t proc  judge_proc_%d  %s/proc' % (self.id, self.root))
 
     def umount(self):
-        os.system('umount -f judge_proc_%d judge_root_%d judge_tmpfs_%d'  % (self.id, self.id, self.id))
+        for i in xrange(10):
+            os.system('umount -f judge_proc_%d judge_root_%d judge_tmpfs_%d'  % (self.id, self.id, self.id))
         os.system('rm -Rf %s' % self.tmp_dir)
         os.system('rm -Rf %s' % self.root)
 

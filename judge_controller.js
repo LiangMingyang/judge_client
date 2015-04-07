@@ -11,7 +11,7 @@ var PIDFILE = '/var/run/judge_controller.pid';
 
 /**
  * create one worker form config
- * @param config
+ * @param config {Object} the config to every judge_client
  */
 function createWorker(config) {
     // Fork a worker if running as cluster master
@@ -29,7 +29,7 @@ function createWorker(config) {
 
 /**
  * create all workers form configs
- * @param configs
+ * @param configs {Object} configs of judge_client
  */
 function createWorkers(configs) {
     configs.forEach(createWorker);
@@ -39,7 +39,7 @@ function createWorkers(configs) {
  * kill all workers with the given signal.
  * also removes all event listeners form workers before sending the signal
  * to prevent spawning again
- * @param signal
+ * @param signal {String} signal of kill
  */
 function killAllWorkers(signal) {
     var uniqueID,
@@ -61,12 +61,12 @@ if(cluster.isMaster) {
      * first step: write process.pid to PIDFILE
      * second step: create workers
      */
-    if (process.getgid() === 0) {
-
-    } else {
+    //noinspection JSUnresolvedVariable,JSUnresolvedFunction
+    if (process.hasOwnProperty('getgid') && process.getgid() !== 0) {
         console.log('Please run me as root');
-        return ;
+        return;
     }
+    //noinspection JSUnresolvedVariable
     /**
     * Restart the workers
     */
@@ -76,6 +76,7 @@ if(cluster.isMaster) {
         createWorkers(config);
     });
 
+    //noinspection JSUnresolvedVariable
     /**
     * Gracefully Shuts down the workers
     */
@@ -90,17 +91,21 @@ if(cluster.isMaster) {
         });
     });
 
+    //noinspection JSUnresolvedVariable
     fs.writeFileSync(PIDFILE, process.pid);
     createWorkers(config);
 
 } else {
+    //noinspection JSUnresolvedVariable
     /**
      * worker will get its config
      */
     process.on('message', function (config) {
         console.log('created a worker with ', config);
         var judge = new judge_client(config);
-        judge.init();
+        judge.init(function () {
+            console.log(config.name+'running now');
+        });
     });
 }
 
