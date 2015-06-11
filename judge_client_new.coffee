@@ -4,7 +4,7 @@ path = require('path')
 Promise = require('bluebird')
 rp = require('request-promise')
 URL = require('url')
-fs = sequelize.Promise.promisifyAll(require('fs'), suffix:'Promised')
+fs = Promise.promisifyAll(require('fs'), suffix:'Promised')
 child_process = require('child-process-promise')
 
 
@@ -60,30 +60,36 @@ class judge_client
 
   pre_submission : ()->
     test_setting = ""
-    for i of self.task.test_setting
-      if self.task.test_setting[i] instanceof Array
-        test_setting += "#{i} = #{self.task.test_setting[i].join(',')}\n"
+    for i of self.task.manifest.test_setting
+      if self.task.manifest.test_setting[i] instanceof Array
+        test_setting += "#{i} = #{self.task.manifest.test_setting[i].join(',')}\n"
       else
-        test_setting += "#{i} = #{self.task.test_setting[i]}\n"
-    self.task.test_setting = test_setting;
-
+        test_setting += "#{i} = #{self.task.manifest.test_setting[i]}\n"
+    inputFiles = (data.input for data in self.task.manifest.data)
+    outputFiles = (data.output for data in self.task.manifest.data)
+    weights = (data.weight for data in self.task.manifest.data)
+    test_setting += "standard_input_files = #{inputFiles.join(',')}\n"
+    test_setting += "standard_output_files = #{outputFiles.join(',')}\n"
+    test_setting += "round_weight = #{weights.join(',')}\n"
+    test_setting += "test_round_count = #{self.task.manifest.data.length}\n"
     child_process
-      .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.source_code, self.task.source_lang, self.task.test_setting, test_script_path], {stdio:'inherit'})
+      .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.submission_code.content, self.task.lang, test_setting, test_script_path], {stdio:'inherit'})
       .then ->
         console.log "Pre_submission finished"
 
   get_file: (file_path)->
+    console.log file_path
     self.send(FILE_PAGE,{
       problem_id : self.task.problem_id
-      filename : self.task.test_setting.data_file
+      filename : self.task.manifest.test_setting.data_file
     })
     .pipe(fs.createWriteStream(file_path))
 
   pre_file: ()->
-    file_path = path.join(__dirname, resource_dir, self.task.filename)
-    fs.existsPromised file_path
-      .then (exits)->
-        self.get_file if not exits
+    file_path = path.join(__dirname, resource_dir, self.task.manifest.test_setting.data_file)
+    Promise.resolve()
+      .then ()->
+        self.get_file file_path if not fs.existsSyncPromised file_path
       .then ->
         self.extract_file file_path
       .then ->
@@ -97,23 +103,57 @@ class judge_client
       self.pre_submission()
     .then ->
       self.pre_file()
+    .then ->
+      return self.task
 
   judge : ()->
-
+    child_process
+      .spawn('python', ['./judge.py', 'judge', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+      .then ->
+        return self.task
   report : ()->
-
+    fs.readFilePromised(path.join(data_root,'work_'+self.id,'__report__'))
+      .then (data)->
+        detail = data.toString().split('\n')
+        result_list = detail.shift().split(',')
+        score = result_list[0]
+        time_cost = result_list[1]
+        memory_cost = result_list[2]
+        result = detail.shift()
+        detail = detail.join('\n')
+        console.log result
+        dictionary = {
+          "Accepted" : "AC"
+          "Wrong Answer" : "WA"
+          "Compiler Error" : "CE"
+          "Runtime Error (SIGSEGV)" : "RE"
+          "Presentation Error" : "PE"
+          "Memory Limit Exceed" : "MLE"
+        }
+        report = {
+          submission_id : self.task.id
+          score : score
+          time_cost : time_cost
+          memory_cost : memory_cost
+          result : dictionary[result]
+          detail : detail
+        }
+        console.log report
+        self.send('/judge/report', report)
   work : ()->
     Promise.resolve()
       .then ->
         self.getTask()
       .then (task)->
+        console.log task
         self.task = task if task
         self.prepare() if task
       .then (task)->
         self.judge() if task
       .then (task)->
         self.report() if task
-
+      .then ->
+        console.log 'Finished'
       .catch (err)->
         console.log err
 
@@ -133,4 +173,5 @@ myJudge = new judge_client({
   cpu : [0,1]
 })
 myJudge.init()
+myJudge.work()
 #myJudge.send('/judge/task')

@@ -14,7 +14,7 @@
 
   URL = require('url');
 
-  fs = sequelize.Promise.promisifyAll(require('fs'), {
+  fs = Promise.promisifyAll(require('fs'), {
     suffix: 'Promised'
   });
 
@@ -93,17 +93,50 @@
     };
 
     judge_client.prototype.pre_submission = function() {
-      var i, test_setting;
+      var data, i, inputFiles, outputFiles, test_setting, weights;
       test_setting = "";
-      for (i in self.task.test_setting) {
-        if (self.task.test_setting[i] instanceof Array) {
-          test_setting += i + " = " + (self.task.test_setting[i].join(',')) + "\n";
+      for (i in self.task.manifest.test_setting) {
+        if (self.task.manifest.test_setting[i] instanceof Array) {
+          test_setting += i + " = " + (self.task.manifest.test_setting[i].join(',')) + "\n";
         } else {
-          test_setting += i + " = " + self.task.test_setting[i] + "\n";
+          test_setting += i + " = " + self.task.manifest.test_setting[i] + "\n";
         }
       }
-      self.task.test_setting = test_setting;
-      return child_process.spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.source_code, self.task.source_lang, self.task.test_setting, test_script_path], {
+      inputFiles = (function() {
+        var j, len, ref, results;
+        ref = self.task.manifest.data;
+        results = [];
+        for (j = 0, len = ref.length; j < len; j++) {
+          data = ref[j];
+          results.push(data.input);
+        }
+        return results;
+      })();
+      outputFiles = (function() {
+        var j, len, ref, results;
+        ref = self.task.manifest.data;
+        results = [];
+        for (j = 0, len = ref.length; j < len; j++) {
+          data = ref[j];
+          results.push(data.output);
+        }
+        return results;
+      })();
+      weights = (function() {
+        var j, len, ref, results;
+        ref = self.task.manifest.data;
+        results = [];
+        for (j = 0, len = ref.length; j < len; j++) {
+          data = ref[j];
+          results.push(data.weight);
+        }
+        return results;
+      })();
+      test_setting += "standard_input_files = " + (inputFiles.join(',')) + "\n";
+      test_setting += "standard_output_files = " + (outputFiles.join(',')) + "\n";
+      test_setting += "round_weight = " + (weights.join(',')) + "\n";
+      test_setting += "test_round_count = " + self.task.manifest.data.length + "\n";
+      return child_process.spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.submission_code.content, self.task.lang, test_setting, test_script_path], {
         stdio: 'inherit'
       }).then(function() {
         return console.log("Pre_submission finished");
@@ -111,18 +144,19 @@
     };
 
     judge_client.prototype.get_file = function(file_path) {
+      console.log(file_path);
       return self.send(FILE_PAGE, {
         problem_id: self.task.problem_id,
-        filename: self.task.test_setting.data_file
+        filename: self.task.manifest.test_setting.data_file
       }).pipe(fs.createWriteStream(file_path));
     };
 
     judge_client.prototype.pre_file = function() {
       var file_path;
-      file_path = path.join(__dirname, resource_dir, self.task.filename);
-      return fs.existsPromised(file_path).then(function(exits) {
-        if (!exits) {
-          return self.get_file;
+      file_path = path.join(__dirname, resource_dir, self.task.manifest.test_setting.data_file);
+      return Promise.resolve().then(function() {
+        if (!fs.existsSyncPromised(file_path)) {
+          return self.get_file(file_path);
         }
       }).then(function() {
         return self.extract_file(file_path);
@@ -138,17 +172,56 @@
         return self.pre_submission();
       }).then(function() {
         return self.pre_file();
+      }).then(function() {
+        return self.task;
       });
     };
 
-    judge_client.prototype.judge = function() {};
+    judge_client.prototype.judge = function() {
+      return child_process.spawn('python', ['./judge.py', 'judge', self.id, self.tmpfs_size, self.cpu_mask], {
+        stdio: 'inherit'
+      }).then(function() {
+        return self.task;
+      });
+    };
 
-    judge_client.prototype.report = function() {};
+    judge_client.prototype.report = function() {
+      return fs.readFilePromised(path.join(data_root, 'work_' + self.id, '__report__')).then(function(data) {
+        var detail, dictionary, memory_cost, report, result, result_list, score, time_cost;
+        detail = data.toString().split('\n');
+        result_list = detail.shift().split(',');
+        score = result_list[0];
+        time_cost = result_list[1];
+        memory_cost = result_list[2];
+        result = detail.shift();
+        detail = detail.join('\n');
+        console.log(result);
+        dictionary = {
+          "Accepted": "AC",
+          "Wrong Answer": "WA",
+          "Compiler Error": "CE",
+          "Runtime Error (SIGSEGV)": "RE",
+          "Presentation Error": "PE",
+          "Memory Limit Exceed": "MLE"
+        };
+        report = {
+          submission_id: self.task.id,
+          score: score,
+          time_cost: time_cost,
+          memory_cost: memory_cost,
+          result: dictionary[result],
+          detail: detail
+        };
+        console.log(report);
+        return self.send('/judge/report', report);
+      });
+    };
 
     judge_client.prototype.work = function() {
       return Promise.resolve().then(function() {
         return self.getTask();
       }).then(function(task) {
+        console.log(task);
         if (task) {
           self.task = task;
         }
@@ -163,6 +236,8 @@
         if (task) {
           return self.report();
         }
+      }).then(function() {
+        return console.log('Finished');
       })["catch"](function(err) {
         return console.log(err);
       });
@@ -191,6 +266,8 @@
   });
 
   myJudge.init();
+
+  myJudge.work();
 
 }).call(this);
 
