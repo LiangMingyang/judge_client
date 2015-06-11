@@ -1,17 +1,19 @@
-io = require('socket.io-client')
 crypto = require('crypto')
-async = require('async')
 log = require('./log')
-child_process = require('child_process')
-ss = require('socket.io-stream')
 path = require('path')
-fs = require('fs')
-http = require('http')
-querystring = require('querystring')
+Promise = require('bluebird')
+rp = require('request-promise')
+URL = require('url')
+fs = sequelize.Promise.promisifyAll(require('fs'), suffix:'Promised')
+child_process = require('child-process-promise')
+
+
 resource_dir = "/resource"
 test_script_path =path.join(__dirname, "/judge_script.py")
 data_root = '/usr/share/oj4th'
 
+TASK_PAGE = '/judge/task'
+FILE_PAGE = '/judge/file'
 
 
 class judge_client
@@ -21,7 +23,7 @@ class judge_client
     @id = data.id
     @tmpfs_size = data.tmpfs_size || 500
     @cpu_mask = 0
-    @cpu_mask += (1<<ele) for ele in data.cup if data.cpu
+    @cpu_mask += (1<<ele) for ele in data.cpu if data.cpu
     @task = undefined
     @secret_key = data.secret_key
     @create_time = data.create_time
@@ -37,37 +39,98 @@ class judge_client
       post_time: new Date()
       token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
     }
-    postData = querystring.stringify form
+    rp
+      .post( URL.resolve(self.host,url), {json:form})
 
-    options = {
-      hostname: self.host
-      port: 3000
-      path: url
-      method: 'POST',
-      headers:
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': postData.length
-    }
+  getTask : ()->
+    self.send(TASK_PAGE)
 
+#util
 
-    req = http.request options, (res)->
-      res.setEncoding('utf8')
-      self.task = ""
-      res.on 'data', (chunk)->
-        self.task += chunk
-      res.on 'end', ()->
-        self.task = JSON.parse(self.task)
-        console.log self.task.test_setting
+  extract_file : (file_path)->
+    child_process
+      .spawn('python', ['./judge.py', 'resource', self.id, self.tmpfs_size, self.cpu_mask, file_path], {stdio:'inherit'})
 
-    req.on 'error', (e)->
-      console.log('problem with request: ' + e.message)
+#prepare
+  pre_env : ()->
+    child_process
+      .spawn('python', ['./judge.py', 'clean_all', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+      .then ()->
+        console.log "Pre_env finished"
 
-    req.write(postData)
-    req.end()
+  pre_submission : ()->
+    test_setting = ""
+    for i of self.task.test_setting
+      if self.task.test_setting[i] instanceof Array
+        test_setting += "#{i} = #{self.task.test_setting[i].join(',')}\n"
+      else
+        test_setting += "#{i} = #{self.task.test_setting[i]}\n"
+    self.task.test_setting = test_setting;
 
+    child_process
+      .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.source_code, self.task.source_lang, self.task.test_setting, test_script_path], {stdio:'inherit'})
+      .then ->
+        console.log "Pre_submission finished"
 
+  get_file: (file_path)->
+    self.send(FILE_PAGE,{
+      problem_id : self.task.problem_id
+      filename : self.task.test_setting.data_file
+    })
+    .pipe(fs.createWriteStream(file_path))
+
+  pre_file: ()->
+    file_path = path.join(__dirname, resource_dir, self.task.filename)
+    fs.existsPromised file_path
+      .then (exits)->
+        self.get_file if not exits
+      .then ->
+        self.extract_file file_path
+      .then ->
+        console.log "Pre_file finished"
+
+  prepare : ()->
+    Promise.resolve()
+    .then ->
+      self.pre_env()
+    .then ->
+      self.pre_submission()
+    .then ->
+      self.pre_file()
+
+  judge : ()->
+
+  report : ()->
+
+  work : ()->
+    Promise.resolve()
+      .then ->
+        self.getTask()
+      .then (task)->
+        self.task = task if task
+        self.prepare() if task
+      .then (task)->
+        self.judge() if task
+      .then (task)->
+        self.report() if task
+
+      .catch (err)->
+        console.log err
+
+  init : ()->
+    child_process
+      .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+      .then ()->
+        console.log "Mount finished"
+      .catch (err)->
+        console.log err
 
 myJudge = new judge_client({
-  host : '127.0.0.1'
+  host : 'http://127.0.0.1:3000'
+  name : "judge0"
+  id : 1
+  tmpfs_size : 200
+  cpu : [0,1]
 })
-myJudge.send('/judge/task')
+myJudge.init()
+#myJudge.send('/judge/task')
