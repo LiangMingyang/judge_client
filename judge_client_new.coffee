@@ -14,10 +14,20 @@ data_root = '/usr/share/oj4th'
 
 TASK_PAGE = '/judge/task'
 FILE_PAGE = '/judge/file'
-
+isStopped = false
 
 class judge_client
   self = undefined
+  promiseWhile = (action) ->
+    resolver = Promise.defer()
+    my_loop = ->
+      return resolver.resolve() if isStopped
+      Promise.cast(action())
+        .then(my_loop)
+        .catch resolver.reject
+    process.nextTick my_loop
+    return resolver.promise
+
   constructor : (data)->
     @name = data.name
     @id = data.id
@@ -42,7 +52,7 @@ class judge_client
     rp
       .post( URL.resolve(self.host,url), {json:form})
 
-  getTask : ()->
+  getTask : ->
     self.send(TASK_PAGE)
 
 #util
@@ -52,13 +62,13 @@ class judge_client
       .spawn('python', ['./judge.py', 'resource', self.id, self.tmpfs_size, self.cpu_mask, file_path], {stdio:'inherit'})
 
 #prepare
-  pre_env : ()->
+  pre_env : ->
     child_process
       .spawn('python', ['./judge.py', 'clean_all', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-      .then ()->
+      .then ->
         console.log "Pre_env finished"
 
-  pre_submission : ()->
+  pre_submission : ->
     test_setting = ""
     for i of self.task.manifest.test_setting
       if self.task.manifest.test_setting[i] instanceof Array
@@ -85,17 +95,17 @@ class judge_client
     })
     .pipe(fs.createWriteStream(file_path))
 
-  pre_file: ()->
+  pre_file: ->
     file_path = path.join(__dirname, resource_dir, self.task.manifest.test_setting.data_file)
     Promise.resolve()
-      .then ()->
+      .then ->
         self.get_file file_path if not fs.existsSyncPromised file_path
       .then ->
         self.extract_file file_path
       .then ->
         console.log "Pre_file finished"
 
-  prepare : ()->
+  prepare : ->
     Promise.resolve()
     .then ->
       self.pre_env()
@@ -106,12 +116,12 @@ class judge_client
     .then ->
       return self.task
 
-  judge : ()->
+  judge : ->
     child_process
       .spawn('python', ['./judge.py', 'judge', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
       .then ->
         return self.task
-  report : ()->
+  report : ->
     fs.readFilePromised(path.join(data_root,'work_'+self.id,'__report__'))
       .then (data)->
         detail = data.toString().split('\n')
@@ -121,7 +131,6 @@ class judge_client
         memory_cost = result_list[2]
         result = detail.shift()
         detail = detail.join('\n')
-        console.log result
         dictionary = {
           "Accepted" : "AC"
           "Wrong Answer" : "WA"
@@ -129,7 +138,9 @@ class judge_client
           "Runtime Error (SIGSEGV)" : "RE"
           "Presentation Error" : "PE"
           "Memory Limit Exceed" : "MLE"
+          "Time Limit Exceed" : "TLE"
         }
+        console.log result
         report = {
           submission_id : self.task.id
           score : score
@@ -140,30 +151,42 @@ class judge_client
         }
         console.log report
         self.send('/judge/report', report)
-  work : ()->
+  work : ->
     Promise.resolve()
       .then ->
         self.getTask()
       .then (task)->
+        throw new Error("No task") if not task
         console.log task
-        self.task = task if task
-        self.prepare() if task
-      .then (task)->
-        self.judge() if task
-      .then (task)->
-        self.report() if task
+        self.task = task
+        self.prepare()
       .then ->
-        console.log 'Finished'
+        self.judge()
+      .then ->
+        self.report()
       .catch (err)->
-        console.log err
+        console.log err.message
+        Promise.delay(2000)
 
-  init : ()->
+  init : ->
     child_process
       .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-      .then ()->
+      .then ->
         console.log "Mount finished"
       .catch (err)->
         console.log err
+  stop : ->
+    child_process
+      .spawn('python', ['./judge.py', 'umount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+      .then ->
+        console.log "Stopped"
+      .catch (err)->
+        console.log err
+
+  start : ->
+    self.init()
+    .then ->
+      promiseWhile(self.work)
 
 myJudge = new judge_client({
   host : 'http://127.0.0.1:3000'
@@ -172,6 +195,5 @@ myJudge = new judge_client({
   tmpfs_size : 200
   cpu : [0,1]
 })
-myJudge.init()
-myJudge.work()
-#myJudge.send('/judge/task')
+
+myJudge.start()
