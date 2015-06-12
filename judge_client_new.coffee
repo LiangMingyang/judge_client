@@ -16,6 +16,11 @@ TASK_PAGE = '/judge/task'
 FILE_PAGE = '/judge/file'
 REPORT_PAGE = '/judge/report'
 
+class NoTask extends Error
+  constructor: (@message = "No task to judge.") ->
+    @name = 'NoTask'
+    Error.captureStackTrace(this, NoTask)
+
 
 class judge_client
   self = undefined
@@ -47,6 +52,7 @@ class judge_client
   send : (url, form = {})->
     post_time = new Date().toISOString()
     form.judge = {
+      id : self.id
       name: self.name
       post_time: new Date()
       token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
@@ -158,7 +164,7 @@ class judge_client
       .then ->
         self.getTask()
       .then (task)->
-        throw new Error("No task") if not task
+        throw new NoTask() if not task
         console.log task
         self.task = task
         self.prepare()
@@ -166,35 +172,38 @@ class judge_client
         self.judge()
       .then ->
         self.report()
-      .catch (err)->
+      .catch NoTask, (err)->
         console.log err.message
         Promise.delay(2000)
+      .catch (err)->
+        console.log err.message
 
   init : ->
     process.on 'SIGTERM', ->
       self.stop()
-    child_process
-      .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-      .then ->
-        console.log "Mount finished"
-      .then ->
-        self.start()
-      .catch (err)->
-        console.log err
-  stop : ->
-    self.isStopped = true
-
-
-
-  start : ->
-    self.isStopped = false
-    promiseWhile(self.work)
+    Promise.resolve()
+    .then ->
+      child_process
+        .spawn('python', ['./judge.py', 'umount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+    .then ->
+      child_process
+        .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+    .then ->
+      self.start()
     .then ->
       child_process
         .spawn('python', ['./judge.py', 'umount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
     .then ->
       process.disconnect && process.disconnect()
-
+      console.log "Stopped."
     .catch (err)->
       console.log err
+
+  stop : ->
+    self.isStopped = true
+
+  start : ->
+    self.isStopped = false
+    promiseWhile(self.work)
+
 module.exports = judge_client
