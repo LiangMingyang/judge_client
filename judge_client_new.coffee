@@ -14,6 +14,7 @@ data_root = '/usr/share/oj4th'
 
 TASK_PAGE = '/judge/task'
 FILE_PAGE = '/judge/file'
+REPORT_PAGE = '/judge/report'
 
 
 class judge_client
@@ -151,7 +152,7 @@ class judge_client
           detail : detail
         }
         console.log report
-        self.send('/judge/report', report)
+        self.send(REPORT_PAGE, report)
   work : ->
     Promise.resolve()
       .then ->
@@ -170,6 +171,8 @@ class judge_client
         Promise.delay(2000)
 
   init : ->
+    process.on 'SIGTERM', ->
+      self.stop()
     child_process
       .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
       .then ->
@@ -189,14 +192,9 @@ class judge_client
     .then ->
       child_process
         .spawn('python', ['./judge.py', 'umount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+    .then ->
+      process.disconnect && process.disconnect()
 
     .catch (err)->
       console.log err
 module.exports = judge_client
-#myJudge = new judge_client({
-#  host : 'http://127.0.0.1:3000'
-#  name : "judge0"
-#  id : 1
-#  tmpfs_size : 200
-#  cpu : [0,1]
-#})
