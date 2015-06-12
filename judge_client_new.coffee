@@ -14,14 +14,14 @@ data_root = '/usr/share/oj4th'
 
 TASK_PAGE = '/judge/task'
 FILE_PAGE = '/judge/file'
-isStopped = false
+
 
 class judge_client
   self = undefined
   promiseWhile = (action) ->
     resolver = Promise.defer()
     my_loop = ->
-      return resolver.resolve() if isStopped
+      return resolver.resolve() if self.isStopped
       Promise.cast(action())
         .then(my_loop)
         .catch resolver.reject
@@ -41,6 +41,7 @@ class judge_client
     @config = JSON.stringify(data)
     @status = undefined
     @host = data.host
+    @isStopped = false
     self = @
   send : (url, form = {})->
     post_time = new Date().toISOString()
@@ -173,27 +174,29 @@ class judge_client
       .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
       .then ->
         console.log "Mount finished"
+      .then ->
+        self.start()
       .catch (err)->
         console.log err
   stop : ->
-    child_process
-      .spawn('python', ['./judge.py', 'umount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-      .then ->
-        console.log "Stopped"
-      .catch (err)->
-        console.log err
+    self.isStopped = true
+
+
 
   start : ->
-    self.init()
+    self.isStopped = false
+    promiseWhile(self.work)
     .then ->
-      promiseWhile(self.work)
+      child_process
+        .spawn('python', ['./judge.py', 'umount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
 
-myJudge = new judge_client({
-  host : 'http://127.0.0.1:3000'
-  name : "judge0"
-  id : 1
-  tmpfs_size : 200
-  cpu : [0,1]
-})
-
-myJudge.start()
+    .catch (err)->
+      console.log err
+module.exports = judge_client
+#myJudge = new judge_client({
+#  host : 'http://127.0.0.1:3000'
+#  name : "judge0"
+#  id : 1
+#  tmpfs_size : 200
+#  cpu : [0,1]
+#})
