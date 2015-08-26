@@ -38,3 +38,5 @@ node_modules
 
 #our config file
 config.js
+
+.idea
