@@ -8,9 +8,11 @@ fs = Promise.promisifyAll(require('fs'), suffix:'Promised')
 child_process = require('child-process-promise')
 
 
-resource_dir = "/resource"
-test_script_path =path.join(__dirname, "/judge_script.py")
-data_root = '/usr/share/oj4th'
+resource_dirname = "resource"
+data_dirname = "data"
+work_dirname = "work"
+submission_dirname = "submission"
+utils_dirname = "utils"
 
 TASK_PAGE = '/judge/task'
 FILE_PAGE = '/judge/file'
@@ -37,9 +39,7 @@ class judge_client
   constructor : (data)->
     @name = data.name
     @id = data.id
-    @tmpfs_size = data.tmpfs_size || 500
-    @cpu_mask = 0
-    @cpu_mask += (1<<ele) for ele in data.cpu if data.cpu
+    @cpu = data.cpu if data.cpu
     @task = undefined
     @secret_key = data.secret_key
     @create_time = data.create_time
@@ -63,18 +63,18 @@ class judge_client
   getTask : ->
     self.send(TASK_PAGE)
 
-#util
+##util
+#
+#  extract_file : (file_path)->
+#    child_process
+#      .spawn('python', ['./judge.py', 'resource', self.id, self.tmpfs_size, self.cpu_mask, file_path], {stdio:'inherit'})
 
-  extract_file : (file_path)->
-    child_process
-      .spawn('python', ['./judge.py', 'resource', self.id, self.tmpfs_size, self.cpu_mask, file_path], {stdio:'inherit'})
-
-#prepare
-  pre_env : ->
-    child_process
-      .spawn('python', ['./judge.py', 'clean_all', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-      .then ->
-        console.log "Pre_env finished"
+##prepare
+#  pre_env : ->
+#    child_process
+#      .spawn('python', ['./judge.py', 'clean_all', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+#      .then ->
+#        console.log "Pre_env finished"
 
   pre_submission : ->
     test_setting = ""
@@ -90,13 +90,18 @@ class judge_client
     test_setting += "standard_output_files = #{outputFiles.join(',')}\n"
     test_setting += "round_weight = #{weights.join(',')}\n"
     test_setting += "test_round_count = #{self.task.manifest.data.length}\n"
-    child_process
-      .spawn('python', ['./judge.py', 'prepare', self.id, self.tmpfs_size, self.cpu_mask, self.task.submission_code.content, self.task.lang, test_setting, test_script_path], {stdio:'inherit'})
-      .then ->
-        console.log "Pre_submission finished"
+
+    Promise.all [
+      fs.writeFilePromised(path.resolve(judge_root, "workstation#{self.id}",submission_dirname,'__main__'), self.task.submission_code.content)
+    ,
+      fs.writeFilePromised(path.resolve(judge_root, "workstation#{self.id}",submission_dirname,'__lang__'), self.task.lang)
+    ,
+      fs.writeFilePromised(path.resolve(judge_root, "workstation#{self.id}",data_dirname,'__setting_code__'), test_setting)
+    ]
+    .then ->
+      console.log "Pre_submission finished"
 
   get_file: (file_path)->
-    console.log file_path
     self.send(FILE_PAGE,{
       problem_id : self.task.problem_id
       filename : self.task.manifest.test_setting.data_file
@@ -104,19 +109,15 @@ class judge_client
     .pipe(fs.createWriteStream(file_path))
 
   pre_file: ->
-    file_path = path.join(__dirname, resource_dir, self.task.manifest.test_setting.data_file)
+    self.file_path = path.join(__dirname, resource_dirname, self.task.manifest.test_setting.data_file)
     Promise.resolve()
       .then ->
-        self.get_file file_path if not fs.existsSyncPromised file_path
-      .then ->
-        self.extract_file file_path
+        self.get_file self.file_path if not fs.existsSyncPromised self.file_path
       .then ->
         console.log "Pre_file finished"
 
   prepare : ->
     Promise.resolve()
-    .then ->
-      self.pre_env()
     .then ->
       self.pre_submission()
     .then ->
@@ -125,8 +126,11 @@ class judge_client
       return self.task
 
   judge : ->
+    utils_path = path.resolve(__dirname, utils_dirname)
+    work_path = path.resolve(__dirname, work_dirname, self.id)
+    file_path = self.file_path
     child_process
-      .spawn('python', ['./judge.py', 'judge', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
+      .spawn('python', ['./judge.py', self.id, 250, "0", utils_path, work_path, file_path], {stdio:'inherit'})
       .then ->
         return self.task
   report : ->
