@@ -92,11 +92,11 @@ class judge_client
     test_setting += "test_round_count = #{self.task.manifest.data.length}\n"
 
     Promise.all [
-      fs.writeFilePromised(path.resolve(judge_root, "workstation#{self.id}",submission_dirname,'__main__'), self.task.submission_code.content)
+      fs.writeFilePromised(path.resolve(__dirname, work_dirname, self.id.toString(), submission_dirname,'__main__'), self.task.submission_code.content)
     ,
-      fs.writeFilePromised(path.resolve(judge_root, "workstation#{self.id}",submission_dirname,'__lang__'), self.task.lang)
+      fs.writeFilePromised(path.resolve(__dirname, work_dirname, self.id.toString(), submission_dirname,'__lang__'), self.task.lang)
     ,
-      fs.writeFilePromised(path.resolve(judge_root, "workstation#{self.id}",data_dirname,'__setting_code__'), test_setting)
+      fs.writeFilePromised(path.resolve(__dirname, work_dirname, self.id.toString(), data_dirname,'__setting_code__'), test_setting)
     ]
     .then ->
       console.log "Pre_submission finished"
@@ -127,7 +127,7 @@ class judge_client
 
   judge : ->
     utils_path = path.resolve(__dirname, utils_dirname)
-    work_path = path.resolve(__dirname, work_dirname, self.id)
+    work_path = path.resolve(__dirname, work_dirname, self.id.toString())
     file_path = self.file_path
     child_process
       .spawn('python', ['./judge.py', self.id, 250, "0", utils_path, work_path, file_path], {stdio:'inherit'})
@@ -187,16 +187,7 @@ class judge_client
       self.stop()
     Promise.resolve()
     .then ->
-      child_process
-        .spawn('python', ['./judge.py', 'umount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-    .then ->
-      child_process
-        .spawn('python', ['./judge.py', 'mount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
-    .then ->
       self.start()
-    .then ->
-      child_process
-        .spawn('python', ['./judge.py', 'umount', self.id, self.tmpfs_size, self.cpu_mask], {stdio:'inherit'})
     .then ->
       process.disconnect && process.disconnect()
       console.log "Stopped."
