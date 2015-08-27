@@ -192,11 +192,20 @@ class judge_client
         Promise.delay(2000)
       .catch (err)->
         console.log err.message
+  mkdir : ->
+    work_path = path.resolve(__dirname, work_dirname, self.id.toString())
+    fs.mkdir(work_path) if fs.existsSyncPromised work_path
+    data_path = path.resolve(work_path, data_dirname)
+    fs.mkdir(data_path) if fs.existsSyncPromised data_path
+    submission_path = path.resolve(work_path, submission_dirname)
+    fs.mkdir(submission_path) if fs.existsSyncPromised submission_path
 
   init : ->
     process.on 'SIGTERM', ->
       self.stop()
     Promise.resolve()
+    .then ->
+      self.mkdir()
     .then ->
       self.start()
     .then ->
