@@ -180,6 +180,7 @@ void do_monitor(){
                 if (res.result == RESULT_NE) res.result = RESULT_TLE;
                 res.time_used = run_limit.time_limit;
                 signal_all_process();
+                return ;
             } else if (WIFSIGNALED(stat)) {
                 // 计时进程被关闭，说明程序在超时前结束了，虽然不一定是正常结束了
 #ifdef DEBUG

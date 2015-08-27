@@ -95,7 +95,7 @@
       form.judge = {
         id: self.id,
         name: self.name,
-        post_time: new Date(),
+        post_time: post_time,
         token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
       };
       return rp.post(URL.resolve(self.host, url), {
@@ -197,7 +197,9 @@
     };
 
     judge_client.prototype.report = function() {
-      return fs.readFilePromised(path.join(data_root, 'work_' + self.id, '__report__')).then(function(data) {
+      var work_path;
+      work_path = path.resolve(__dirname, work_dirname, self.id.toString());
+      return fs.readFilePromised(path.join(work_path, '__report__')).then(function(data) {
         var detail, dictionary, memory_cost, report, result, result_list, score, time_cost;
         detail = data.toString().split('\n');
         result_list = detail.shift().split(',');
@@ -206,25 +208,39 @@
         memory_cost = result_list[2];
         result = detail.shift();
         detail = detail.join('\n');
+        if (detail === '\n') {
+          detail = "";
+        }
+        console.log(result);
         dictionary = {
           "Accepted": "AC",
           "Wrong Answer": "WA",
           "Compiler Error": "CE",
-          "Runtime Error (SIGSEGV)": "RE",
+          "Runtime Error (SIGSEGV)": "REG",
+          "Runtime Error (SIGKILL)": "MLE",
+          "Runtime Error (SIGFPE)": "REP",
           "Presentation Error": "PE",
           "Memory Limit Exceed": "MLE",
-          "Time Limit Exceed": "TLE"
+          "Time Limit Exceed": "TLE",
+          "Input File Not Ready": "IFNR",
+          "Output File Not Ready": "OFNR",
+          "Error File Not Ready": "EFNR",
+          "Other Error": "OE"
         };
-        console.log(result);
+        if (dictionary[result] === void 0) {
+          detail = result + "\n" + detail;
+          result = "OE";
+        } else {
+          result = dictionary[result];
+        }
         report = {
           submission_id: self.task.id,
           score: score,
           time_cost: time_cost,
           memory_cost: memory_cost,
-          result: dictionary[result],
+          result: result,
           detail: detail
         };
-        console.log(report);
         return self.send(REPORT_PAGE, report);
       });
     };
@@ -236,13 +252,12 @@
         if (!task) {
           throw new NoTask();
         }
-        console.log(task);
         self.task = task;
         return self.prepare();
       }).then(function() {
         return self.judge();
-      }).then(function() {
-        return self.report();
+      }).then(function(report_data) {
+        return self.report(report_data);
       })["catch"](NoTask, function(err) {
         console.log(err.message);
         return Promise.delay(2000);

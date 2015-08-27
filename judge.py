@@ -25,11 +25,12 @@ if __name__ == '__main__':
     work_path = sys.argv[5]    #work的主要路径
     file_path = sys.argv[6]    #文件的路径
 
-    dirname = os.path.join(work_path, data_path)
+    dirname = os.path.join(work_path, data_dirname)
     if not os.path.exists(dirname): os.system('mkdir -p %s' % dirname)
-    os.system('tar -xzvf %s -C %s > /dev/null' % (dirname, file_path) )
+    os.system('tar -xzvf %s -C %s >/dev/null' % (file_path, dirname) )
 
-    os.system('chmod -R u=rwx,g=rwx,o= %s', work_path)
+    os.system('chmod -R u=rwx,g=rwx,o= %s' % dirname)
+    os.system('chmod -R u=rwx,g=rwx,o=r %s' % os.path.join(work_path, submission_dirname))
 
 
     opt = ''
@@ -37,14 +38,14 @@ if __name__ == '__main__':
     opt += '--rm '
     opt += '-m %sM --memory-swap %sM ' % (memory_limit, memory_limit)
     opt += '--ulimit nproc=32:64 '
-    opt += '--cpuset-cpus="%s"' % cpu_set
-    opt += '-v %s:%s:ro' % ( os.path.join(work_path, data_dirname), os.path.join('/', data_dirname) )
-    opt += '-v %s:%s:ro' % ( os.path.join(work_path, submission_dirname), os.path.join('/', submission_dirname) )
-    opt += '-v %s:%s:ro' % ( utils_path, os.path.join('/', utils_dirname) )
+    opt += '--cpuset-cpus="%s" ' % cpu_set
+    opt += '-v %s:%s:ro ' % ( os.path.join(work_path, data_dirname), os.path.join('/', data_dirname) )
+    opt += '-v %s:%s:ro ' % ( os.path.join(work_path, submission_dirname), os.path.join('/', submission_dirname) )
+    opt += '-v %s:%s:ro ' % ( utils_path, os.path.join('/', utils_dirname) )
 
     cmd = 'sh /utils/run.sh'
 
-    print 'docker run %s oj4th/judge_container %s' % (opt,cmd)
-    #os.system('docker run %s oj4th/judge_container %s' % (opt,cmd))
+    #print 'docker run %s oj4th/judge_container %s' % (opt,cmd)
+    os.system('docker run %s oj4th/judge_container %s > %s' % (opt,cmd,os.path.join(work_path,'__report__')))
 
 

@@ -54,7 +54,7 @@ class judge_client
     form.judge = {
       id : self.id
       name: self.name
-      post_time: new Date()
+      post_time: post_time
       token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
     }
     rp
@@ -134,7 +134,8 @@ class judge_client
       .then ->
         return self.task
   report : ->
-    fs.readFilePromised(path.join(data_root,'work_'+self.id,'__report__'))
+    work_path = path.resolve(__dirname, work_dirname, self.id.toString())
+    fs.readFilePromised(path.join(work_path,'__report__'))
       .then (data)->
         detail = data.toString().split('\n')
         result_list = detail.shift().split(',')
@@ -143,25 +144,36 @@ class judge_client
         memory_cost = result_list[2]
         result = detail.shift()
         detail = detail.join('\n')
+        detail = "" if detail is '\n'
+        console.log result
         dictionary = {
           "Accepted" : "AC"
           "Wrong Answer" : "WA"
           "Compiler Error" : "CE"
-          "Runtime Error (SIGSEGV)" : "RE"
+          "Runtime Error (SIGSEGV)" : "REG"
+          "Runtime Error (SIGKILL)" : "MLE"
+          "Runtime Error (SIGFPE)" : "REP"
           "Presentation Error" : "PE"
           "Memory Limit Exceed" : "MLE"
           "Time Limit Exceed" : "TLE"
+          "Input File Not Ready" : "IFNR"
+          "Output File Not Ready" : "OFNR"
+          "Error File Not Ready" : "EFNR"
+          "Other Error" : "OE"
         }
-        console.log result
+        if dictionary[result] is undefined
+          detail = "#{result}\n#{detail}"
+          result = "OE"
+        else
+          result = dictionary[result]
         report = {
           submission_id : self.task.id
           score : score
           time_cost : time_cost
           memory_cost : memory_cost
-          result : dictionary[result]
+          result :  result
           detail : detail
         }
-        console.log report
         self.send(REPORT_PAGE, report)
   work : ->
     Promise.resolve()
@@ -169,13 +181,12 @@ class judge_client
         self.getTask()
       .then (task)->
         throw new NoTask() if not task
-        console.log task
         self.task = task
         self.prepare()
       .then ->
         self.judge()
-      .then ->
-        self.report()
+      .then (report_data)->
+        self.report(report_data)
       .catch NoTask, (err)->
         console.log err.message
         Promise.delay(2000)

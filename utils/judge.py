@@ -34,13 +34,13 @@ process_monitor_file = '/utils/process_monitor'
 compare_file = '/utils/cmp'
 
 def report(score, time_used, mem_used, global_comment, detail_info):
-    repf = file('__report__', 'w')
-    repf.write('%s, %d, %d\n%s' % (score.__str__(), time_used, mem_used, global_comment))
+    #repf = file('__report__', 'w')
+    #repf.write('%s, %d, %d\n%s' % (score.__str__(), time_used, mem_used, global_comment))
     print '%s, %d, %d\n%s' % (score.__str__(), time_used, mem_used, global_comment)
     if detail_info is not None:
-        repf.write('\n%s' % detail_info)
+        #repf.write('\n%s' % detail_info)
         print detail_info
-    repf.close()
+    #repf.close()
     sys.exit(0)
 
 def report_err(comment, detail_info = None):
