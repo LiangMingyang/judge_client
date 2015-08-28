@@ -72,9 +72,8 @@
     function judge_client(data) {
       this.name = data.name;
       this.id = data.id;
-      if (data.cpu) {
-        this.cpu = data.cpu;
-      }
+      this.cpu_set = data.cpu_set;
+      this.memory_limit = data.memory_limit;
       this.task = void 0;
       this.secret_key = data.secret_key;
       this.create_time = data.create_time;
@@ -166,7 +165,7 @@
     judge_client.prototype.pre_file = function() {
       self.file_path = path.join(__dirname, resource_dirname, self.task.manifest.test_setting.data_file);
       return Promise.resolve().then(function() {
-        if (!fs.existsSyncPromised(self.file_path)) {
+        if (!fs.existsSync(self.file_path)) {
           return self.get_file(self.file_path);
         }
       }).then(function() {
@@ -189,7 +188,7 @@
       utils_path = path.resolve(__dirname, utils_dirname);
       work_path = path.resolve(__dirname, work_dirname, self.id.toString());
       file_path = self.file_path;
-      return child_process.spawn('python', ['./judge.py', self.id, 250, "0", utils_path, work_path, file_path], {
+      return child_process.spawn('python', ['./judge.py', self.id, self.memory_limit, self.cpu_set.join(','), utils_path, work_path, file_path], {
         stdio: 'inherit'
       }).then(function() {
         return self.task;
@@ -266,11 +265,25 @@
       });
     };
 
+    judge_client.prototype.mkdir = function() {
+      var data_path, submission_path, work_path;
+      work_path = path.resolve(__dirname, work_dirname, self.id.toString());
+      data_path = path.resolve(work_path, data_dirname);
+      submission_path = path.resolve(work_path, submission_dirname);
+      return child_process.exec("mkdir -p " + data_path + " " + submission_path).then(function(result) {
+        return console.log(result.stdout);
+      }).fail(function(err) {
+        return console.log(err);
+      });
+    };
+
     judge_client.prototype.init = function() {
       process.on('SIGTERM', function() {
         return self.stop();
       });
       return Promise.resolve().then(function() {
+        return self.mkdir();
+      }).then(function() {
         return self.start();
       }).then(function() {
         process.disconnect && process.disconnect();

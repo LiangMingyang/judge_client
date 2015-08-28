@@ -39,7 +39,8 @@ class judge_client
   constructor : (data)->
     @name = data.name
     @id = data.id
-    @cpu = data.cpu if data.cpu
+    @cpu_set = data.cpu_set
+    @memory_limit = data.memory_limit
     @task = undefined
     @secret_key = data.secret_key
     @create_time = data.create_time
@@ -112,7 +113,7 @@ class judge_client
     self.file_path = path.join(__dirname, resource_dirname, self.task.manifest.test_setting.data_file)
     Promise.resolve()
       .then ->
-        self.get_file self.file_path if not fs.existsSyncPromised self.file_path
+        self.get_file self.file_path if not fs.existsSync self.file_path
       .then ->
         console.log "Pre_file finished"
 
@@ -130,7 +131,7 @@ class judge_client
     work_path = path.resolve(__dirname, work_dirname, self.id.toString())
     file_path = self.file_path
     child_process
-      .spawn('python', ['./judge.py', self.id, 250, "0", utils_path, work_path, file_path], {stdio:'inherit'})
+      .spawn('python', ['./judge.py', self.id, self.memory_limit, self.cpu_set.join(','), utils_path, work_path, file_path], {stdio:'inherit'})
       .then ->
         return self.task
   report : ->
@@ -194,11 +195,13 @@ class judge_client
         console.log err.message
   mkdir : ->
     work_path = path.resolve(__dirname, work_dirname, self.id.toString())
-    fs.mkdir(work_path) if fs.existsSyncPromised work_path
     data_path = path.resolve(work_path, data_dirname)
-    fs.mkdir(data_path) if fs.existsSyncPromised data_path
     submission_path = path.resolve(work_path, submission_dirname)
-    fs.mkdir(submission_path) if fs.existsSyncPromised submission_path
+    child_process.exec("mkdir -p #{data_path} #{submission_path}")
+    .then (result)->
+      console.log result.stdout
+    .fail (err)->
+      console.log err
 
   init : ->
     process.on 'SIGTERM', ->

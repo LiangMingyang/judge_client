@@ -36,7 +36,4 @@ node_modules
 #LibreOffice caches
 .~lock.*#
 
-#our config file
-config.js
-
-.idea
+work
