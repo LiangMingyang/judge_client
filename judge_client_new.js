@@ -107,7 +107,7 @@
     };
 
     judge_client.prototype.pre_submission = function() {
-      var data, i, inputFiles, outputFiles, test_setting, weights;
+      var data, i, inputFiles, outputFiles, test_setting, weights, work_path;
       test_setting = "";
       for (i in self.task.manifest.test_setting) {
         if (self.task.manifest.test_setting[i] instanceof Array) {
@@ -150,7 +150,8 @@
       test_setting += "standard_output_files = " + (outputFiles.join(',')) + "\n";
       test_setting += "round_weight = " + (weights.join(',')) + "\n";
       test_setting += "test_round_count = " + self.task.manifest.data.length + "\n";
-      return Promise.all([fs.writeFilePromised(path.resolve(__dirname, work_dirname, self.id.toString(), submission_dirname, '__main__'), self.task.submission_code.content), fs.writeFilePromised(path.resolve(__dirname, work_dirname, self.id.toString(), submission_dirname, '__lang__'), self.task.lang), fs.writeFilePromised(path.resolve(__dirname, work_dirname, self.id.toString(), data_dirname, '__setting_code__'), test_setting)]).then(function() {
+      work_path = path.resolve(__dirname, work_dirname, self.name);
+      return Promise.all([fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__main__'), self.task.submission_code.content), fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__lang__'), self.task.lang), fs.writeFilePromised(path.resolve(work_path, data_dirname, '__setting_code__'), test_setting)]).then(function() {
         return console.log("Pre_submission finished");
       });
     };
@@ -186,7 +187,7 @@
     judge_client.prototype.judge = function() {
       var file_path, utils_path, work_path;
       utils_path = path.resolve(__dirname, utils_dirname);
-      work_path = path.resolve(__dirname, work_dirname, self.id.toString());
+      work_path = path.resolve(__dirname, work_dirname, self.name);
       file_path = self.file_path;
       return child_process.spawn('python', ['./judge.py', self.id, self.memory_limit, self.cpu_set.join(','), utils_path, work_path, file_path], {
         stdio: 'inherit'
@@ -197,7 +198,7 @@
 
     judge_client.prototype.report = function() {
       var work_path;
-      work_path = path.resolve(__dirname, work_dirname, self.id.toString());
+      work_path = path.resolve(__dirname, work_dirname, self.name);
       return fs.readFilePromised(path.join(work_path, '__report__')).then(function(data) {
         var detail, dictionary, memory_cost, report, result, result_list, score, time_cost;
         detail = data.toString().split('\n');
@@ -267,7 +268,7 @@
 
     judge_client.prototype.mkdir = function() {
       var data_path, submission_path, work_path;
-      work_path = path.resolve(__dirname, work_dirname, self.id.toString());
+      work_path = path.resolve(__dirname, work_dirname, self.name);
       data_path = path.resolve(work_path, data_dirname);
       submission_path = path.resolve(work_path, submission_dirname);
       return child_process.exec("mkdir -p " + data_path + " " + submission_path).then(function(result) {
