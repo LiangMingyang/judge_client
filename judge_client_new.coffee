@@ -6,6 +6,7 @@ rp = require('request-promise')
 URL = require('url')
 fs = Promise.promisifyAll(require('fs'), suffix:'Promised')
 child_process = require('child-process-promise')
+child_process_promised = Promise.promisifyAll(require('child_process'), suffix:'Promised')
 
 
 resource_dirname = "resource"
@@ -188,8 +189,8 @@ class judge_client
         self.judge()
       .then (report_data)->
         self.report(report_data)
-      .catch NoTask, (err)->
-        console.log err.message
+      .catch NoTask, ->
+        #console.log err.message
         Promise.delay(2000)
       .catch (err)->
         console.log err.message
@@ -197,11 +198,7 @@ class judge_client
     work_path = path.resolve(__dirname, work_dirname, self.name)
     data_path = path.resolve(work_path, data_dirname)
     submission_path = path.resolve(work_path, submission_dirname)
-    child_process.exec("mkdir -p #{data_path} #{submission_path}")
-    .then (result)->
-      console.log result.stdout
-    .fail (err)->
-      console.log err
+    child_process_promised.execPromised("mkdir -p #{data_path} #{submission_path}")
 
   init : ->
     process.on 'SIGTERM', ->
