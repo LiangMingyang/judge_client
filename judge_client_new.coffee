@@ -80,18 +80,21 @@ class judge_client
 
   pre_submission : ->
     test_setting = ""
-    for i of self.task.manifest.test_setting
-      if self.task.manifest.test_setting[i] instanceof Array
-        test_setting += "#{i} = #{self.task.manifest.test_setting[i].join(',')}\n"
-      else
-        test_setting += "#{i} = #{self.task.manifest.test_setting[i]}\n"
-    inputFiles = (data.input for data in self.task.manifest.data)
-    outputFiles = (data.output for data in self.task.manifest.data)
-    weights = (data.weight for data in self.task.manifest.data)
+#    for i of self.task.manifest.test_setting
+#      if self.task.manifest.test_setting[i] instanceof Array
+#        test_setting += "#{i} = #{self.task.manifest.test_setting[i].join(',')}\n"
+#      else
+#        test_setting += "#{i} = #{self.task.manifest.test_setting[i]}\n"
+    inputFiles = (data.input for data in self.task.test_setting.data)
+    outputFiles = (data.output for data in self.task.test_setting.data)
+    weights = (data.weight for data in self.task.test_setting.data)
+    test_setting += "support_lang = #{self.task.test_setting.language.join(',')}\n"
     test_setting += "standard_input_files = #{inputFiles.join(',')}\n"
     test_setting += "standard_output_files = #{outputFiles.join(',')}\n"
     test_setting += "round_weight = #{weights.join(',')}\n"
-    test_setting += "test_round_count = #{self.task.manifest.data.length}\n"
+    test_setting += "test_round_count = #{self.task.test_setting.data.length}\n"
+    test_setting += "time_limit_case = #{self.task.test_setting.time_limit}\n"
+    test_setting += "memory_limit = #{self.task.test_setting.memory_limit}\n"
     work_path = path.resolve(__dirname, work_dirname, self.name)
     Promise.all [
       fs.writeFilePromised(path.resolve(work_path, submission_dirname,'__main__'), self.task.submission_code.content)
@@ -106,12 +109,12 @@ class judge_client
   get_file: (file_path)->
     self.send(FILE_PAGE,{
       problem_id : self.task.problem_id
-      filename : self.task.manifest.test_setting.data_file
+      filename : self.task.test_setting.data_file
     })
     .pipe(fs.createWriteStream(file_path))
 
   pre_file: ->
-    self.file_path = path.join(__dirname, resource_dirname, self.task.manifest.test_setting.data_file)
+    self.file_path = path.join(__dirname, resource_dirname, self.task.test_setting.data_file)
     Promise.resolve()
       .then ->
         self.get_file self.file_path if not fs.existsSync self.file_path

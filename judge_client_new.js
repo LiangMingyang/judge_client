@@ -111,49 +111,45 @@
     };
 
     judge_client.prototype.pre_submission = function() {
-      var data, i, inputFiles, outputFiles, test_setting, weights, work_path;
+      var data, inputFiles, outputFiles, test_setting, weights, work_path;
       test_setting = "";
-      for (i in self.task.manifest.test_setting) {
-        if (self.task.manifest.test_setting[i] instanceof Array) {
-          test_setting += i + " = " + (self.task.manifest.test_setting[i].join(',')) + "\n";
-        } else {
-          test_setting += i + " = " + self.task.manifest.test_setting[i] + "\n";
-        }
-      }
       inputFiles = (function() {
-        var j, len, ref, results;
-        ref = self.task.manifest.data;
+        var i, len, ref, results;
+        ref = self.task.test_setting.data;
         results = [];
-        for (j = 0, len = ref.length; j < len; j++) {
-          data = ref[j];
+        for (i = 0, len = ref.length; i < len; i++) {
+          data = ref[i];
           results.push(data.input);
         }
         return results;
       })();
       outputFiles = (function() {
-        var j, len, ref, results;
-        ref = self.task.manifest.data;
+        var i, len, ref, results;
+        ref = self.task.test_setting.data;
         results = [];
-        for (j = 0, len = ref.length; j < len; j++) {
-          data = ref[j];
+        for (i = 0, len = ref.length; i < len; i++) {
+          data = ref[i];
           results.push(data.output);
         }
         return results;
       })();
       weights = (function() {
-        var j, len, ref, results;
-        ref = self.task.manifest.data;
+        var i, len, ref, results;
+        ref = self.task.test_setting.data;
         results = [];
-        for (j = 0, len = ref.length; j < len; j++) {
-          data = ref[j];
+        for (i = 0, len = ref.length; i < len; i++) {
+          data = ref[i];
           results.push(data.weight);
         }
         return results;
       })();
+      test_setting += "support_lang = " + (self.task.test_setting.language.join(',')) + "\n";
       test_setting += "standard_input_files = " + (inputFiles.join(',')) + "\n";
       test_setting += "standard_output_files = " + (outputFiles.join(',')) + "\n";
       test_setting += "round_weight = " + (weights.join(',')) + "\n";
-      test_setting += "test_round_count = " + self.task.manifest.data.length + "\n";
+      test_setting += "test_round_count = " + self.task.test_setting.data.length + "\n";
+      test_setting += "time_limit_case = " + self.task.test_setting.time_limit + "\n";
+      test_setting += "memory_limit = " + self.task.test_setting.memory_limit + "\n";
       work_path = path.resolve(__dirname, work_dirname, self.name);
       return Promise.all([fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__main__'), self.task.submission_code.content), fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__lang__'), self.task.lang), fs.writeFilePromised(path.resolve(work_path, data_dirname, '__setting_code__'), test_setting)]).then(function() {
         return console.log("Pre_submission finished");
@@ -163,12 +159,12 @@
     judge_client.prototype.get_file = function(file_path) {
       return self.send(FILE_PAGE, {
         problem_id: self.task.problem_id,
-        filename: self.task.manifest.test_setting.data_file
+        filename: self.task.test_setting.data_file
       }).pipe(fs.createWriteStream(file_path));
     };
 
     judge_client.prototype.pre_file = function() {
-      self.file_path = path.join(__dirname, resource_dirname, self.task.manifest.test_setting.data_file);
+      self.file_path = path.join(__dirname, resource_dirname, self.task.test_setting.data_file);
       return Promise.resolve().then(function() {
         if (!fs.existsSync(self.file_path)) {
           return self.get_file(self.file_path);

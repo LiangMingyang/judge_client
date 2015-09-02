@@ -27,7 +27,7 @@ if __name__ == '__main__':
     #准备测试数据
     dirname = os.path.join(work_path, data_dirname)
     if not os.path.exists(dirname): os.system('mkdir -p %s' % dirname)
-    os.system('tar -xzvf %s -C %s >/dev/null' % (file_path, dirname) )
+    os.system('tar -xzvf %s -C %s >/dev/null' % (file_path, work_path) )
     #保证权限
     os.system('chmod -R u=rwx,g=rwx,o= %s' % dirname)
     os.system('chmod -R u=rwx,g=rwx,o=r %s' % os.path.join(work_path, submission_dirname))
