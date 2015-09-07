@@ -50,6 +50,7 @@ class judge_client
     @status = undefined
     @host = data.host
     @isStopped = false
+    @website = data.website
     self = @
   send : (url, form = {})->
     post_time = new Date().toISOString()
@@ -114,7 +115,7 @@ class judge_client
     .pipe(fs.createWriteStream(file_path))
 
   pre_file: ->
-    self.file_path = path.join(__dirname, resource_dirname, self.task.test_setting.data_file)
+    self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
     Promise.resolve()
       .then ->
         self.get_file self.file_path if not fs.existsSync self.file_path

@@ -86,6 +86,7 @@
       this.status = void 0;
       this.host = data.host;
       this.isStopped = false;
+      this.website = data.website;
       self = this;
     }
 
@@ -164,7 +165,7 @@
     };
 
     judge_client.prototype.pre_file = function() {
-      self.file_path = path.join(__dirname, resource_dirname, self.task.test_setting.data_file);
+      self.file_path = path.join(__dirname, resource_dirname, self.website + "-" + self.task.test_setting.data_file);
       return Promise.resolve().then(function() {
         if (!fs.existsSync(self.file_path)) {
           return self.get_file(self.file_path);
