@@ -88,7 +88,7 @@ class judge_client
     inputFiles = (data.input for data in self.task.test_setting.data)
     outputFiles = (data.output for data in self.task.test_setting.data)
     weights = (data.weight for data in self.task.test_setting.data)
-    test_setting += "support_lang = #{self.task.test_setting.language.join(',')}\n"
+    test_setting += "support_lang = #{self.task.test_setting.supported_languages}\n"
     test_setting += "standard_input_files = #{inputFiles.join(',')}\n"
     test_setting += "standard_output_files = #{outputFiles.join(',')}\n"
     test_setting += "round_weight = #{weights.join(',')}\n"
