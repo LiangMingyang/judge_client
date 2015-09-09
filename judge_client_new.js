@@ -114,41 +114,43 @@
     judge_client.prototype.pre_submission = function() {
       var data, inputFiles, outputFiles, test_setting, weights, work_path;
       test_setting = "";
-      inputFiles = (function() {
-        var i, len, ref, results;
-        ref = self.task.test_setting.data;
-        results = [];
-        for (i = 0, len = ref.length; i < len; i++) {
-          data = ref[i];
-          results.push(data.input);
-        }
-        return results;
-      })();
-      outputFiles = (function() {
-        var i, len, ref, results;
-        ref = self.task.test_setting.data;
-        results = [];
-        for (i = 0, len = ref.length; i < len; i++) {
-          data = ref[i];
-          results.push(data.output);
-        }
-        return results;
-      })();
-      weights = (function() {
-        var i, len, ref, results;
-        ref = self.task.test_setting.data;
-        results = [];
-        for (i = 0, len = ref.length; i < len; i++) {
-          data = ref[i];
-          results.push(data.weight);
-        }
-        return results;
-      })();
+      if (self.task.test_setting.data.length > 0) {
+        inputFiles = (function() {
+          var i, len, ref, results;
+          ref = self.task.test_setting.data;
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            data = ref[i];
+            results.push(data.input);
+          }
+          return results;
+        })();
+        outputFiles = (function() {
+          var i, len, ref, results;
+          ref = self.task.test_setting.data;
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            data = ref[i];
+            results.push(data.output);
+          }
+          return results;
+        })();
+        weights = (function() {
+          var i, len, ref, results;
+          ref = self.task.test_setting.data;
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            data = ref[i];
+            results.push(data.weight);
+          }
+          return results;
+        })();
+        test_setting += "standard_input_files = " + (inputFiles.join(',')) + "\n";
+        test_setting += "standard_output_files = " + (outputFiles.join(',')) + "\n";
+        test_setting += "round_weight = " + (weights.join(',')) + "\n";
+      }
       test_setting += "support_lang = " + self.task.test_setting.supported_languages + "\n";
-      test_setting += "standard_input_files = " + (inputFiles.join(',')) + "\n";
-      test_setting += "standard_output_files = " + (outputFiles.join(',')) + "\n";
-      test_setting += "round_weight = " + (weights.join(',')) + "\n";
-      test_setting += "test_round_count = " + self.task.test_setting.data.length + "\n";
+      test_setting += "test_round_count = " + (Math.max(1, self.task.test_setting.data.length)) + "\n";
       test_setting += "time_limit_case = " + self.task.test_setting.time_limit + "\n";
       test_setting += "memory_limit = " + self.task.test_setting.memory_limit + "\n";
       work_path = path.resolve(__dirname, work_dirname, self.name);

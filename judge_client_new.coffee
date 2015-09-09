@@ -86,14 +86,15 @@ class judge_client
 #        test_setting += "#{i} = #{self.task.manifest.test_setting[i].join(',')}\n"
 #      else
 #        test_setting += "#{i} = #{self.task.manifest.test_setting[i]}\n"
-    inputFiles = (data.input for data in self.task.test_setting.data)
-    outputFiles = (data.output for data in self.task.test_setting.data)
-    weights = (data.weight for data in self.task.test_setting.data)
+    if self.task.test_setting.data.length > 0
+      inputFiles = (data.input for data in self.task.test_setting.data)
+      outputFiles = (data.output for data in self.task.test_setting.data)
+      weights = (data.weight for data in self.task.test_setting.data)
+      test_setting += "standard_input_files = #{inputFiles.join(',')}\n"
+      test_setting += "standard_output_files = #{outputFiles.join(',')}\n"
+      test_setting += "round_weight = #{weights.join(',')}\n"
     test_setting += "support_lang = #{self.task.test_setting.supported_languages}\n"
-    test_setting += "standard_input_files = #{inputFiles.join(',')}\n"
-    test_setting += "standard_output_files = #{outputFiles.join(',')}\n"
-    test_setting += "round_weight = #{weights.join(',')}\n"
-    test_setting += "test_round_count = #{self.task.test_setting.data.length}\n"
+    test_setting += "test_round_count = #{Math.max(1,self.task.test_setting.data.length)}\n"
     test_setting += "time_limit_case = #{self.task.test_setting.time_limit}\n"
     test_setting += "memory_limit = #{self.task.test_setting.memory_limit}\n"
     work_path = path.resolve(__dirname, work_dirname, self.name)
