@@ -109,17 +109,21 @@ class judge_client
       console.log "Pre_submission finished"
 
   get_file: (file_path)->
+    if fs.existsSync self.file_path
+      return
     self.send(FILE_PAGE,{
       problem_id : self.task.problem_id
       filename : self.task.test_setting.data_file
     })
     .pipe(fs.createWriteStream(file_path))
+    .then ->
+      console.log "Downloads finished"
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
     Promise.resolve()
       .then ->
-        self.get_file self.file_path if not fs.existsSync self.file_path
+        self.get_file self.file_path
       .then ->
         console.log "Pre_file finished"
 
@@ -199,6 +203,8 @@ class judge_client
         Promise.delay(2000)
       .catch (err)->
         console.log err.message
+        Promise.delay(1000)
+
   mkdir : ->
     work_path = path.resolve(__dirname, work_dirname, self.name)
     data_path = path.resolve(work_path, data_dirname)

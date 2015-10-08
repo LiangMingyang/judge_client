@@ -160,18 +160,21 @@
     };
 
     judge_client.prototype.get_file = function(file_path) {
+      if (fs.existsSync(self.file_path)) {
+        return;
+      }
       return self.send(FILE_PAGE, {
         problem_id: self.task.problem_id,
         filename: self.task.test_setting.data_file
-      }).pipe(fs.createWriteStream(file_path));
+      }).pipe(fs.createWriteStream(file_path)).then(function() {
+        return console.log("Downloads finished");
+      });
     };
 
     judge_client.prototype.pre_file = function() {
       self.file_path = path.join(__dirname, resource_dirname, self.website + "-" + self.task.test_setting.data_file);
       return Promise.resolve().then(function() {
-        if (!fs.existsSync(self.file_path)) {
-          return self.get_file(self.file_path);
-        }
+        return self.get_file(self.file_path);
       }).then(function() {
         return console.log("Pre_file finished");
       });
@@ -264,7 +267,8 @@
       })["catch"](NoTask, function() {
         return Promise.delay(2000);
       })["catch"](function(err) {
-        return console.log(err.message);
+        console.log(err.message);
+        return Promise.delay(1000);
       });
     };
 
