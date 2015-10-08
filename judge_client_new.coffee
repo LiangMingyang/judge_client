@@ -4,6 +4,7 @@ path = require('path')
 Promise = require('bluebird')
 rp = require('request-promise')
 URL = require('url')
+promisePipe = require("promisepipe")
 fs = Promise.promisifyAll(require('fs'), suffix:'Promised')
 child_process = require('child-process-promise')
 child_process_promised = Promise.promisifyAll(require('child_process'), suffix:'Promised')
@@ -121,11 +122,11 @@ class judge_client
       post_time: post_time
       token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
     }
-    ws = fs.createWriteStream(file_path)
-    rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(ws)
-    ws.on 'finish', ->
-      self.fileReady = 1
-    Promise.delay(2000) #TODO:这只是权益之计
+    #rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(ws)
+    promisePipe(rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}), fs.createWriteStream(file_path))
+#    ws.on 'finish', ->
+#      self.fileReady = 1
+    #Promise.delay(2000) #TODO:这只是权益之计
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
