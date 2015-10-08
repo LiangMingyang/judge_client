@@ -174,6 +174,9 @@
       return Promise.resolve().then(function() {
         return self.get_file(self.file_path);
       }).then(function() {
+        while (!fs.existsSync(self.file_path)) {
+          console.log("waiting");
+        }
         return console.log("Pre_file finished");
       });
     };
