@@ -62,7 +62,16 @@ class judge_client
     }
     rp
       .post( URL.resolve(self.host,url), {json:form})
-
+  getFile : (url, form = {})->
+    post_time = new Date().toISOString()
+    form.judge = {
+      id : self.id
+      name: self.name
+      post_time: post_time
+      token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
+    }
+    rp
+    .post( URL.resolve(self.host,url), {json:form})
   getTask : ->
     self.send(TASK_PAGE)
 
@@ -111,12 +120,20 @@ class judge_client
   get_file: (file_path)->
     if fs.existsSync file_path
       return
-    self.send(FILE_PAGE,{
+    form = {
       problem_id : self.task.problem_id
       filename : self.task.test_setting.data_file
-    })
-    .then (p)->
-      p.pipe(fs.createWriteStream(file_path))
+    }
+    post_time = new Date().toISOString()
+    form.judge = {
+      id : self.id
+      name: self.name
+      post_time: post_time
+      token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
+    }
+    rp
+      .post( URL.resolve(self.host, FILE_PAGE), {json:form})
+      .pipe(fs.createWriteStream(file_path))
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")

@@ -107,6 +107,23 @@
       });
     };
 
+    judge_client.prototype.getFile = function(url, form) {
+      var post_time;
+      if (form == null) {
+        form = {};
+      }
+      post_time = new Date().toISOString();
+      form.judge = {
+        id: self.id,
+        name: self.name,
+        post_time: post_time,
+        token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
+      };
+      return rp.post(URL.resolve(self.host, url), {
+        json: form
+      });
+    };
+
     judge_client.prototype.getTask = function() {
       return self.send(TASK_PAGE);
     };
@@ -160,15 +177,24 @@
     };
 
     judge_client.prototype.get_file = function(file_path) {
+      var form, post_time;
       if (fs.existsSync(file_path)) {
         return;
       }
-      return self.send(FILE_PAGE, {
+      form = {
         problem_id: self.task.problem_id,
         filename: self.task.test_setting.data_file
-      }).then(function(p) {
-        return p.pipe(fs.createWriteStream(file_path));
-      });
+      };
+      post_time = new Date().toISOString();
+      form.judge = {
+        id: self.id,
+        name: self.name,
+        post_time: post_time,
+        token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
+      };
+      return rp.post(URL.resolve(self.host, FILE_PAGE), {
+        json: form
+      }).pipe(fs.createWriteStream(file_path));
     };
 
     judge_client.prototype.pre_file = function() {
