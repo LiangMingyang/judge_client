@@ -115,7 +115,8 @@ class judge_client
       problem_id : self.task.problem_id
       filename : self.task.test_setting.data_file
     })
-    .pipe(fs.createWriteStream(file_path))
+    .then (p)->
+      p.pipe(fs.createWriteStream(file_path))
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")

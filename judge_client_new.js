@@ -166,7 +166,9 @@
       return self.send(FILE_PAGE, {
         problem_id: self.task.problem_id,
         filename: self.task.test_setting.data_file
-      }).pipe(fs.createWriteStream(file_path));
+      }).then(function(p) {
+        return p.pipe(fs.createWriteStream(file_path));
+      });
     };
 
     judge_client.prototype.pre_file = function() {
