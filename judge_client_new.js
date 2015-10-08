@@ -107,23 +107,6 @@
       });
     };
 
-    judge_client.prototype.getFile = function(url, form) {
-      var post_time;
-      if (form == null) {
-        form = {};
-      }
-      post_time = new Date().toISOString();
-      form.judge = {
-        id: self.id,
-        name: self.name,
-        post_time: post_time,
-        token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
-      };
-      return rp.post(URL.resolve(self.host, url), {
-        json: form
-      });
-    };
-
     judge_client.prototype.getTask = function() {
       return self.send(TASK_PAGE);
     };
@@ -177,7 +160,7 @@
     };
 
     judge_client.prototype.get_file = function(file_path) {
-      var form, post_time;
+      var form, post_time, stream;
       if (fs.existsSync(file_path)) {
         self.fileReady = 1;
         return;
@@ -194,11 +177,13 @@
         post_time: post_time,
         token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
       };
-      return rp.post(URL.resolve(self.host, FILE_PAGE), {
+      stream = rp.post(URL.resolve(self.host, FILE_PAGE), {
         json: form
-      }).pipe(fs.createWriteStream(file_path)).on('finish', function() {
+      }).pipe(fs.createWriteStream(file_path));
+      stream.on('finish', function() {
         return self.fileReady = 1;
-      }).on('error', function(err) {
+      });
+      return stream.on('error', function(err) {
         console.log(err);
         return self.fileReady = -1;
       });
@@ -211,7 +196,7 @@
       }).then(function() {
         while (self.fileReady !== 1) {
           if (self.fileReady === 0) {
-            console.log('Waiting');
+
           } else {
             console.log('Error!');
             break;

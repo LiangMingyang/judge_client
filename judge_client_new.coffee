@@ -62,16 +62,6 @@ class judge_client
     }
     rp
       .post( URL.resolve(self.host,url), {json:form})
-  getFile : (url, form = {})->
-    post_time = new Date().toISOString()
-    form.judge = {
-      id : self.id
-      name: self.name
-      post_time: post_time
-      token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
-    }
-    rp
-    .post( URL.resolve(self.host,url), {json:form})
   getTask : ->
     self.send(TASK_PAGE)
 
@@ -133,14 +123,12 @@ class judge_client
       post_time: post_time
       token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
     }
-    rp
-      .post( URL.resolve(self.host, FILE_PAGE), {json:form})
-      .pipe(fs.createWriteStream(file_path))
-      .on 'finish', ->
-        self.fileReady = 1
-      .on 'error', (err)->
-        console.log err
-        self.fileReady = -1
+    stream = rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(fs.createWriteStream(file_path))
+    stream.on 'finish', ->
+      self.fileReady = 1
+    stream.on 'error', (err)->
+      console.log err
+      self.fileReady = -1
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
@@ -150,7 +138,7 @@ class judge_client
       .then ->
         while self.fileReady isnt 1
           if self.fileReady is 0
-            console.log 'Waiting'
+
           else
             console.log 'Error!'
             break
