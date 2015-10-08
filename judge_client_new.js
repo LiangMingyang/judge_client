@@ -162,10 +162,8 @@
     judge_client.prototype.get_file = function(file_path) {
       var form, post_time, ws;
       if (fs.existsSync(file_path)) {
-        self.fileReady = 1;
         return;
       }
-      self.fileReady = 0;
       form = {
         problem_id: self.task.problem_id,
         filename: self.task.test_setting.data_file
@@ -181,9 +179,10 @@
       rp.post(URL.resolve(self.host, FILE_PAGE), {
         json: form
       }).pipe(ws);
-      return ws.on('finish', function() {
+      ws.on('finish', function() {
         return self.fileReady = 1;
       });
+      return Promise.delay(2000);
     };
 
     judge_client.prototype.pre_file = function() {
@@ -191,13 +190,6 @@
       return Promise.resolve().then(function() {
         return self.get_file(self.file_path);
       }).then(function() {
-        while (self.fileReady !== 1) {
-          if (self.fileReady === 0) {
-
-          } else {
-            console.log("Error");
-          }
-        }
         return console.log("Pre_file finished");
       });
     };

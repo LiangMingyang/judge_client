@@ -109,9 +109,7 @@ class judge_client
 
   get_file: (file_path)->
     if fs.existsSync file_path
-      self.fileReady = 1
       return
-    self.fileReady = 0
     form = {
       problem_id : self.task.problem_id
       filename : self.task.test_setting.data_file
@@ -127,6 +125,7 @@ class judge_client
     rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(ws)
     ws.on 'finish', ->
       self.fileReady = 1
+    Promise.delay(2000) #TODO:这只是权益之计
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
@@ -134,11 +133,6 @@ class judge_client
       .then ->
         self.get_file self.file_path
       .then ->
-        while self.fileReady isnt 1
-          if self.fileReady is 0
-
-          else
-            console.log "Error"
         console.log "Pre_file finished"
 
   prepare : ->
