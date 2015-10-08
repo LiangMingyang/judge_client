@@ -119,7 +119,9 @@ class judge_client
 
   get_file: (file_path)->
     if fs.existsSync file_path
+      self.fileReady = 1
       return
+    self.fileReady = 0
     form = {
       problem_id : self.task.problem_id
       filename : self.task.test_setting.data_file
@@ -134,6 +136,11 @@ class judge_client
     rp
       .post( URL.resolve(self.host, FILE_PAGE), {json:form})
       .pipe(fs.createWriteStream(file_path))
+      .on 'finish', ->
+        self.fileReady = 1
+      .on 'error', (err)->
+        console.log err
+        self.fileReady = -1
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
@@ -141,6 +148,12 @@ class judge_client
       .then ->
         self.get_file self.file_path
       .then ->
+        while self.fileReady isnt 1
+          if self.fileReady is 0
+            console.log 'Waiting'
+          else
+            console.log 'Error!'
+            break
         console.log "Pre_file finished"
 
   prepare : ->
