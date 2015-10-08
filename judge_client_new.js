@@ -160,7 +160,7 @@
     };
 
     judge_client.prototype.get_file = function(file_path) {
-      var form, post_time;
+      var form, post_time, ws;
       if (fs.existsSync(file_path)) {
         return;
       }
@@ -175,9 +175,13 @@
         post_time: post_time,
         token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
       };
+      ws = fs.createWriteStream(file_path);
       rp.post(URL.resolve(self.host, FILE_PAGE), {
         json: form
-      }).pipe(fs.createWriteStream(file_path));
+      }).pipe(ws);
+      ws.on('finish', function() {
+        return console.log('finished');
+      });
       return Promise.delay(2000);
     };
 

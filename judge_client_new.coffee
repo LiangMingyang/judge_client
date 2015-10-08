@@ -121,7 +121,10 @@ class judge_client
       post_time: post_time
       token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
     }
-    rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(fs.createWriteStream(file_path))
+    ws = fs.createWriteStream(file_path)
+    rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(ws)
+    ws.on 'finish', ->
+      console.log 'finished'
     Promise.delay(2000)#TODO：这是强行等待但是这并不对
 
   pre_file: ->
