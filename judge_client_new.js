@@ -160,13 +160,12 @@
     };
 
     judge_client.prototype.get_file = function(file_path) {
-      if (fs.existsSync(self.file_path)) {
+      if (fs.existsSync(file_path)) {
         return;
       }
       return self.send(FILE_PAGE, {
         problem_id: self.task.problem_id,
         filename: self.task.test_setting.data_file
-      });
       }).then(function(p) {
         return p.pipe(fs.createWriteStream(file_path));
       });

@@ -109,7 +109,7 @@ class judge_client
       console.log "Pre_submission finished"
 
   get_file: (file_path)->
-    if fs.existsSync self.file_path
+    if fs.existsSync file_path
       return
     self.send(FILE_PAGE,{
       problem_id : self.task.problem_id
