@@ -166,6 +166,7 @@
       return self.send(FILE_PAGE, {
         problem_id: self.task.problem_id,
         filename: self.task.test_setting.data_file
+      });
       }).then(function(p) {
         return p.pipe(fs.createWriteStream(file_path));
       });
@@ -176,9 +177,6 @@
       return Promise.resolve().then(function() {
         return self.get_file(self.file_path);
       }).then(function() {
-        while (!fs.existsSync(self.file_path)) {
-          console.log("waiting");
-        }
         return console.log("Pre_file finished");
       });
     };

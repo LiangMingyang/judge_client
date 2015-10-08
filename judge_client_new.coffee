@@ -124,8 +124,6 @@ class judge_client
       .then ->
         self.get_file self.file_path
       .then ->
-        while not fs.existsSync self.file_path
-          console.log "waiting"
         console.log "Pre_file finished"
 
   prepare : ->
