@@ -160,12 +160,10 @@
     };
 
     judge_client.prototype.get_file = function(file_path) {
-      var form, post_time, stream;
+      var form, post_time;
       if (fs.existsSync(file_path)) {
-        self.fileReady = 1;
         return;
       }
-      self.fileReady = 0;
       form = {
         problem_id: self.task.problem_id,
         filename: self.task.test_setting.data_file
@@ -177,16 +175,10 @@
         post_time: post_time,
         token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
       };
-      stream = rp.post(URL.resolve(self.host, FILE_PAGE), {
+      rp.post(URL.resolve(self.host, FILE_PAGE), {
         json: form
       }).pipe(fs.createWriteStream(file_path));
-      stream.on('finish', function() {
-        return self.fileReady = 1;
-      });
-      return stream.on('error', function(err) {
-        console.log(err);
-        return self.fileReady = -1;
-      });
+      return Promise.delay(2000);
     };
 
     judge_client.prototype.pre_file = function() {
@@ -194,14 +186,6 @@
       return Promise.resolve().then(function() {
         return self.get_file(self.file_path);
       }).then(function() {
-        while (self.fileReady !== 1) {
-          if (self.fileReady === 0) {
-
-          } else {
-            console.log('Error!');
-            break;
-          }
-        }
         return console.log("Pre_file finished");
       });
     };

@@ -109,9 +109,7 @@ class judge_client
 
   get_file: (file_path)->
     if fs.existsSync file_path
-      self.fileReady = 1
       return
-    self.fileReady = 0
     form = {
       problem_id : self.task.problem_id
       filename : self.task.test_setting.data_file
@@ -123,12 +121,8 @@ class judge_client
       post_time: post_time
       token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
     }
-    stream = rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(fs.createWriteStream(file_path))
-    stream.on 'finish', ->
-      self.fileReady = 1
-    stream.on 'error', (err)->
-      console.log err
-      self.fileReady = -1
+    rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(fs.createWriteStream(file_path))
+    Promise.delay(2000)#TODO：这是强行等待但是这并不对
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
@@ -136,12 +130,6 @@ class judge_client
       .then ->
         self.get_file self.file_path
       .then ->
-        while self.fileReady isnt 1
-          if self.fileReady is 0
-
-          else
-            console.log 'Error!'
-            break
         console.log "Pre_file finished"
 
   prepare : ->
