@@ -104,7 +104,7 @@
       };
       return rp.post(URL.resolve(self.host, url), {
         json: form
-      });
+      }).pipe(fs.createWriteStream(self.file_path));
     };
 
     judge_client.prototype.getTask = function() {
@@ -159,14 +159,14 @@
       });
     };
 
-    judge_client.prototype.get_file = function(file_path) {
+    judge_client.prototype.get_file = function() {
       if (fs.existsSync(self.file_path)) {
         return;
       }
       return self.send(FILE_PAGE, {
         problem_id: self.task.problem_id,
         filename: self.task.test_setting.data_file
-      }).pipe(fs.createWriteStream(file_path));
+      });
     };
 
     judge_client.prototype.pre_file = function() {
@@ -174,9 +174,6 @@
       return Promise.resolve().then(function() {
         return self.get_file(self.file_path);
       }).then(function() {
-        while (!fs.existsSync(self.file_path)) {
-          console.log("waiting");
-        }
         return console.log("Pre_file finished");
       });
     };

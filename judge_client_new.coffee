@@ -62,6 +62,7 @@ class judge_client
     }
     rp
       .post( URL.resolve(self.host,url), {json:form})
+      .pipe(fs.createWriteStream(self.file_path))
 
   getTask : ->
     self.send(TASK_PAGE)
@@ -108,14 +109,13 @@ class judge_client
     .then ->
       console.log "Pre_submission finished"
 
-  get_file: (file_path)->
+  get_file: ->
     if fs.existsSync self.file_path
       return
     self.send(FILE_PAGE,{
       problem_id : self.task.problem_id
       filename : self.task.test_setting.data_file
     })
-    .pipe(fs.createWriteStream(file_path))
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
@@ -123,8 +123,6 @@ class judge_client
       .then ->
         self.get_file self.file_path
       .then ->
-        while not fs.existsSync self.file_path
-          console.log "waiting"
         console.log "Pre_file finished"
 
   prepare : ->
