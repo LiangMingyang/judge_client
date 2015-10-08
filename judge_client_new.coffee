@@ -116,8 +116,6 @@ class judge_client
       filename : self.task.test_setting.data_file
     })
     .pipe(fs.createWriteStream(file_path))
-    .then ->
-      console.log "Downloads finished"
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
