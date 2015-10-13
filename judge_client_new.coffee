@@ -95,7 +95,8 @@ class judge_client
       test_setting += "round_weight = #{weights.join(',')}\n"
     test_setting += "support_lang = #{self.task.test_setting.supported_languages}\n"
     test_setting += "test_round_count = #{Math.max(1,self.task.test_setting.data.length)}\n"
-    test_setting += "time_limit_global = #{self.task.test_setting.time_limit}\n"
+    test_setting += "time_limit_case = #{self.task.test_setting.time_limit}\n"
+    test_setting += "time_limit_global = #{self.task.test_setting.time_limit*self.task.test_setting.data.length}\n"
     test_setting += "memory_limit = #{self.task.test_setting.memory_limit}\n"
     work_path = path.resolve(__dirname, work_dirname, self.name)
     Promise.all [
