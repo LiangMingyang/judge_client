@@ -153,7 +153,7 @@
       }
       test_setting += "support_lang = " + self.task.test_setting.supported_languages + "\n";
       test_setting += "test_round_count = " + (Math.max(1, self.task.test_setting.data.length)) + "\n";
-      test_setting += "time_limit_case = " + self.task.test_setting.time_limit + "\n";
+      test_setting += "time_limit_global = " + self.task.test_setting.time_limit + "\n";
       test_setting += "memory_limit = " + self.task.test_setting.memory_limit + "\n";
       work_path = path.resolve(__dirname, work_dirname, self.name);
       return Promise.all([fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__main__'), self.task.submission_code.content), fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__lang__'), self.task.lang), fs.writeFilePromised(path.resolve(work_path, data_dirname, '__setting_code__'), test_setting)]).then(function() {

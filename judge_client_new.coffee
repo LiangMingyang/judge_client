@@ -95,7 +95,7 @@ class judge_client
       test_setting += "round_weight = #{weights.join(',')}\n"
     test_setting += "support_lang = #{self.task.test_setting.supported_languages}\n"
     test_setting += "test_round_count = #{Math.max(1,self.task.test_setting.data.length)}\n"
-    test_setting += "time_limit_case = #{self.task.test_setting.time_limit}\n"
+    test_setting += "time_limit_global = #{self.task.test_setting.time_limit}\n"
     test_setting += "memory_limit = #{self.task.test_setting.memory_limit}\n"
     work_path = path.resolve(__dirname, work_dirname, self.name)
     Promise.all [
@@ -126,7 +126,7 @@ class judge_client
     promisePipe(rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}), fs.createWriteStream(file_path))
 #    ws.on 'finish', ->
 #      self.fileReady = 1
-    #Promise.delay(2000) #TODO:这只是权益之计
+    #Promise.delay(2000) #TODO:锟斤拷只锟斤拷权锟斤拷之锟斤拷
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
