@@ -130,7 +130,7 @@ class judge_client
     #Promise.delay(2000) #TODO:��ֻ��Ȩ��֮��
 
   pre_file: ->
-    self.file_path = path.join(__dirname, resource_dirname, "#{self.website}-#{self.task.test_setting.data_file}")
+    self.file_path = path.join(__dirname, resource_dirname, "#{self.website}", "#{self.task.test_setting.data_file}")
     Promise.resolve()
       .then ->
         self.get_file self.file_path
@@ -219,7 +219,8 @@ class judge_client
     work_path = path.resolve(__dirname, work_dirname, self.name)
     data_path = path.resolve(work_path, data_dirname)
     submission_path = path.resolve(work_path, submission_dirname)
-    child_process_promised.execPromised("mkdir -p #{data_path} #{submission_path}")
+    resource_path = path.resolve(__dirname, resource_dirname, self.website)
+    child_process_promised.execPromised("mkdir -p #{data_path} #{submission_path} #{resource_path}")
 
   init : ->
     process.on 'SIGTERM', ->

@@ -184,7 +184,7 @@
     };
 
     judge_client.prototype.pre_file = function() {
-      self.file_path = path.join(__dirname, resource_dirname, self.website + "-" + self.task.test_setting.data_file);
+      self.file_path = path.join(__dirname, resource_dirname, "" + self.website, "" + self.task.test_setting.data_file);
       return Promise.resolve().then(function() {
         return self.get_file(self.file_path);
       }).then(function() {
@@ -285,11 +285,12 @@
     };
 
     judge_client.prototype.mkdir = function() {
-      var data_path, submission_path, work_path;
+      var data_path, resource_path, submission_path, work_path;
       work_path = path.resolve(__dirname, work_dirname, self.name);
       data_path = path.resolve(work_path, data_dirname);
       submission_path = path.resolve(work_path, submission_dirname);
-      return child_process_promised.execPromised("mkdir -p " + data_path + " " + submission_path);
+      resource_path = path.resolve(__dirname, resource_dirname, self.website);
+      return child_process_promised.execPromised("mkdir -p " + data_path + " " + submission_path + " " + resource_path);
     };
 
     judge_client.prototype.init = function() {
