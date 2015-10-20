@@ -20,6 +20,11 @@ TASK_PAGE = '/judge/task'
 FILE_PAGE = '/judge/file'
 REPORT_PAGE = '/judge/report'
 
+class PipeError extends Error
+  constructor: (@message = "PipeError.") ->
+    @name = 'PipeError'
+    Error.captureStackTrace(this, PipeError)
+
 class NoTask extends Error
   constructor: (@message = "No task to judge.") ->
     @name = 'NoTask'
@@ -125,9 +130,14 @@ class judge_client
     }
     #rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(ws)
     promisePipe(rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}), fs.createWriteStream(file_path))
-#    ws.on 'finish', ->
-#      self.fileReady = 1
-    #Promise.delay(2000) #TODO:��ֻ��Ȩ��֮��
+    .then( ->
+      console.log "Piped successfully"
+    ,
+      (err)->
+        if err
+          fs.unlinkSync(file_path) if fs.existsSync file_path
+          throw new PipeError()
+    )
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}", "#{self.task.test_setting.data_file}")
@@ -211,6 +221,17 @@ class judge_client
       .catch NoTask, ->
         #console.log err.message
         Promise.delay(2000)
+      .catch PipeError, (err)->
+        console.log err
+        report = {
+          submission_id : self.task.id
+          score : 0
+          time_cost : 0
+          memory_cost : 0
+          result :  "WT"
+          detail : "Rejudging"
+        }
+        self.send(REPORT_PAGE, report)
       .catch (err)->
         console.log err.message
         Promise.delay(1000)
