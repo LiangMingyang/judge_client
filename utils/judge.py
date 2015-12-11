@@ -12,8 +12,8 @@ main_filename = {
 }
 
 compiler_command = {
-    'c++'   : 'g++ main.cpp -o main',
-    'c'     : 'gcc main.c   -o main',
+    'c++'   : 'g++ main.cpp -O2 -std=c++11 -DONLINE_JUDGE -o main',
+    'c'     : 'gcc main.c   -O2 -std=c++11 -DONLINE_JUDGE -o main',
     'python': '',
     'java'  : 'javac Main.java',
     'pascal': 'fpc main.pas',
@@ -23,7 +23,7 @@ run_command = {
     'c++'   : './main',
     'c'     : './main',
     'python': 'python ./main.py',
-    'java'  : 'java Main',
+    'java'  : 'java -Xmx512M -Xss64M -DONLINE_JUDGE=true Main',
     'pascal': './main',
 }
 
