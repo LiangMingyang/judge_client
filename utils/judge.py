@@ -13,7 +13,7 @@ main_filename = {
 
 compiler_command = {
     'c++'   : 'g++ main.cpp -O2 -std=c++11 -DONLINE_JUDGE -o main',
-    'c'     : 'gcc main.c   -O2 -std=c++11 -DONLINE_JUDGE -o main',
+    'c'     : 'gcc main.c   -O2 -std=c99 -DONLINE_JUDGE -o main',
     'python': '',
     'java'  : 'javac Main.java',
     'pascal': 'fpc main.pas',
