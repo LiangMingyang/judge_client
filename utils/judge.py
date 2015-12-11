@@ -14,7 +14,7 @@ main_filename = {
 compiler_command = {
     'c++'   : 'g++ main.cpp -o main',
     'c'     : 'gcc main.c   -o main',
-    'python': 'chmod +r /main.py',
+    'python': '',
     'java'  : 'javac Main.java',
     'pascal': 'fpc main.pas',
 }
