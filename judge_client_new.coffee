@@ -100,7 +100,10 @@ class judge_client
       test_setting += "round_weight = #{weights.join(',')}\n"
     test_setting += "support_lang = #{self.task.test_setting.supported_languages}\n"
     test_setting += "test_round_count = #{Math.max(1,self.task.test_setting.data.length)}\n"
-    test_setting += "time_limit_case = #{self.task.test_setting.time_limit}\n"
+    time_limit_cases = []
+    for i in [1..Math.max(1,self.task.test_setting.data.length)]
+      time_limit_cases.push self.task.test_setting.time_limit
+    test_setting += "time_limit_case = #{time_limit_cases.join(',')}\n"
     test_setting += "time_limit_global = #{self.task.test_setting.time_limit*self.task.test_setting.data.length}\n"
     test_setting += "memory_limit = #{self.task.test_setting.memory_limit}\n"
     work_path = path.resolve(__dirname, work_dirname, self.name)
