@@ -2,7 +2,7 @@
 (function() {
   module.exports = [
     {
-      host: 'http://101.200.3.143:4000',
+      host: 'http://localhost:4000',
       name: "judge1",
       website: "remote",
       id: 1,

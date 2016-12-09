@@ -9,13 +9,18 @@ import time
 import datetime
 import hashlib
 import urllib
-import urllib2
 import random
 import subprocess
+import tarfile
+import platform
 
 data_dirname = "data"
 submission_dirname = "submission"
 utils_dirname = "utils"
+
+def untar(fname, dirs):
+    t = tarfile.open(fname)
+    t.extractall(path = dirs)
 
 if __name__ == '__main__':
     id = sys.argv[1]
@@ -26,11 +31,14 @@ if __name__ == '__main__':
     file_path = sys.argv[6]    #文件的路径
     #准备测试数据
     dirname = os.path.join(work_path, data_dirname)
-    if not os.path.exists(dirname): os.system('mkdir -p %s' % dirname)
-    os.system('tar -xzvf %s -C %s >/dev/null' % (file_path, work_path) )
+    if not os.path.exists(dirname):
+        os.system('mkdir -p %s' % dirname)
+    #os.system('tar -xzvf %s -C %s >/dev/null' % (file_path, work_path) )
+    untar(file_path, work_path)
     #保证权限
-    os.system('chmod -R u=rwx,g=rwx,o= %s' % dirname)
-    os.system('chmod -R u=rwx,g=rwx,o=r %s' % os.path.join(work_path, submission_dirname))
+    if 'Linux' in platform.system():
+        os.system('chmod -R u=rwx,g=rwx,o= %s' % dirname)                                                                  #这两句意义何在呢
+        os.system('chmod -R u=rwx,g=rwx,o=r %s' % os.path.join(work_path, submission_dirname))                             #不是很清楚其中的意义
 
 
     opt = ''

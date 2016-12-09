@@ -8,6 +8,7 @@ promisePipe = require("promisepipe")
 fs = Promise.promisifyAll(require('fs'), suffix:'Promised')
 child_process = require('child-process-promise')
 child_process_promised = Promise.promisifyAll(require('child_process'), suffix:'Promised')
+os = require('os')
 
 
 resource_dirname = "resource"
@@ -244,7 +245,12 @@ class judge_client
     data_path = path.resolve(work_path, data_dirname)
     submission_path = path.resolve(work_path, submission_dirname)
     resource_path = path.resolve(__dirname, resource_dirname, self.website)
-    child_process_promised.execPromised("mkdir -p #{data_path} #{submission_path} #{resource_path}")
+    if fs.existsSync data_path
+      return
+    if os.platform() is 'win32'
+      child_process_promised.execPromised("mkdir #{data_path} #{submission_path} #{resource_path}")
+    else
+      child_process_promised.execPromised("mkdir -p #{data_path} #{submission_path} #{resource_path}")
 
   init : ->
     process.on 'SIGTERM', ->

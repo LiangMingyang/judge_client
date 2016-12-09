@@ -7,7 +7,7 @@ var judge_client = require('./judge_client_new');
 var config = require('./config');
 var cluster = require('cluster');
 var fs = require('fs');
-var PIDFILE = '/var/run/judge_controller.pid';
+var PIDFILE = 'judge_controller.pid';
 
 /**
  * create one worker form config

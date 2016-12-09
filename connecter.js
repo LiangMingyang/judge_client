@@ -6,16 +6,10 @@
 var daemon = require('daemon');
 var commander = require('commander');
 var fs = require('fs');
-var PIDFILE = '/var/run/judge_controller.pid';
+var PIDFILE = 'judge_controller.pid';
 var child_process = require('child_process');
 
 function stop() {
-    if (process.getgid() === 0) {
-
-    } else {
-        console.log('Please run me as root');
-        return ;
-    }
     fs.readFile(PIDFILE, 'utf-8', function (err, PID) {
         if(err) {
             console.log('Can not stop it! It may be not running.');
@@ -30,12 +24,6 @@ function stop() {
 }
 
 function start() {
-    if (process.getgid() === 0) {
-
-    } else {
-        console.log('Please run me as root');
-        return ;
-    }
     console.log('starting');
     if(!commander.force && fs.existsSync(PIDFILE)) {
         console.log('But it is already running');
