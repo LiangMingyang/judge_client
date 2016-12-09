@@ -182,6 +182,8 @@ def prepare_special_compare():
         process_limit = make_process_limit,
         stdout_file = make_msg_file,
         stderr_file = make_msg_file,
+        uid = 0,  #注意，为了防止万能作弊，所有的数据中o权限为0，因此用来编译的编译器有着root权限，谨慎谨慎！
+        gid = 0
     )
     if make_res['run result code'] == '0':
         if make_res['exit code'] != '0':
@@ -236,14 +238,6 @@ def compare(stdin_file, stdout_file, program_stdout_file, setting):
     compare_process_limit = 100
     compare_msg_file   = '__compare_msg__'
     os.system('rm -r -f %s' % compare_msg_file)
-    compare_res = judge_process_monitor(
-        command = compare_command,
-        time_limit = compare_time_limit,
-        mem_limit = compare_mem_limit,
-        process_limit = compare_process_limit,
-        stdout_file = compare_msg_file,
-        stderr_file = compare_msg_file,
-    )
     compare_res = judge_process_monitor(
         command = compare_command,
         time_limit = compare_time_limit,
