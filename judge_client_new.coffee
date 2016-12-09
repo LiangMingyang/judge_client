@@ -107,8 +107,12 @@ class judge_client
     test_setting += "time_limit_case = #{time_limit_cases.join(',')}\n"
     test_setting += "time_limit_global = #{self.task.test_setting.time_limit*self.task.test_setting.data.length}\n"
     test_setting += "memory_limit = #{self.task.test_setting.memory_limit}\n"
+    if self.task.test_setting.special_judge.length > 10
+      test_setting += "compare_special = 1\n"
     work_path = path.resolve(__dirname, work_dirname, self.name)
     Promise.all [
+      fs.writeFilePromised(path.resolve(work_path, data_dirname,'__special_compare__'), self.task.test_setting.special_judge)
+    ,
       fs.writeFilePromised(path.resolve(work_path, submission_dirname,'__main__'), self.task.submission_code.content)
     ,
       fs.writeFilePromised(path.resolve(work_path, submission_dirname,'__lang__'), self.task.lang)
@@ -249,8 +253,12 @@ class judge_client
       return
     if os.platform() is 'win32'
       child_process_promised.execPromised("mkdir #{data_path} #{submission_path} #{resource_path}")
+      .catch (err)->
+        console.log err
     else
       child_process_promised.execPromised("mkdir -p #{data_path} #{submission_path} #{resource_path}")
+      .catch (err)->
+        console.log err
 
   init : ->
     process.on 'SIGTERM', ->

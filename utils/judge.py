@@ -10,13 +10,27 @@ main_filename = {
     'java'  : 'Main.java',
     'pascal': 'main.pas',
 }
-
+spj_filename = {
+    'c++'   : 'spj.cpp',
+    'c'     : 'spj.c',
+    'python': 'spj.py',
+    'java'  : 'Spj.java',
+    'pascal': 'spj.pas',
+}
 compiler_command = {
     'c++'   : 'g++ main.cpp -O2 -std=c++11 -DONLINE_JUDGE -o main',
     'c'     : 'gcc main.c   -O2 -std=c99 -DONLINE_JUDGE -o main',
     'python': '',
     'java'  : 'javac Main.java',
     'pascal': 'fpc main.pas',
+}
+
+special_compiler_command = {
+    'c++'   : 'g++ spj.cpp -O2 -std=c++11 -DONLINE_JUDGE -o __special_compare__',
+    'c'     : 'gcc spj.c   -O2 -std=c99 -DONLINE_JUDGE -o __special_compare__',
+    'python': '',
+    'java'  : 'javac Spj.java',
+    'pascal': 'fpc spj.pas',
 }
 
 run_command = {
@@ -151,7 +165,7 @@ def judge_process_monitor(command, time_limit = 100000, mem_limit = 65535, proce
             res[k.lower().strip()] = v.strip()
     return res
 
-special_compare_path = '/data/__compare__'
+special_compare_path = '/test/__special_compare__'
 
 def prepare_special_compare():
     if setting['compare_special'] == 0: return None
@@ -159,9 +173,10 @@ def prepare_special_compare():
     make_mem_limit  = 500 * 1024 # KB
     make_process_limit = 100
     make_msg_file   = '__make_msg__'
-    make_com = 'make --directory data'
+    spj_lang = 'c++'                                                         #SPJ目前仅支持c++/c
+    os.system('cp -p /data/__special_compare__ %s' % spj_filename[spj_lang])
     make_res = judge_process_monitor(
-        command = make_com,
+        command = special_compiler_command[spj_lang],
         time_limit = make_time_limit,
         mem_limit = make_mem_limit,
         process_limit = make_process_limit,

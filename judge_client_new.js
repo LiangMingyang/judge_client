@@ -175,8 +175,11 @@
       test_setting += "time_limit_case = " + (time_limit_cases.join(',')) + "\n";
       test_setting += "time_limit_global = " + (self.task.test_setting.time_limit * self.task.test_setting.data.length) + "\n";
       test_setting += "memory_limit = " + self.task.test_setting.memory_limit + "\n";
+      if (self.task.test_setting.special_judge.length > 10) {
+        test_setting += "compare_special = 1\n";
+      }
       work_path = path.resolve(__dirname, work_dirname, self.name);
-      return Promise.all([fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__main__'), self.task.submission_code.content), fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__lang__'), self.task.lang), fs.writeFilePromised(path.resolve(work_path, data_dirname, '__setting_code__'), test_setting)]).then(function() {
+      return Promise.all([fs.writeFilePromised(path.resolve(work_path, data_dirname, '__special_compare__'), self.task.test_setting.special_judge), fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__main__'), self.task.submission_code.content), fs.writeFilePromised(path.resolve(work_path, submission_dirname, '__lang__'), self.task.lang), fs.writeFilePromised(path.resolve(work_path, data_dirname, '__setting_code__'), test_setting)]).then(function() {
         return console.log("Pre_submission finished");
       });
     };
@@ -334,9 +337,13 @@
         return;
       }
       if (os.platform() === 'win32') {
-        return child_process_promised.execPromised("mkdir " + data_path + " " + submission_path + " " + resource_path);
+        return child_process_promised.execPromised("mkdir " + data_path + " " + submission_path + " " + resource_path)["catch"](function(err) {
+          return console.log(err);
+        });
       } else {
-        return child_process_promised.execPromised("mkdir -p " + data_path + " " + submission_path + " " + resource_path);
+        return child_process_promised.execPromised("mkdir -p " + data_path + " " + submission_path + " " + resource_path)["catch"](function(err) {
+          return console.log(err);
+        });
       }
     };
 
