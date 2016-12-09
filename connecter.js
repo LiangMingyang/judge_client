@@ -8,6 +8,7 @@ var commander = require('commander');
 var fs = require('fs');
 var PIDFILE = 'judge_controller.pid';
 var child_process = require('child_process');
+const os = require('os');
 
 function stop() {
     fs.readFile(PIDFILE, 'utf-8', function (err, PID) {
@@ -17,6 +18,12 @@ function stop() {
             return;
         }
         console.log('The pid is ' + PID);
+        if(os.platform() == 'win32') {
+            child_process.spawn('tskill',[PID], {stdio:'inherit'}).on('exit', function () {
+                fs.unlink(PIDFILE);
+                console.log('killed');
+            });
+        } else
         child_process.spawn('kill',['-TERM',PID], {stdio:'inherit'}).on('exit', function () {
             console.log('killed');
         });
