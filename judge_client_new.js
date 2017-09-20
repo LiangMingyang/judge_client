@@ -314,7 +314,7 @@
         return Promise.delay(2000);
       })["catch"](PipeError, function(err) {
         var report;
-        console.log(err);
+        console.log(err.message);
         report = {
           submission_id: self.task.id,
           score: 0,

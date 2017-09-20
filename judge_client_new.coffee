@@ -145,14 +145,6 @@ class judge_client
         throw new PipeError("Downloading")
     .then ->
       promisePipe(rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}), fs.createWriteStream(buffer_file))
-#        .then( ->
-#          console.log "Piped successfully"
-#        ,
-#          (err)->
-#            if err
-#              fs.unlinkSync(file_path) if fs.existsSync file_path
-#              throw new PipeError()
-#        )
     .then ->
       console.log "Piped successfully"
       fs.renameSync(buffer_file, file_path)
@@ -240,7 +232,7 @@ class judge_client
         console.log "I'm alive!", new Date()
         Promise.delay(2000)
       .catch PipeError, (err)->
-        console.log err
+        console.log err.message
         report = {
           submission_id : self.task.id
           score : 0
