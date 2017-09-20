@@ -13,9 +13,9 @@
   "author": "Thor",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^2.10.2",
+    "bluebird": "^2.11.0",
     "child-process-promise": "^1.1.0",
-    "commander": "^2.9.0",
+    "commander": "^2.11.0",
     "daemon": "^1.1.0",
     "promisepipe": "^1.0.1",
     "python": "0.0.4",

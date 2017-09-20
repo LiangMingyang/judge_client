@@ -227,19 +227,19 @@ class judge_client
       .then (report_data)->
         self.report(report_data)
       .catch NoTask, ->
-        #console.log err.message
+        console.log "I'm alive!", new Date()
         Promise.delay(2000)
-      .catch PipeError, (err)->
-        console.log err
-        report = {
-          submission_id : self.task.id
-          score : 0
-          time_cost : 0
-          memory_cost : 0
-          result :  "WT"
-          detail : "Rejudging"
-        }
-        self.send(REPORT_PAGE, report)
+#      .catch PipeError, (err)->
+#        console.log err
+#        report = {
+#          submission_id : self.task.id
+#          score : 0
+#          time_cost : 0
+#          memory_cost : 0
+#          result :  "WT"
+#          detail : "Rejudging"
+#        }
+#        self.send(REPORT_PAGE, report)
       .catch (err)->
         console.log err.message
         Promise.delay(1000)
