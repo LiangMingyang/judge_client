@@ -137,15 +137,22 @@ class judge_client
       token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
     }
     #rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}).pipe(ws)
-    promisePipe(rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}), fs.createWriteStream(file_path))
-    .then( ->
-      console.log "Piped successfully"
-    ,
-      (err)->
-        if err
-          fs.unlinkSync(file_path) if fs.existsSync file_path
-          throw new PipeError()
-    )
+    buffer_file = file_path + ".oj4th"
+    Promise.resolve()
+    .then ->
+      if fs.existsSync(buffer_file)
+        throw new PipeError("Downloading")
+    .then ->
+      promisePipe(rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}), fs.createWriteStream(buffer_file))
+      .then( ->
+        console.log "Piped successfully"
+        fs.renameSync(buffer_file, file_path)
+      ,
+        (err)->
+          if err
+            fs.unlinkSync(file_path) if fs.existsSync file_path
+            throw new PipeError()
+      )
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}", "#{self.task.test_setting.data_file}")
@@ -229,17 +236,17 @@ class judge_client
       .catch NoTask, ->
         console.log "I'm alive!", new Date()
         Promise.delay(2000)
-#      .catch PipeError, (err)->
-#        console.log err
-#        report = {
-#          submission_id : self.task.id
-#          score : 0
-#          time_cost : 0
-#          memory_cost : 0
-#          result :  "WT"
-#          detail : "Rejudging"
-#        }
-#        self.send(REPORT_PAGE, report)
+      .catch PipeError, (err)->
+        console.log err
+        report = {
+          submission_id : self.task.id
+          score : 0
+          time_cost : 0
+          memory_cost : 0
+          result :  "WT"
+          detail : "Rejudging"
+        }
+        self.send(REPORT_PAGE, report)
       .catch (err)->
         console.log err.message
         Promise.delay(1000)

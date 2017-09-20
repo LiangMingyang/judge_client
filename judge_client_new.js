@@ -185,7 +185,7 @@
     };
 
     judge_client.prototype.get_file = function(file_path) {
-      var form, post_time;
+      var buffer_file, form, post_time;
       if (fs.existsSync(file_path)) {
         return;
       }
@@ -200,17 +200,25 @@
         post_time: post_time,
         token: crypto.createHash('sha1').update(self.secret_key + '$' + post_time).digest('hex')
       };
-      return promisePipe(rp.post(URL.resolve(self.host, FILE_PAGE), {
-        json: form
-      }), fs.createWriteStream(file_path)).then(function() {
-        return console.log("Piped successfully");
-      }, function(err) {
-        if (err) {
-          if (fs.existsSync(file_path)) {
-            fs.unlinkSync(file_path);
-          }
-          throw new PipeError();
+      buffer_file = file_path + ".oj4th";
+      return Promise.resolve().then(function() {
+        if (fs.existsSync(buffer_file)) {
+          throw new PipeError("Downloading");
         }
+      }).then(function() {
+        return promisePipe(rp.post(URL.resolve(self.host, FILE_PAGE), {
+          json: form
+        }), fs.createWriteStream(buffer_file)).then(function() {
+          console.log("Piped successfully");
+          return fs.renameSync(buffer_file, file_path);
+        }, function(err) {
+          if (err) {
+            if (fs.existsSync(file_path)) {
+              fs.unlinkSync(file_path);
+            }
+            throw new PipeError();
+          }
+        });
       });
     };
 
@@ -310,6 +318,18 @@
       })["catch"](NoTask, function() {
         console.log("I'm alive!", new Date());
         return Promise.delay(2000);
+      })["catch"](PipeError, function(err) {
+        var report;
+        console.log(err);
+        report = {
+          submission_id: self.task.id,
+          score: 0,
+          time_cost: 0,
+          memory_cost: 0,
+          result: "WT",
+          detail: "Rejudging"
+        };
+        return self.send(REPORT_PAGE, report);
       })["catch"](function(err) {
         console.log(err.message);
         return Promise.delay(1000);
