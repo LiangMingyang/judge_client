@@ -125,6 +125,7 @@ class judge_client
   get_file: (file_path)->
     if fs.existsSync file_path
       return
+    console.log "Need to download"
     form = {
       problem_id : self.task.problem_id
       filename : self.task.test_setting.data_file
@@ -144,15 +145,17 @@ class judge_client
         throw new PipeError("Downloading")
     .then ->
       promisePipe(rp.post( URL.resolve(self.host, FILE_PAGE), {json:form}), fs.createWriteStream(buffer_file))
-      .then( ->
-        console.log "Piped successfully"
-        fs.renameSync(buffer_file, file_path)
-      ,
-        (err)->
-          if err
-            fs.unlinkSync(file_path) if fs.existsSync file_path
-            throw new PipeError()
-      )
+#        .then( ->
+#          console.log "Piped successfully"
+#        ,
+#          (err)->
+#            if err
+#              fs.unlinkSync(file_path) if fs.existsSync file_path
+#              throw new PipeError()
+#        )
+    .then ->
+      console.log "Piped successfully"
+      fs.renameSync(buffer_file, file_path)
 
   pre_file: ->
     self.file_path = path.join(__dirname, resource_dirname, "#{self.website}", "#{self.task.test_setting.data_file}")

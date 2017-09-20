@@ -189,6 +189,7 @@
       if (fs.existsSync(file_path)) {
         return;
       }
+      console.log("Need to download");
       form = {
         problem_id: self.task.problem_id,
         filename: self.task.test_setting.data_file
@@ -208,17 +209,10 @@
       }).then(function() {
         return promisePipe(rp.post(URL.resolve(self.host, FILE_PAGE), {
           json: form
-        }), fs.createWriteStream(buffer_file)).then(function() {
-          console.log("Piped successfully");
-          return fs.renameSync(buffer_file, file_path);
-        }, function(err) {
-          if (err) {
-            if (fs.existsSync(file_path)) {
-              fs.unlinkSync(file_path);
-            }
-            throw new PipeError();
-          }
-        });
+        }), fs.createWriteStream(buffer_file));
+      }).then(function() {
+        console.log("Piped successfully");
+        return fs.renameSync(buffer_file, file_path);
       });
     };
 
