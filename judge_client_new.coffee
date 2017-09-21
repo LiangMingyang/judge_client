@@ -162,6 +162,8 @@ class judge_client
     .then ->
       self.pre_submission()
     .then ->
+      #TODO: BUG - 当传输失败的时候没有删除.oj4th因此如果传输失败将无法再次进行传输
+      #TODO: 应当在失败的时候和启动的时候rm掉所有.oj4th文件
       self.pre_file()
     .then ->
       return self.task
