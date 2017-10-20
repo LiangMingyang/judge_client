@@ -42,7 +42,7 @@ docker build -t oj4th/judge_container judge_client/container/
 
 # windows_install
 安装node.js环境
-(下载指定windows docker)[https://download.docker.com/win/stable/13194/Docker%20for%20Windows%20Installer.exe]
+[下载指定windows docker](https://download.docker.com/win/stable/13194/Docker%20for%20Windows%20Installer.exe)
 安装之后运行
 docker build -t oj4th/judge_container judge_client/container/
 
