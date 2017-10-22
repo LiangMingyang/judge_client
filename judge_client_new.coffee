@@ -9,6 +9,7 @@ fs = Promise.promisifyAll(require('fs'), suffix:'Promised')
 child_process = require('child-process-promise')
 child_process_promised = Promise.promisifyAll(require('child_process'), suffix:'Promised')
 os = require('os')
+MAX_DETAIL_LENGTH = 10000
 
 
 resource_dirname = "resource"
@@ -209,6 +210,9 @@ class judge_client
           result = "OE"
         else
           result = dictionary[result]
+
+        detail = detail.substr(0, MAX_DETAIL_LENGTH)
+
         report = {
           submission_id : self.task.id
           score : score
