@@ -236,7 +236,7 @@ class judge_client
         self.report(report_data)
       .catch NoTask, ->
         console.log "I'm alive!", new Date()
-        Promise.delay(2000)
+        Promise.delay(1000+1000*Math.random())
       .catch PipeError, (err)->
         console.log err.message
         report = {
