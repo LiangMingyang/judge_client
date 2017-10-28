@@ -189,7 +189,7 @@ class judge_client
         result = detail.shift()
         detail = detail.join('\n')
         detail = "" if detail is '\n'
-        console.log result
+        console.log self.task.id,result
         dictionary = {
           "Accepted" : "AC"
           "Wrong Answer" : "WA"

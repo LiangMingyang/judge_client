@@ -264,7 +264,7 @@
         if (detail === '\n') {
           detail = "";
         }
-        console.log(result);
+        console.log(self.task.id, result);
         dictionary = {
           "Accepted": "AC",
           "Wrong Answer": "WA",
