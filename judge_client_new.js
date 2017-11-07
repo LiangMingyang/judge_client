@@ -313,7 +313,6 @@
       }).then(function(report_data) {
         return self.report(report_data);
       })["catch"](NoTask, function() {
-        console.log("I'm alive!", new Date());
         return Promise.delay(1000 + 1000 * Math.random());
       })["catch"](PipeError, function(err) {
         var report;
