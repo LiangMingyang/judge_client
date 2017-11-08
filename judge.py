@@ -57,6 +57,6 @@ if __name__ == '__main__':
     os.system('docker run %s oj4th/judge_container %s > %s' % (opt,cmd,os.path.join(work_path,'__report__')))
     os.system('rm -rf /run/log/journal')
     os.system("docker rm $(docker ps -q -f 'status=exited') 1>&- 2>&- ")
-    #os.system('udevadm info -c')
+    os.system('udevadm info -c')
 
 
