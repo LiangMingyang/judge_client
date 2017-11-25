@@ -1,0 +1,91 @@
+15087 execve("./a.out", ["./a.out"], [/* 42 vars */]) = 0
+15087 brk(0)                            = 0xb277000
+15087 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+15087 mmap2(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77ab000
+15087 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+15087 open("/etc/ld.so.cache", O_RDONLY) = 3
+15087 fstat64(3, {st_mode=S_IFREG|0644, st_size=70211, ...}) = 0
+15087 mmap2(NULL, 70211, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7799000
+15087 close(3)                          = 0
+15087 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+15087 open("/lib/tls/i686/cmov/libc.so.6", O_RDONLY) = 3
+15087 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0000m\1\0004\0\0\0"..., 512) = 512
+15087 fstat64(3, {st_mode=S_IFREG|0755, st_size=1405508, ...}) = 0
+15087 mmap2(NULL, 1415592, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x177000
+15087 mprotect(0x2ca000, 4096, PROT_NONE) = 0
+15087 mmap2(0x2cb000, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x153) = 0x2cb000
+15087 mmap2(0x2ce000, 10664, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x2ce000
+15087 close(3)                          = 0
+15087 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb7798000
+15087 set_thread_area({entry_number:-1 -> 6, base_addr:0xb77988d0, limit:1048575, seg_32bit:1, contents:0, read_exec_only:0, limit_in_pages:1, seg_not_present:0, useable:1}) = 0
+15087 mprotect(0x2cb000, 8192, PROT_READ) = 0
+15087 mprotect(0x8049000, 4096, PROT_READ) = 0
+15087 mprotect(0x337000, 4096, PROT_READ) = 0
+15087 munmap(0xb7799000, 70211)         = 0
+15087 socket(PF_INET, SOCK_STREAM, IPPROTO_IP) = 3
+15087 fstat64(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 8), ...}) = 0
+15087 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77aa000
+15087 write(1, "socket ret: 3\n", 14)   = 14
+15087 clone(child_stack=0xbfd98fb4, flags=) = 15088
+15087 clone(child_stack=0xbfd88fb4, flags=CLONE_VM|CLONE_FILES) = 15089
+15087 write(1, "wait child thread end...\n", 25) = 25
+15087 waitpid(-1,  <unfinished ...>
+15089 brk(0)                            = 0xb277000
+15089 brk(0xb298000)                    = 0xb298000
+15089 open("/proc/meminfo", O_RDONLY)   = 4
+15089 fstat64(4, {st_mode=S_IFREG|0444, st_size=0, ...}) = 0
+15089 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77a9000
+15089 read(4, "MemTotal:        2056600 kB\nMemF"..., 1024) = 1024
+15089 close(4)                          = 0
+15089 munmap(0xb77a9000, 4096)          = 0
+15089 mmap2(NULL, 2002944, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb75af000
+15088 getpid()                          = 15088
+15088 brk(0)                            = 0xb277000
+15088 brk(0xb298000)                    = 0xb298000
+15088 mmap2(NULL, 104861696, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb1397000
+15088 rt_sigprocmask(SIG_BLOCK, [CHLD], [], 8) = 0
+15088 rt_sigaction(SIGCHLD, NULL, {SIG_DFL, [], 0}, 8) = 0
+15088 rt_sigprocmask(SIG_SETMASK, [], NULL, 8) = 0
+15088 nanosleep({1, 0},  <unfinished ...>
+15089 munmap(0xb75af000, 2002944)       = 0
+15089 write(1, "[2] ended.\n", 11)      = 11
+15089 socket(PF_INET, SOCK_STREAM, IPPROTO_IP) = 4
+15089 write(1, "socket ret: 4\n", 14)   = 14
+15089 open("makefile", O_RDONLY)        = 5
+15089 fstat64(5, {st_mode=S_IFREG|0644, st_size=187, ...}) = 0
+15089 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77a9000
+15089 read(5, "\n\nall: t2 t3 t4\n\n\nt2: t2.o\n\tcc -"..., 4096) = 187
+15089 close(5)                          = 0
+15089 munmap(0xb77a9000, 4096)          = 0
+15089 write(1, "4\n", 2)                = 2
+15089 clone(child_stack=0, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb7798938) = 15090
+15089 _exit(4)                          = ?
+15090 _exit(4)                          = ?
+15087 <... waitpid resumed> NULL, __WALL) = 15089
+15087 write(1, "pid = 15089\n", 12)     = 12
+15087 waitpid(-1,  <unfinished ...>
+15088 <... nanosleep resumed> 0xbfd98f64) = 0
+15088 open("/proc/meminfo", O_RDONLY)   = 4
+15088 fstat64(4, {st_mode=S_IFREG|0444, st_size=0, ...}) = 0
+15088 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77a9000
+15088 read(4, "MemTotal:        2056600 kB\nMemF"..., 1024) = 1024
+15088 close(4)                          = 0
+15088 munmap(0xb77a9000, 4096)          = 0
+15088 mmap2(NULL, 2002944, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb11ae000
+15088 munmap(0xb11ae000, 2002944)       = 0
+15088 write(1, "[1] ended.\n", 11)      = 11
+15088 clone(child_stack=0, flags=CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|SIGCHLD, child_tidptr=0xb7798938) = 15091
+15088 _exit(2)                          = ?
+15091 _exit(2)                          = ?
+15087 <... waitpid resumed> NULL, __WALL) = 15088
+15087 write(1, "pid = 15088\n", 12)     = 12
+15087 waitpid(-1, NULL, __WALL)         = -1 ECHILD (No child processes)
+15087 write(1, "all child thread ended...\n", 26) = 26
+15087 open("makefile", O_RDONLY)        = 5
+15087 fstat64(5, {st_mode=S_IFREG|0644, st_size=187, ...}) = 0
+15087 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb77a9000
+15087 read(5, "\n\nall: t2 t3 t4\n\n\nt2: t2.o\n\tcc -"..., 4096) = 187
+15087 close(5)                          = 0
+15087 munmap(0xb77a9000, 4096)          = 0
+15087 write(1, "4\n", 2)                = 2
+15087 exit_group(134)                   = ?

@@ -1,0 +1,896 @@
+23319 execve("/usr/bin/java", ["java", "apb"], [/* 42 vars */]) = 0
+23319 brk(0)                            = 0x8827000
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 mmap2(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb777b000
+23319 access("/etc/ld.so.preload", R_OK) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/tls/i686/sse2/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/tls/i686/sse2/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/tls/i686/sse2/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/tls/i686/sse2", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/tls/i686/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/tls/i686/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/tls/i686/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/tls/i686", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/tls/sse2/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/tls/sse2/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/tls/sse2/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/tls/sse2", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/tls/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/tls/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/tls/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/tls", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/i686/sse2/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/i686/sse2/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/i686/sse2/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/i686/sse2", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/i686/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/i686/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/i686/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/i686", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/sse2/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/sse2/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/sse2/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/sse2", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/../lib/gcj-4.4-10/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/../lib/gcj-4.4-10", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 open("/usr/lib/tls/i686/sse2/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/tls/i686/sse2/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/i686/sse2/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/tls/i686/sse2", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/i686/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/tls/i686/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/i686/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/tls/i686", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/sse2/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/tls/sse2/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/sse2/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/tls/sse2", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/tls/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/tls", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 open("/usr/lib/i686/sse2/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/i686/sse2/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/i686/sse2", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 open("/usr/lib/i686/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/i686/cmov", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 open("/usr/lib/i686/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/i686", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 open("/usr/lib/sse2/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/sse2/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/sse2", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 open("/usr/lib/cmov/libgij.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/cmov", 0xbf9ecca0) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libgij.so.10", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\300\7\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=9248, ...}) = 0
+23319 mmap2(NULL, 12028, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x77f000
+23319 mmap2(0x781000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1) = 0x781000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libgcj.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libgcj.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libgcj.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libgcj.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libgcj.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libgcj.so.10", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libgcj.so.10", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0000\25\263\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=35521972, ...}) = 0
+23319 mmap2(NULL, 35806844, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xb58000
+23319 mmap2(0x270c000, 6471680, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bb4) = 0x270c000
+23319 mmap2(0x2d38000, 286332, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x2d38000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libpthread.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libpthread.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libpthread.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libpthread.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libpthread.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libpthread.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libpthread.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/etc/ld.so.cache", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=70211, ...}) = 0
+23319 mmap2(NULL, 70211, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7769000
+23319 close(3)                          = 0
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/tls/i686/cmov/libpthread.so.0", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0 J\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0755, st_size=117086, ...}) = 0
+23319 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb7768000
+23319 mmap2(NULL, 98792, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x4d3000
+23319 mmap2(0x4e8000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x14) = 0x4e8000
+23319 mmap2(0x4ea000, 4584, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x4ea000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/librt.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/librt.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/librt.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/librt.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/librt.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/librt.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/librt.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/tls/i686/cmov/librt.so.1", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\300\30\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=30684, ...}) = 0
+23319 mmap2(NULL, 33364, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0xa2a000
+23319 mmap2(0xa31000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6) = 0xa31000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/tls/i686/cmov/libdl.so.2", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0@\n\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=9736, ...}) = 0
+23319 mmap2(NULL, 12408, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x174000
+23319 mmap2(0x176000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1) = 0x176000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/libz.so.1", O_RDONLY)  = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\240\31\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=79512, ...}) = 0
+23319 mmap2(NULL, 82188, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x5f6000
+23319 mmap2(0x609000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x12) = 0x609000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libgcc_s.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libgcc_s.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libgcc_s.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libgcc_s.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libgcc_s.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libgcc_s.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libgcc_s.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/libgcc_s.so.1", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0p#\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=120368, ...}) = 0
+23319 mmap2(NULL, 123432, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x110000
+23319 mmap2(0x12d000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1c) = 0x12d000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/tls/i686/cmov/libm.so.6", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0`4\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=149392, ...}) = 0
+23319 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb7767000
+23319 mmap2(NULL, 151680, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x12f000
+23319 mmap2(0x153000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x23) = 0x153000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/tls/i686/cmov/libc.so.6", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0000m\1\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0755, st_size=1405508, ...}) = 0
+23319 mmap2(NULL, 1415592, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x806000
+23319 mprotect(0x959000, 4096, PROT_NONE) = 0
+23319 mmap2(0x95a000, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x153) = 0x95a000
+23319 mmap2(0x95d000, 10664, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x95d000
+23319 close(3)                          = 0
+23319 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb7766000
+23319 set_thread_area({entry_number:-1 -> 6, base_addr:0xb77668e0, limit:1048575, seg_32bit:1, contents:0, read_exec_only:0, limit_in_pages:1, seg_not_present:0, useable:1}) = 0
+23319 mprotect(0x95a000, 8192, PROT_READ) = 0
+23319 mprotect(0x153000, 4096, PROT_READ) = 0
+23319 mprotect(0x12d000, 4096, PROT_READ) = 0
+23319 mprotect(0x609000, 4096, PROT_READ) = 0
+23319 mprotect(0x176000, 4096, PROT_READ) = 0
+23319 mprotect(0xa31000, 4096, PROT_READ) = 0
+23319 mprotect(0x4e8000, 4096, PROT_READ) = 0
+23319 mprotect(0xb56000, 4096, PROT_READ) = 0
+23319 munmap(0xb7769000, 70211)         = 0
+23319 set_tid_address(0xb7766948)       = 23319
+23319 set_robust_list(0xb7766950, 0xc)  = 0
+23319 futex(0xbf9ed240, FUTEX_WAKE_PRIVATE, 1) = 0
+23319 futex(0xbf9ed240, FUTEX_WAIT_BITSET_PRIVATE|FUTEX_CLOCK_REALTIME, 1, NULL, bf9ed250) = -1 EAGAIN (Resource temporarily unavailable)
+23319 rt_sigaction(SIGRTMIN, {0x4d7410, [], SA_SIGINFO}, NULL, 8) = 0
+23319 rt_sigaction(SIGRT_1, {0x4d78f0, [], SA_RESTART|SA_SIGINFO}, NULL, 8) = 0
+23319 rt_sigprocmask(SIG_UNBLOCK, [RTMIN RT_1], NULL, 8) = 0
+23319 getrlimit(RLIMIT_STACK, {rlim_cur=8192*1024, rlim_max=RLIM_INFINITY}) = 0
+23319 uname({sys="Linux", node="lzx-laptop", ...}) = 0
+23319 brk(0)                            = 0x8827000
+23319 brk(0x8848000)                    = 0x8848000
+23319 open("/usr/lib/locale/locale-archive", O_RDONLY|O_LARGEFILE) = -1 ENOENT (No such file or directory)
+23319 open("/usr/share/locale/locale.alias", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=2570, ...}) = 0
+23319 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb777a000
+23319 read(3, "# Locale name alias data base.\n#"..., 4096) = 2570
+23319 read(3, "", 4096)                 = 0
+23319 close(3)                          = 0
+23319 munmap(0xb777a000, 4096)          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_CTYPE", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=257156, ...}) = 0
+23319 mmap2(NULL, 257156, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7727000
+23319 close(3)                          = 0
+23319 open("/usr/lib/gconv/gconv-modules.cache", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=26048, ...}) = 0
+23319 mmap2(NULL, 26048, PROT_READ, MAP_SHARED, 3, 0) = 0xb7774000
+23319 close(3)                          = 0
+23319 futex(0x95ca8c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+23319 gettimeofday({1322145194, 980859}, NULL) = 0
+23319 rt_sigaction(SIGHUP, {0x16e76f0, [], 0}, NULL, 8) = 0
+23319 rt_sigprocmask(SIG_BLOCK, [CHLD], NULL, 8) = 0
+23319 rt_sigaction(SIGPWR, {0x20e5eb0, ~[INT QUIT ABRT BUS SEGV TERM RTMIN RT_1], SA_RESTART}, NULL, 8) = 0
+23319 rt_sigaction(SIGXCPU, {0x20e53d0, ~[INT QUIT ABRT BUS SEGV TERM RTMIN RT_1], SA_RESTART}, NULL, 8) = 0
+23319 open("/proc/stat", O_RDONLY)      = 3
+23319 read(3, "cpu  3606157 311242 637503 20128"..., 4096) = 1251
+23319 close(3)                          = 0
+23319 open("/proc/self/maps", O_RDONLY) = 3
+23319 getrlimit(RLIMIT_STACK, {rlim_cur=8192*1024, rlim_max=RLIM_INFINITY}) = 0
+23319 fstat64(3, {st_mode=S_IFREG|0444, st_size=0, ...}) = 0
+23319 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb7773000
+23319 read(3, "00110000-0012d000 r-xp 00000000 "..., 1024) = 1024
+23319 read(3, "609000 r-xp 00000000 08:08 9938 "..., 1024) = 1024
+23319 read(3, ".1.so\n00b3b000-00b56000 r-xp 000"..., 1024) = 935
+23319 close(3)                          = 0
+23319 munmap(0xb7773000, 4096)          = 0
+23319 sched_getaffinity(23319, 32,  { 3 }) = 4
+23319 mmap2(0x1000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x10000
+23319 mmap2(0x20000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x20000
+23319 mmap2(0x30000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x30000
+23319 rt_sigaction(SIGSEGV, {0x168c960, [], SA_RESTORER|SA_SIGINFO, 0x1689600}, NULL, 8) = 0
+23319 rt_sigaction(SIGFPE, {0x168c860, [], SA_RESTORER|SA_SIGINFO, 0x1689600}, NULL, 8) = 0
+23319 mmap2(0x40000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x40000
+23319 mmap2(0x50000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x50000
+23319 mmap2(0x60000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x60000
+23319 mmap2(0x70000, 69632, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x70000
+23319 mmap2(0x81000, 90112, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x81000
+23319 mmap2(0x97000, 122880, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x97000
+23319 mmap2(0xb5000, 163840, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb5000
+23319 mmap2(0xdd000, 217088, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb76f2000
+23319 mmap2(0xb7727000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb76e2000
+23319 uname({sys="Linux", node="lzx-laptop", ...}) = 0
+23319 getuid32()                        = 1000
+23319 socket(PF_FILE, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0) = 3
+23319 connect(3, {sa_family=AF_FILE, path="/var/run/nscd/socket"}, 110) = -1 ENOENT (No such file or directory)
+23319 close(3)                          = 0
+23319 socket(PF_FILE, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, 0) = 3
+23319 connect(3, {sa_family=AF_FILE, path="/var/run/nscd/socket"}, 110) = -1 ENOENT (No such file or directory)
+23319 close(3)                          = 0
+23319 open("/etc/nsswitch.conf", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=513, ...}) = 0
+23319 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb76e1000
+23319 read(3, "# /etc/nsswitch.conf\n#\n# Example"..., 4096) = 513
+23319 read(3, "", 4096)                 = 0
+23319 close(3)                          = 0
+23319 munmap(0xb76e1000, 4096)          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libnss_compat.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libnss_compat.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libnss_compat.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libnss_compat.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libnss_compat.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libnss_compat.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libnss_compat.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/etc/ld.so.cache", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=70211, ...}) = 0
+23319 mmap2(NULL, 70211, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76d0000
+23319 close(3)                          = 0
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/tls/i686/cmov/libnss_compat.so.2", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0000\16\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=30496, ...}) = 0
+23319 mmap2(NULL, 29268, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x155000
+23319 mmap2(0x15b000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x6) = 0x15b000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libnsl.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libnsl.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libnsl.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libnsl.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libnsl.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libnsl.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libnsl.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/tls/i686/cmov/libnsl.so.1", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\2201\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=79676, ...}) = 0
+23319 mmap2(NULL, 92136, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x5ab000
+23319 mmap2(0x5be000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x12) = 0x5be000
+23319 mmap2(0x5c0000, 6120, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x5c0000
+23319 close(3)                          = 0
+23319 mprotect(0x5be000, 4096, PROT_READ) = 0
+23319 mprotect(0x15b000, 4096, PROT_READ) = 0
+23319 munmap(0xb76d0000, 70211)         = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libnss_nis.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libnss_nis.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libnss_nis.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libnss_nis.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libnss_nis.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libnss_nis.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libnss_nis.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/etc/ld.so.cache", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=70211, ...}) = 0
+23319 mmap2(NULL, 70211, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76d0000
+23319 close(3)                          = 0
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/tls/i686/cmov/libnss_nis.so.2", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0000\31\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=34408, ...}) = 0
+23319 mmap2(NULL, 37432, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x15d000
+23319 mmap2(0x165000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x7) = 0x165000
+23319 close(3)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libnss_files.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libnss_files.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libnss_files.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libnss_files.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libnss_files.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libnss_files.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libnss_files.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 access("/etc/ld.so.nohwcap", F_OK) = -1 ENOENT (No such file or directory)
+23319 open("/lib/tls/i686/cmov/libnss_files.so.2", O_RDONLY) = 3
+23319 read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0 \32\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=42572, ...}) = 0
+23319 mmap2(NULL, 45772, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x167000
+23319 mmap2(0x171000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x9) = 0x171000
+23319 close(3)                          = 0
+23319 mprotect(0x171000, 4096, PROT_READ) = 0
+23319 mprotect(0x165000, 4096, PROT_READ) = 0
+23319 munmap(0xb76d0000, 70211)         = 0
+23319 open("/etc/passwd", O_RDONLY|O_CLOEXEC) = 3
+23319 fcntl64(3, F_GETFD)               = 0x1 (flags FD_CLOEXEC)
+23319 _llseek(3, 0, [0], SEEK_CUR)      = 0
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=1805, ...}) = 0
+23319 mmap2(NULL, 1805, PROT_READ, MAP_SHARED, 3, 0) = 0xb76e1000
+23319 _llseek(3, 1805, [1805], SEEK_SET) = 0
+23319 munmap(0xb76e1000, 1805)          = 0
+23319 close(3)                          = 0
+23319 getcwd("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash", 250) = 77
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_IDENTIFICATION", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=316, ...}) = 0
+23319 mmap2(NULL, 316, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76e1000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_MEASUREMENT", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=23, ...}) = 0
+23319 mmap2(NULL, 23, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76e0000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_TELEPHONE", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=57, ...}) = 0
+23319 mmap2(NULL, 57, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76df000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_ADDRESS", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=162, ...}) = 0
+23319 mmap2(NULL, 162, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76de000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_NAME", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=82, ...}) = 0
+23319 mmap2(NULL, 82, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76dd000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_PAPER", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=34, ...}) = 0
+23319 mmap2(NULL, 34, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76dc000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_MESSAGES", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=57, ...}) = 0
+23319 mmap2(NULL, 57, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76db000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_MONETARY", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=290, ...}) = 0
+23319 mmap2(NULL, 290, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb76da000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_COLLATE", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=1382818, ...}) = 0
+23319 mmap2(NULL, 1382818, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7588000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_TIME", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=2258, ...}) = 0
+23319 mmap2(NULL, 2258, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7587000
+23319 close(3)                          = 0
+23319 open("/usr/lib/locale/zh_CN.utf8/LC_NUMERIC", O_RDONLY) = 3
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=54, ...}) = 0
+23319 mmap2(NULL, 54, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb7586000
+23319 close(3)                          = 0
+23319 gettimeofday({1322145195, 9950}, NULL) = 0
+23319 access("/usr/share/java/ext", F_OK) = -1 ENOENT (No such file or directory)
+23319 access(".", F_OK)                 = 0
+23319 stat64(".", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 stat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 futex(0x12e0e8, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+23319 access("/usr/share/java/gcj-endorsed", F_OK) = -1 ENOENT (No such file or directory)
+23319 rt_sigaction(SIGPIPE, {SIG_IGN, [], 0}, NULL, 8) = 0
+23319 rt_sigprocmask(SIG_BLOCK, [CHLD], NULL, 8) = 0
+23319 sched_get_priority_min(SCHED_OTHER) = 0
+23319 sched_get_priority_max(SCHED_OTHER) = 0
+23319 mmap2(NULL, 8392704, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS|MAP_STACK, -1, 0) = 0xb6d85000
+23319 mprotect(0xb6d85000, 4096, PROT_NONE) = 0
+23319 clone(child_stack=0xb7585484, flags=CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID, parent_tidptr=0xb7585bd8, {entry_number:6, base_addr:0xb7585b70, limit:1048575, seg_32bit:1, contents:0, read_exec_only:0, limit_in_pages:1, seg_not_present:0, useable:1}, child_tidptr=0xb7585bd8) = 23320
+23319 futex(0xb76f5c4c, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+23320 set_robust_list(0xb7585be0, 0xc)  = 0
+23320 futex(0xb76f5c4c, FUTEX_WAKE_PRIVATE, 1) = 1
+23319 <... futex resumed> )             = 0
+23320 rt_sigprocmask(SIG_BLOCK, [CHLD], NULL, 8) = 0
+23319 futex(0x17706c, FUTEX_WAKE_PRIVATE, 2147483647 <unfinished ...>
+23320 futex(0x8830cb0, FUTEX_WAIT_PRIVATE, 1, NULL <unfinished ...>
+23319 <... futex resumed> )             = 0
+23319 rt_sigprocmask(SIG_BLOCK, [CHLD], NULL, 8) = 0
+23319 access("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/apb.class", F_OK) = 0
+23319 lstat64("/home", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/apb.class", {st_mode=S_IFREG|0644, st_size=540, ...}) = 0
+23319 open("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/apb.class", O_RDONLY|O_LARGEFILE) = 3
+23319 stat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/apb.class", {st_mode=S_IFREG|0644, st_size=540, ...}) = 0
+23319 stat64("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/apb.class", {st_mode=S_IFREG|0644, st_size=540, ...}) = 0
+23319 read(3, "\312\376\272\276\0\0\0001\0(\7\0\2\1\0\3apb\7\0\4\1\0\20java/la"..., 540) = 540
+23319 close(3)                          = 0
+23319 open("/var/lib/gcj-4.4/classmap.db", O_RDONLY|O_LARGEFILE) = 3
+23319 stat64("/var/lib/gcj-4.4/classmap.db", {st_mode=S_IFREG|0644, st_size=16384, ...}) = 0
+23319 fstat64(3, {st_mode=S_IFREG|0644, st_size=16384, ...}) = 0
+23319 mmap2(NULL, 16384, PROT_READ, MAP_PRIVATE, 3, 0) = 0xb6d81000
+23319 mmap2(0xb76f2000, 290816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6d3a000
+23319 statfs("/selinux", {f_type="EXT2_SUPER_MAGIC", f_bsize=4096, f_blocks=4006566, f_bfree=2737502, f_bavail=2533979, f_files=1018000, f_ffree=789384, f_fsid={646119628, -709089438}, f_namelen=255, f_frsize=4096}) = 0
+23319 open("/proc/mounts", O_RDONLY)    = 4
+23319 fstat64(4, {st_mode=S_IFREG|0444, st_size=0, ...}) = 0
+23319 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6d39000
+23319 read(4, "rootfs / rootfs rw 0 0\nnone /sys"..., 1024) = 1024
+23319 close(4)                          = 0
+23319 munmap(0xb6d39000, 4096)          = 0
+23319 gettimeofday({1322145195, 16476}, NULL) = 0
+23319 open("/tmp/ffiKoMw5I", O_RDWR|O_CREAT|O_EXCL, 0600) = 4
+23319 unlink("/tmp/ffiKoMw5I")          = 0
+23319 ftruncate(4, 4096)                = 0
+23319 mmap2(NULL, 4096, PROT_READ|PROT_EXEC, MAP_SHARED, 4, 0) = 0x173000
+23319 mmap2(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, 4, 0) = 0xb6d39000
+23319 mmap2(0xb6d81000, 1384448, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6be7000
+23319 mmap2(0xb6d39000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6bd7000
+23319 access("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/gnu", F_OK) = -1 ENOENT (No such file or directory)
+23319 stat64("/usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/rt.jar", {st_mode=S_IFREG|0644, st_size=10165574, ...}) = 0
+23319 lstat64("/usr", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/usr/lib", {st_mode=S_IFDIR|0755, st_size=69632, ...}) = 0
+23319 lstat64("/usr/lib/jvm", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/usr/lib/jvm/java-1.5.0-gcj-4.4", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/usr/lib/jvm/java-1.5.0-gcj-4.4/jre", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/rt.jar", {st_mode=S_IFLNK|0777, st_size=40, ...}) = 0
+23319 readlink("/usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/rt.jar", "../../../../../share/java/libgcj-4.4.jar", 256) = 40
+23319 lstat64("/usr/share", {st_mode=S_IFDIR|0755, st_size=12288, ...}) = 0
+23319 lstat64("/usr/share/java", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+23319 lstat64("/usr/share/java/libgcj-4.4.jar", {st_mode=S_IFREG|0644, st_size=10165574, ...}) = 0
+23319 stat64("/usr/share/java/libgcj-4.4.jar", {st_mode=S_IFREG|0644, st_size=10165574, ...}) = 0
+23319 open("/usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/rt.jar", O_RDONLY|O_LARGEFILE) = 5
+23319 stat64("/usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/rt.jar", {st_mode=S_IFREG|0644, st_size=10165574, ...}) = 0
+23319 read(5, "PK\3\4", 4)              = 4
+23319 fstat64(5, {st_mode=S_IFREG|0644, st_size=10165574, ...}) = 0
+23319 fstat64(5, {st_mode=S_IFREG|0644, st_size=10165574, ...}) = 0
+23319 _llseek(5, 10165552, [10165552], SEEK_SET) = 0
+23319 read(5, "PK\5\6\0\0\0\0\223\34\223\34\334\362\t\0T*\221\0\0\0", 22) = 22
+23319 _llseek(5, 9513556, [9513556], SEEK_SET) = 0
+23319 read(5, "PK\1\2\n\0\n\0\0\0\10\0009\225\2145yE\235\2501\6\0\0\244\f\0\0+\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9517656, [9517656], SEEK_SET) = 0
+23319 read(5, "\266)\2\0gnu/xml/stream/XMLParser$Att"..., 4096) = 4096
+23319 _llseek(5, 9521752, [9521752], SEEK_SET) = 0
+23319 read(5, "\2\n\0\n\0\0\0\10\0009\225\2145\n\324\252A\256\1\0\0h\3\0\0(\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9525848, [9525848], SEEK_SET) = 0
+23319 read(5, "/xml/dom/DomNodeIterator.classPK"..., 4096) = 4096
+23319 _llseek(5, 9529944, [9529944], SEEK_SET) = 0
+23319 read(5, "\225\2145\363t\366/\264\6\0\0,\27\0\0,\0\0\0\0\0\0\0\0\0\0\0\0\0\320\360\5"..., 4096) = 4096
+23319 _llseek(5, 9534040, [9534040], SEEK_SET) = 0
+23319 read(5, ".classPK\1\2\n\0\n\0\0\0\10\0\311\251\3736\346n\246\353\202\3\0\0-\10"..., 4096) = 4096
+23319 _llseek(5, 9538139, [9538139], SEEK_SET) = 0
+23319 read(5, "\10\0009\225\2145\30\377\225\274\267\3\0\0001\7\0\0003\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9542235, [9542235], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0\0J\363\10\0gnu/xml/validatio"..., 4096) = 4096
+23319 _llseek(5, 9546331, [9546331], SEEK_SET) = 0
+23319 read(5, "iFunction.classPK\1\2\n\0\n\0\0\0\10\0\340\216U9\210"..., 4096) = 4096
+23319 _llseek(5, 9550427, [9550427], SEEK_SET) = 0
+23319 read(5, "U\305\362\4\0\0\342\t\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\224\306\n\0gnu/"..., 4096) = 4096
+23319 _llseek(5, 9554523, [9554523], SEEK_SET) = 0
+23319 read(5, "/NamedInputStream.classPK\1\2\n\0\n\0\0"..., 4096) = 4096
+23319 _llseek(5, 9558619, [9558619], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0e\5\r\0gnu/gcj/convert/Ou"..., 4096) = 4096
+23319 _llseek(5, 9562715, [9562715], SEEK_SET) = 0
+23319 read(5, "sPK\1\2\n\0\n\0\0\0\10\0\16\255Y:\223\313\30q&\5\0\0_\n\0\0$\0\0"..., 4096) = 4096
+23319 _llseek(5, 9566811, [9566811], SEEK_SET) = 0
+23319 read(5, "value/BooleanValue.classPK\1\2\n\0\n\0"..., 4096) = 4096
+23319 _llseek(5, 9570913, [9570913], SEEK_SET) = 0
+23319 read(5, "\10\0\30\225{6d1\250\300\300\t\0\0k\25\0\0009\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9575009, [9575009], SEEK_SET) = 0
+23319 read(5, "u/classpath/jdwp/event/ClassUnlo"..., 4096) = 4096
+23319 _llseek(5, 9579105, [9579105], SEEK_SET) = 0
+23319 read(5, "nu/awt/xlib/XGraphics$XRaster.cl"..., 4096) = 4096
+23319 _llseek(5, 9583201, [9583201], SEEK_SET) = 0
+23319 read(5, "bjectInputStream.classPK\1\2\n\0\n\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9587303, [9587303], SEEK_SET) = 0
+23319 read(5, "#\275\22\0gnu/java/awt/peer/gtk/GtkFra"..., 4096) = 4096
+23319 _llseek(5, 9591399, [9591399], SEEK_SET) = 0
+23319 read(5, "/swing/SwingTextAreaPeer$SwingSc"..., 4096) = 4096
+23319 _llseek(5, 9595495, [9595495], SEEK_SET) = 0
+23319 read(5, "\251\3736\22R\215\"\364\33\0\0\177E\0\0%\0\0\0\0\0\0\0\0\0\0\0\0\0|F\25"..., 4096) = 4096
+23319 _llseek(5, 9599591, [9599591], SEEK_SET) = 0
+23319 read(5, "useDragGestureRecognizer.classPK"..., 4096) = 4096
+23319 _llseek(5, 9603687, [9603687], SEEK_SET) = 0
+23319 read(5, "\343@\1\0\0S\2\0\0003\0\0\0\0\0\0\0\0\0\0\0\0\0\252\251\27\0gnu/j"..., 4096) = 4096
+23319 _llseek(5, 9607783, [9607783], SEEK_SET) = 0
+23319 read(5, "a/awt/java2d/QuadSegment.classPK"..., 4096) = 4096
+23319 _llseek(5, 9611879, [9611879], SEEK_SET) = 0
+23319 read(5, "\0\342-\0\0#\0\0\0\0\0\0\0\0\0\0\0\0\0\223\370\31\0gnu/java/"..., 4096) = 4096
+23319 _llseek(5, 9615978, [9615978], SEEK_SET) = 0
+23319 read(5, "\3705\33\0gnu/java/nio/charset/Windows"..., 4096) = 4096
+23319 _llseek(5, 9620074, [9620074], SEEK_SET) = 0
+23319 read(5, "lassPK\1\2\n\0\n\0\0\0\10\0009\225\2145\330\247\5\35~\0\0\0\256\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9624170, [9624170], SEEK_SET) = 0
+23319 read(5, "y/jce/hash/Sha160Spi.classPK\1\2\n\0"..., 4096) = 4096
+23319 _llseek(5, 9628266, [9628266], SEEK_SET) = 0
+23319 read(5, "ecFactory.classPK\1\2\n\0\n\0\0\0\10\0009\225\2145\302"..., 4096) = 4096
+23319 _llseek(5, 9632362, [9632362], SEEK_SET) = 0
+23319 read(5, "va/security/sig/ISignatureCodec."..., 4096) = 4096
+23319 _llseek(5, 9636462, [9636462], SEEK_SET) = 0
+23319 read(5, "\10\0\311\251\3736\263\226U\231\202\4\0\0\337\10\0\0001\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9640561, [9640561], SEEK_SET) = 0
+23319 read(5, "d\222!\0gnu/java/beans/decoder/IntHa"..., 4096) = 4096
+23319 _llseek(5, 9644657, [9644657], SEEK_SET) = 0
+23319 read(5, "s/encoder/ObjectId.classPK\1\2\n\0\n\0"..., 4096) = 4096
+23319 _llseek(5, 9648761, [9648761], SEEK_SET) = 0
+23319 read(5, "}\0#\0gnu/java/util/prefs/MemoryBa"..., 4096) = 4096
+23319 _llseek(5, 9652857, [9652857], SEEK_SET) = 0
+23319 read(5, "\355#\0gnu/java/util/regex/RETokenNa"..., 4096) = 4096
+23319 _llseek(5, 9656953, [9656953], SEEK_SET) = 0
+23319 read(5, "PConnection$Pool.classPK\1\2\n\0\n\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9661057, [9661057], SEEK_SET) = 0
+23319 read(5, "\274\356%\0gnu/java/net/CRLFInputStream"..., 4096) = 4096
+23319 _llseek(5, 9665157, [9665157], SEEK_SET) = 0
+23319 read(5, "\256\206'\0gnu/CORBA/OrbFunctional$2.cl"..., 4096) = 4096
+23319 _llseek(5, 9669253, [9669253], SEEK_SET) = 0
+23319 read(5, "/HeadlessInput.classPK\1\2\n\0\n\0\0\0\10\0"..., 4096) = 4096
+23319 mmap2(0xb6be7000, 847872, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6b08000
+23319 _llseek(5, 9673349, [9673349], SEEK_SET) = 0
+23319 read(5, "b\1\275\232\3\0\0\266\6\0\0\33\0\0\0\0\0\0\0\0\0\0\0\0\0\245.*\0gnu"..., 4096) = 4096
+23319 _llseek(5, 9677445, [9677445], SEEK_SET) = 0
+23319 read(5, "PK\1\2\n\0\n\0\0\0\10\0\311\251\3736\343u\370;\333\3\0\0Q\10\0\0002\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9681541, [9681541], SEEK_SET) = 0
+23319 read(5, "\365\315\263P\2\0\0000\4\0\0009\0\0\0\0\0\0\0\0\0\0\0\0\0\v\3,\0gnu"..., 4096) = 4096
+23319 _llseek(5, 9685637, [9685637], SEEK_SET) = 0
+23319 read(5, "\2\n\0\n\0\0\0\10\0009\225\2145\31\20Fbu\4\0\0\254\t\0\0%\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9689733, [9689733], SEEK_SET) = 0
+23319 read(5, "PK\1\2\n\0\n\0\0\0\10\0009\225\2145\331\236\\\322b`\0\0\212\"\1\0000\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9693829, [9693829], SEEK_SET) = 0
+23319 read(5, "\0009\225\2145'#T\371)\1\0\0\352\1\0\0007\0\0\0\0\0\0\0\0\0\0\0\0\0y"..., 4096) = 4096
+23319 _llseek(5, 9697925, [9697925], SEEK_SET) = 0
+23319 read(5, "eio/bmp/BMPInfoHeader.classPK\1\2\n"..., 4096) = 4096
+23319 _llseek(5, 9702024, [9702024], SEEK_SET) = 0
+23319 read(5, "\331Q1\0gnu/javax/sound/midi/dssi/DS"..., 4096) = 4096
+23319 _llseek(5, 9706120, [9706120], SEEK_SET) = 0
+23319 read(5, "atedMode.classPK\1\2\n\0\n\0\0\0\10\0009\225\2145\34\240"..., 4096) = 4096
+23319 _llseek(5, 9710218, [9710218], SEEK_SET) = 0
+23319 read(5, "\370\3442\0gnu/javax/crypto/jce/cipher/"..., 4096) = 4096
+23319 _llseek(5, 9714314, [9714314], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\01683\0gnu/javax/crypt"..., 4096) = 4096
+23319 _llseek(5, 9718410, [9718410], SEEK_SET) = 0
+23319 read(5, "/jce/cipher/PBES2$HMacWhirlpool$"..., 4096) = 4096
+23319 _llseek(5, 9722506, [9722506], SEEK_SET) = 0
+23319 read(5, "\0\0007\0\0\0\0\0\0\0\0\0\0\0\0\0\301\2733\0gnu/javax/cr"..., 4096) = 4096
+23319 _llseek(5, 9726602, [9726602], SEEK_SET) = 0
+23319 read(5, "\0\0\360\r\0\0007\0\0\0\0\0\0\0\0\0\0\0\0\0R\0224\0gnu/java"..., 4096) = 4096
+23319 _llseek(5, 9730698, [9730698], SEEK_SET) = 0
+23319 read(5, "OMacImpl$Square.classPK\1\2\n\0\n\0\0\0\10"..., 4096) = 4096
+23319 _llseek(5, 9734798, [9734798], SEEK_SET) = 0
+23319 read(5, "\370\2166\0gnu/javax/crypto/key/dh/ElGa"..., 4096) = 4096
+23319 _llseek(5, 9738894, [9738894], SEEK_SET) = 0
+23319 read(5, "\0\0)\0\0\0\0\0\0\0\0\0\0\0\0\0`\2247\0gnu/javax/cr"..., 4096) = 4096
+23319 _llseek(5, 9742990, [9742990], SEEK_SET) = 0
+23319 read(5, "8\0gnu/javax/crypto/sasl/SaslInpu"..., 4096) = 4096
+23319 _llseek(5, 9747086, [9747086], SEEK_SET) = 0
+23319 read(5, "m.classPK\1\2\n\0\n\0\0\0\10\0\311\251\3736\210\341\304f\37\6\0\0}"..., 4096) = 4096
+23319 _llseek(5, 9751182, [9751182], SEEK_SET) = 0
+23319 read(5, "Lv3HMacSHAImpl.classPK\1\2\n\0\n\0\0\0\10\0"..., 4096) = 4096
+23319 _llseek(5, 9755278, [9755278], SEEK_SET) = 0
+23319 read(5, "r/ClientHandshake$GenCertVerify."..., 4096) = 4096
+23319 _llseek(5, 9759377, [9759377], SEEK_SET) = 0
+23319 read(5, "\10\0\246k\3348\322TV\21\212\n\0\0\275\26\0\0*\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9763478, [9763478], SEEK_SET) = 0
+23319 read(5, "8\20?\0java/text/Annotation.classPK"..., 4096) = 4096
+23319 _llseek(5, 9767574, [9767574], SEEK_SET) = 0
+23319 read(5, "ledException.classPK\1\2\n\0\n\0\0\0\10\0009\225"..., 4096) = 4096
+23319 _llseek(5, 9771675, [9771675], SEEK_SET) = 0
+23319 read(5, "\236&A\0java/rmi/UnmarshalException."..., 4096) = 4096
+23319 _llseek(5, 9775774, [9775774], SEEK_SET) = 0
+23319 read(5, "\10\0\311\251\3736\3445!\240\202\5\0\0\340\r\0\0%\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9779871, [9779871], SEEK_SET) = 0
+23319 read(5, "\216\213B\0java/awt/dnd/DragSourceDragE"..., 4096) = 4096
+23319 _llseek(5, 9783967, [9783967], SEEK_SET) = 0
+23319 read(5, "\0\0)\0\0\0\0\0\0\0\0\0\0\0\0\0$\235C\0java/awt/Cho"..., 4096) = 4096
+23319 _llseek(5, 9788063, [9788063], SEEK_SET) = 0
+23319 read(5, "edImageFilter.classPK\1\2\n\0\n\0\0\0\10\0009"..., 4096) = 4096
+23319 _llseek(5, 9792159, [9792159], SEEK_SET) = 0
+23319 read(5, "K\1\2\n\0\n\0\0\0\10\0009\225\2145\342\340T\245\350\0\0\0e\1\0\0\"\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9796255, [9796255], SEEK_SET) = 0
+23319 read(5, "e2D$1.classPK\1\2\n\0\n\0\0\0\10\0\311\251\3736\273\36\355\340\26"..., 4096) = 4096
+23319 _llseek(5, 9800351, [9800351], SEEK_SET) = 0
+23319 read(5, "sPK\1\2\n\0\n\0\0\0\10\0\311\251\3736\357'Z\rP\3\0\0\231\7\0\0<\0\0"..., 4096) = 4096
+23319 _llseek(5, 9804447, [9804447], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0\0\0001ZJ\0java/awt/event/W"..., 4096) = 4096
+23319 _llseek(5, 9808543, [9808543], SEEK_SET) = 0
+23319 read(5, "va/lang/ClassNotFoundException.c"..., 4096) = 4096
+23319 _llseek(5, 9812639, [9812639], SEEK_SET) = 0
+23319 read(5, "\323$L\0java/lang/annotation/Annotat"..., 4096) = 4096
+23319 _llseek(5, 9816740, [9816740], SEEK_SET) = 0
+23319 read(5, "\10\0009\225\2145\317\215l\323\257\0\0\0\34\1\0\0)\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9820836, [9820836], SEEK_SET) = 0
+23319 read(5, ".classPK\1\2\n\0\n\0\0\0\10\0009\225\2145I\347e\332I\1\0\0\6\2"..., 4096) = 4096
+23319 _llseek(5, 9824932, [9824932], SEEK_SET) = 0
+23319 read(5, "U9\364\374\v\271o\6\0\0\26\r\0\0\35\0\0\0\0\0\0\0\0\0\0\0\0\0\315\22O\0"..., 4096) = 4096
+23319 _llseek(5, 9829028, [9829028], SEEK_SET) = 0
+23319 read(5, "\311\347\361\333\1\0\0i\4\0\0\"\0\0\0\0\0\0\0\0\0\0\0\0\0\363\263O\0jav"..., 4096) = 4096
+23319 _llseek(5, 9833124, [9833124], SEEK_SET) = 0
+23319 read(5, "security/KeyPairGeneratorSpi.cla"..., 4096) = 4096
+23319 _llseek(5, 9837220, [9837220], SEEK_SET) = 0
+23319 read(5, "security/interfaces/RSAPublicKey"..., 4096) = 4096
+23319 _llseek(5, 9841316, [9841316], SEEK_SET) = 0
+23319 read(5, "rt/PKIXCertPathChecker.classPK\1\2"..., 4096) = 4096
+23319 _llseek(5, 9845412, [9845412], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0\244~R\0java/io/ObjectInpu"..., 4096) = 4096
+23319 _llseek(5, 9849508, [9849508], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0\217\272S\0java/io/ObjectInpu"..., 4096) = 4096
+23319 _llseek(5, 9853604, [9853604], SEEK_SET) = 0
+23319 read(5, "ql/SQLWarning.classPK\1\2\n\0\n\0\0\0\10\0009"..., 4096) = 4096
+23319 _llseek(5, 9857700, [9857700], SEEK_SET) = 0
+23319 read(5, "RevokedListener.classPK\1\2\n\0\n\0\0\0\10"..., 4096) = 4096
+23319 _llseek(5, 9861797, [9861797], SEEK_SET) = 0
+23319 read(5, "D\315V\0java/util/IllegalFormatFlags"..., 4096) = 4096
+23319 _llseek(5, 9865893, [9865893], SEEK_SET) = 0
+23319 read(5, "/zip/GZIPInputStream.classPK\1\2\n\0"..., 4096) = 4096
+23319 _llseek(5, 9869989, [9869989], SEEK_SET) = 0
+23319 read(5, "tors$PrivilegedCallableUsingCurr"..., 4096) = 4096
+23319 _llseek(5, 9874090, [9874090], SEEK_SET) = 0
+23319 read(5, "\203\30Z\0java/util/concurrent/FutureT"..., 4096) = 4096
+23319 _llseek(5, 9878186, [9878186], SEEK_SET) = 0
+23319 read(5, "\0\0+\4\0\0004\0\0\0\0\0\0\0\0\0\0\0\0\0\374\353Z\0java/uti"..., 4096) = 4096
+23319 _llseek(5, 9882282, [9882282], SEEK_SET) = 0
+23319 read(5, "/locks/ReadWriteLock.classPK\1\2\n\0"..., 4096) = 4096
+23319 _llseek(5, 9886378, [9886378], SEEK_SET) = 0
+23319 read(5, "W\234\313\266\232\2\0\0\30\5\0\0\35\0\0\0\0\0\0\0\0\0\0\0\0\0\32\324\\\0ja"..., 4096) = 4096
+23319 _llseek(5, 9890474, [9890474], SEEK_SET) = 0
+23319 read(5, "n.classPK\1\2\n\0\n\0\0\0\10\0009\225\2145\357\34528\321\6\0\0E"..., 4096) = 4096
+23319 _llseek(5, 9894573, [9894573], SEEK_SET) = 0
+23319 read(5, "6\373^\0java/util/prefs/NodeChangeLi"..., 4096) = 4096
+23319 _llseek(5, 9898669, [9898669], SEEK_SET) = 0
+23319 read(5, "\310\326d{\1\0\0\317\2\0\0 \0\0\0\0\0\0\0\0\0\0\0\0\0\0233`\0jav"..., 4096) = 4096
+23319 _llseek(5, 9902765, [9902765], SEEK_SET) = 0
+23319 read(5, "et/NetPermission.classPK\1\2\n\0\n\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9906861, [9906861], SEEK_SET) = 0
+23319 read(5, "\0\363\0\0\0000\0\0\0\0\0\0\0\0\0\0\0\0\0b\223b\0javax/act"..., 4096) = 4096
+23319 _llseek(5, 9910957, [9910957], SEEK_SET) = 0
+23319 read(5, "5p\270\320\301\346\1\0\0\274\4\0\0003\0\0\0\0\0\0\0\0\0\0\0\0\0\327'c\0j"..., 4096) = 4096
+23319 _llseek(5, 9915053, [9915053], SEEK_SET) = 0
+23319 read(5, "\37\0\0\0\0\0\0\0\0\0\0\0\0\0!\272c\0javax/rmi/CORB"..., 4096) = 4096
+23319 _llseek(5, 9919149, [9919149], SEEK_SET) = 0
+23319 read(5, "attribute/standard/OrientationRe"..., 4096) = 4096
+23319 _llseek(5, 9923245, [9923245], SEEK_SET) = 0
+23319 read(5, "<\0\0\0\0\0\0\0\0\0\0\0\0\0\245\312d\0javax/print/at"..., 4096) = 4096
+23319 _llseek(5, 9927341, [9927341], SEEK_SET) = 0
+23319 read(5, "t/DocFlavor$INPUT_STREAM.classPK"..., 4096) = 4096
+23319 _llseek(5, 9931437, [9931437], SEEK_SET) = 0
+23319 read(5, "stance.classPK\1\2\n\0\n\0\0\0\10\0U\272\3036\261\216\241r"..., 4096) = 4096
+23319 _llseek(5, 9935533, [9935533], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0\0\271\244f\0javax/management/"..., 4096) = 4096
+23319 _llseek(5, 9939629, [9939629], SEEK_SET) = 0
+23319 read(5, "-\7\4\0\0\205\7\0\0'\0\0\0\0\0\0\0\0\0\0\0\0\0:]g\0javax"..., 4096) = 4096
+23319 _llseek(5, 9943725, [9943725], SEEK_SET) = 0
+23319 read(5, "\1\2\n\0\n\0\0\0\10\0009\225\2145#\367H\375\244\2\0\0\263\5\0\0004\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9947821, [9947821], SEEK_SET) = 0
+23319 read(5, "\315\30\0\0#\0\0\0\0\0\0\0\0\0\0\0\0\0\306\302h\0javax/swin"..., 4096) = 4096
+23319 _llseek(5, 9951919, [9951919], SEEK_SET) = 0
+23319 read(5, "\365\220i\0javax/swing/text/BadLocation"..., 4096) = 4096
+23319 _llseek(5, 9956015, [9956015], SEEK_SET) = 0
+23319 read(5, "\0\0\334\0\0\0002\0\0\0\0\0\0\0\0\0\0\0\0\0\36\331j\0javax/sw"..., 4096) = 4096
+23319 _llseek(5, 9960115, [9960115], SEEK_SET) = 0
+23319 read(5, "\10\0\340\216U98\200\250\326\257\1\0\0\25\3\0\0000\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9964211, [9964211], SEEK_SET) = 0
+23319 read(5, "text/ComponentView$Interceptor.c"..., 4096) = 4096
+23319 _llseek(5, 9968307, [9968307], SEEK_SET) = 0
+23319 read(5, "\2\n\0\n\0\0\0\10\0\311\251\3736\320\225\342\247m\26\0\0e9\0\0(\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 9972403, [9972403], SEEK_SET) = 0
+23319 read(5, "Reader$HeadAction.classPK\1\2\n\0\n\0\0"..., 4096) = 4096
+23319 _llseek(5, 9976499, [9976499], SEEK_SET) = 0
+23319 read(5, "\0\311\251\3736*\235\372\214#\5\0\0\277\v\0\0?\0\0\0\0\0\0\0\0\0\0\0\0\0\326"..., 4096) = 4096
+23319 _llseek(5, 9980595, [9980595], SEEK_SET) = 0
+23319 read(5, "af/metal/DefaultMetalTheme.class"..., 4096) = 4096
+23319 _llseek(5, 9984691, [9984691], SEEK_SET) = 0
+23319 read(5, "swing/plaf/metal/MetalFileChoose"..., 4096) = 4096
+23319 _llseek(5, 9988787, [9988787], SEEK_SET) = 0
+23319 read(5, "Factory$CheckBoxMenuItemIcon.cla"..., 4096) = 4096
+23319 _llseek(5, 9992883, [9992883], SEEK_SET) = 0
+23319 read(5, "f/BorderUIResource.classPK\1\2\n\0\n\0"..., 4096) = 4096
+23319 _llseek(5, 9996979, [9996979], SEEK_SET) = 0
+23319 read(5, "ditingAction.classPK\1\2\n\0\n\0\0\0\10\0\311\251"..., 4096) = 4096
+23319 _llseek(5, 10001075, [10001075], SEEK_SET) = 0
+23319 read(5, "\10\0\311\251\3736\222\255\27W\271\4\0\0q\t\0\0;\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 10005171, [10005171], SEEK_SET) = 0
+23319 read(5, "Helper.classPK\1\2\n\0\n\0\0\0\10\0\246k\3348L\270Ym"..., 4096) = 4096
+23319 _llseek(5, 10009267, [10009267], SEEK_SET) = 0
+23319 read(5, "/swing/plaf/basic/BasicInternalF"..., 4096) = 4096
+23319 _llseek(5, 10013369, [10013369], SEEK_SET) = 0
+23319 read(5, "\253\266w\0javax/swing/plaf/basic/Basic"..., 4096) = 4096
+23319 _llseek(5, 10017465, [10017465], SEEK_SET) = 0
+23319 read(5, "LabelUI.classPK\1\2\n\0\n\0\0\0\10\0009\225\2145r\223k"..., 4096) = 4096
+23319 mmap2(0xb6bd7000, 1130496, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb69f4000
+23319 _llseek(5, 10021561, [10021561], SEEK_SET) = 0
+23319 read(5, "javax/swing/plaf/basic/BasicBord"..., 4096) = 4096
+23319 _llseek(5, 10025658, [10025658], SEEK_SET) = 0
+23319 read(5, "\10\0\246k\3348\220T\223\262\371\1\0\0\333\3\0\0@\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 10029758, [10029758], SEEK_SET) = 0
+23319 read(5, "\223\36{\0javax/swing/plaf/ProgressBar"..., 4096) = 4096
+23319 _llseek(5, 10033854, [10033854], SEEK_SET) = 0
+23319 read(5, "swing/TransferHandler$SwingDragH"..., 4096) = 4096
+23319 _llseek(5, 10037950, [10037950], SEEK_SET) = 0
+23319 read(5, "\225\2145O\306=\327\376\21\0\0\241.\0\0;\0\0\0\0\0\0\0\0\0\0\0\0\0(\340|"..., 4096) = 4096
+23319 _llseek(5, 10042046, [10042046], SEEK_SET) = 0
+23319 read(5, "nel.classPK\1\2\n\0\n\0\0\0\10\0009\225\2145\34\367\347\314\31\4\0"..., 4096) = 4096
+23319 _llseek(5, 10046142, [10046142], SEEK_SET) = 0
+23319 read(5, "\10\0\340\216U9\244\277\301+\314\1\0\0*\3\0\0+\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 10050238, [10050238], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\353\232\200\0javax/swing/Menu"..., 4096) = 4096
+23319 _llseek(5, 10054334, [10054334], SEEK_SET) = 0
+23319 read(5, "\2\n\0\n\0\0\0\10\0\311\251\3736\\\17A\236Z@\0\0\322\220\0\0\30\0\0\0\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 10058430, [10058430], SEEK_SET) = 0
+23319 read(5, "odelEvent.classPK\1\2\n\0\n\0\0\0\10\0009\225\2145\227"..., 4096) = 4096
+23319 _llseek(5, 10062526, [10062526], SEEK_SET) = 0
+23319 read(5, "efaultTextField.classPK\1\2\n\0\n\0\0\0\10"..., 4096) = 4096
+23319 _llseek(5, 10066622, [10066622], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\23\250\204\0javax/imageio/I"..., 4096) = 4096
+23319 _llseek(5, 10070718, [10070718], SEEK_SET) = 0
+23319 read(5, "$1.classPK\1\2\n\0\n\0\0\0\10\0009\225\2145\16+\177e\217\2\0\0"..., 4096) = 4096
+23319 _llseek(5, 10074814, [10074814], SEEK_SET) = 0
+23319 read(5, "ccessibleValue.classPK\1\2\n\0\n\0\0\0\10\0"..., 4096) = 4096
+23319 _llseek(5, 10078910, [10078910], SEEK_SET) = 0
+23319 read(5, "javax/sound/midi/spi/SoundbankRe"..., 4096) = 4096
+23319 _llseek(5, 10083006, [10083006], SEEK_SET) = 0
+23319 read(5, "5\33*\227b\266\3\0\0?\6\0\0(\0\0\0\0\0\0\0\0\0\0\0\0\0000\34\207\0j"..., 4096) = 4096
+23319 _llseek(5, 10087102, [10087102], SEEK_SET) = 0
+23319 read(5, "t$Status.classPK\1\2\n\0\n\0\0\0\10\0009\225\21457\366"..., 4096) = 4096
+23319 _llseek(5, 10091198, [10091198], SEEK_SET) = 0
+23319 read(5, "\3736\302\310\n\340\266\2\0\0F\6\0\0.\0\0\0\0\0\0\0\0\0\0\0\0\0\27]\210\0"..., 4096) = 4096
+23319 _llseek(5, 10095294, [10095294], SEEK_SET) = 0
+23319 read(5, "/CannotProceedException.classPK\1"..., 4096) = 4096
+23319 _llseek(5, 10099390, [10099390], SEEK_SET) = 0
+23319 read(5, "sax/helpers/NewInstance.classPK\1"..., 4096) = 4096
+23319 _llseek(5, 10103486, [10103486], SEEK_SET) = 0
+23319 read(5, "\0\0\0\0\0\0\0\0\0\0\270\10\212\0org/relaxng/dataty"..., 4096) = 4096
+23319 _llseek(5, 10107582, [10107582], SEEK_SET) = 0
+23319 read(5, "\1\0\0'\0\0\0\0\0\0\0\0\0\0\0\0\0\343L\212\0org/w3c/dom"..., 4096) = 4096
+23319 _llseek(5, 10111678, [10111678], SEEK_SET) = 0
+23319 read(5, "PK\1\2\n\0\n\0\0\0\10\0009\225\2145\3554\rQ:\1\0\0E\2\0\0/\0\0\0"..., 4096) = 4096
+23319 _llseek(5, 10115774, [10115774], SEEK_SET) = 0
+23319 read(5, "\0org/w3c/dom/bootstrap/DOMImplem"..., 4096) = 4096
+23319 _llseek(5, 10119870, [10119870], SEEK_SET) = 0
+23319 read(5, "$\1\0\0001\0\0\0\0\0\0\0\0\0\0\0\0\0\373|\213\0org/omg/Co"..., 4096) = 4096
+23319 _llseek(5, 10123966, [10123966], SEEK_SET) = 0
+23319 read(5, "\257\1\0\0s\2\0\0\37\0\0\0\0\0\0\0\0\0\0\0\0\0\261(\214\0org/om"..., 4096) = 4096
+23319 _llseek(5, 10128062, [10128062], SEEK_SET) = 0
+23319 read(5, "ptor/InvalidSlotHelper.classPK\1\2"..., 4096) = 4096
+23319 mmap2(0xb6b08000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb69e4000
+23319 _llseek(5, 10132158, [10132158], SEEK_SET) = 0
+23319 read(5, "ON_FORWARD.classPK\1\2\n\0\n\0\0\0\10\0009\225\2145"..., 4096) = 4096
+23319 _llseek(5, 10136260, [10136260], SEEK_SET) = 0
+23319 read(5, "\354^\215\0org/omg/PortableServer/POAPa"..., 4096) = 4096
+23319 _llseek(5, 10140356, [10140356], SEEK_SET) = 0
+23319 read(5, "LIFESPAN_POLICY_ID.classPK\1\2\n\0\n\0"..., 4096) = 4096
+23319 _llseek(5, 10144452, [10144452], SEEK_SET) = 0
+23319 read(5, "y/DynAnySeqHelper.classPK\1\2\n\0\n\0\0"..., 4096) = 4096
+23319 _llseek(5, 10148549, [10148549], SEEK_SET) = 0
+23319 read(5, "\221\331\216\0org/omg/CORBA/DefinitionKind"..., 4096) = 4096
+23319 _llseek(5, 10152645, [10152645], SEEK_SET) = 0
+23319 read(5, "\0009\225\2145.\1\312\233\203\1\0\0y\2\0\0(\0\0\0\0\0\0\0\0\0\0\0\0\0G"..., 4096) = 4096
+23319 _llseek(5, 10156741, [10156741], SEEK_SET) = 0
+23319 read(5, "\231\341\241U\4\0\0/\n\0\0!\0\0\0\0\0\0\0\0\0\0\0\0\0\274\343\217\0org"..., 4096) = 4096
+23319 _llseek(5, 10160845, [10160845], SEEK_SET) = 0
+23319 read(5, "3\212\220\0org/omg/CORBA/DomainManagerO"..., 4096) = 4096
+23319 _llseek(5, 10164941, [10164941], SEEK_SET) = 0
+23319 read(5, "reflect/annotation/AnnotationTyp"..., 633) = 633
+23319 access("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/gnu", F_OK) = -1 ENOENT (No such file or directory)
+23319 access("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/gnu", F_OK) = -1 ENOENT (No such file or directory)
+23319 tgkill(23319, 23320, SIGPWR <unfinished ...>
+23320 <... futex resumed> )             = ? ERESTARTSYS (To be restarted)
+23319 <... tgkill resumed> )            = 0
+23320 --- SIGPWR (Power failure) @ 0 (0) ---
+23319 futex(0x2d7de68, FUTEX_WAIT_PRIVATE, 0, NULL <unfinished ...>
+23320 futex(0x2d7de68, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+23319 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+23320 <... futex resumed> )             = 0
+23320 rt_sigsuspend(~[INT QUIT ABRT BUS SEGV TERM XCPU RTMIN RT_1] <unfinished ...>
+23319 mmap2(0xb69f4000, 65536, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb69d4000
+23319 tgkill(23319, 23320, SIGXCPU <unfinished ...>
+23320 <... rt_sigsuspend resumed> )     = ? ERESTARTNOHAND (To be restarted)
+23319 <... tgkill resumed> )            = 0
+23320 --- SIGXCPU (CPU time limit exceeded) @ 0 (0) ---
+23320 sigreturn()                       = ? (mask now ~[INT QUIT ABRT BUS KILL SEGV TERM STOP RTMIN])
+23320 sigreturn()                       = ? (mask now [CHLD])
+23320 futex(0x8830cb0, FUTEX_WAIT_PRIVATE, 1, NULL <unfinished ...>
+23319 futex(0x8830cb0, FUTEX_WAKE_OP_PRIVATE, 1, 1, 0x8830cac, {FUTEX_OP_SET, 0, FUTEX_OP_CMP_GT, 1} <unfinished ...>
+23320 <... futex resumed> )             = 0
+23319 <... futex resumed> )             = 1
+23320 futex(0x8830cdc, FUTEX_WAIT_PRIVATE, 2, NULL <unfinished ...>
+23319 futex(0x8830cdc, FUTEX_WAKE_PRIVATE, 1 <unfinished ...>
+23320 <... futex resumed> )             = -1 EAGAIN (Resource temporarily unavailable)
+23319 <... futex resumed> )             = 0
+23320 futex(0x8830cdc, FUTEX_WAKE_PRIVATE, 1) = 0
+23320 futex(0x8830cb0, FUTEX_WAIT_PRIVATE, 3, NULL <unfinished ...>
+23319 access("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/gnu", F_OK) = -1 ENOENT (No such file or directory)
+23319 access("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/gnu", F_OK) = -1 ENOENT (No such file or directory)
+23319 access("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/gnu", F_OK) = -1 ENOENT (No such file or directory)
+23319 mmap2(0xb69e4000, 1552384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0xb6859000
+23319 access("/home/lzx/Projects/oj3rd/onlinejudge3rd_judgepart/process_monitor/test/crash/gnu", F_OK) = -1 ENOENT (No such file or directory)
+23319 read(0, "1 2\n", 2048)            = 4
+23319 ioctl(0, FIONREAD, [0])           = 0
+23319 ioctl(0, FIONREAD, [0])           = 0
+23319 read(0, "2 3\n", 2048)            = 4
+23319 ioctl(0, FIONREAD, [0])           = 0
+23319 ioctl(0, FIONREAD, [0])           = 0
+23319 stat64("/usr/lib/logging.properties", 0xbf9ec5b4) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/logging.properties", O_RDONLY|O_LARGEFILE) = -1 ENOENT (No such file or directory)
+23319 open("/usr/share/locale/zh_CN/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/share/locale/zh/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/share/locale-langpack/zh_CN/LC_MESSAGES/libc.mo", O_RDONLY) = 6
+23319 fstat64(6, {st_mode=S_IFREG|0644, st_size=84993, ...}) = 0
+23319 mmap2(NULL, 84993, PROT_READ, MAP_PRIVATE, 6, 0) = 0xb6844000
+23319 close(6)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libjavamath.la", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/jni/libjavamath.la", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/lib/libjavamath.la", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libjavamath.la", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/lib/i486-linux-gnu/libjavamath.la", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i486-linux-gnu/libjavamath.la", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/alsa-lib/libjavamath.la", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/local/lib/libjavamath.la", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 access("/usr/lib/../lib/gcj-4.4-10/libjavamath.so", R_OK) = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libjavamath.so", O_RDONLY) = 6
+23319 read(6, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0@\33\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(6, {st_mode=S_IFREG|0644, st_size=18164, ...}) = 0
+23319 mmap2(NULL, 16868, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 6, 0) = 0x178000
+23319 mmap2(0x17c000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 6, 0x4) = 0x17c000
+23319 close(6)                          = 0
+23319 open("/usr/lib/../lib/gcj-4.4-10/libgmp.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/tls/libgmp.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/sse2/libgmp.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/cmov/libgmp.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/i686/libgmp.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/sse2/libgmp.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+23319 open("/usr/lib/libgmp.so.3", O_RDONLY) = 6
+23319 read(6, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0@\226\0\0004\0\0\0"..., 512) = 512
+23319 fstat64(6, {st_mode=S_IFREG|0644, st_size=390700, ...}) = 0
+23319 mmap2(NULL, 393516, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 6, 0) = 0x17d000
+23319 mmap2(0x1dc000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 6, 0x5e) = 0x1dc000
+23319 close(6)                          = 0
+23319 mprotect(0x1dc000, 4096, PROT_READ) = 0
+23319 read(0, "3 4\n", 2048)            = 4
+23319 ioctl(0, FIONREAD, [0])           = 0
+23319 ioctl(0, FIONREAD, [0])           = 0
+23319 write(1, "-3\n", 3)               = 3
+23319 exit_group(0)                     = ?

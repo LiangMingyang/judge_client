@@ -1,0 +1,19 @@
+/
+|-- bin
+|   |-- bash
+|   |-- bunzip2
+|   |-- bzcat
+|   |-- bzcmp -> bzdiff
+|   |-- bzdiff
+|   |-- bzegrep -> bzgrep
+|   |-- bzexe
+|   |-- bzfgrep -> bzgrep
+|   |-- bzgrep
+|   |-- bzip2
+|   |-- bzip2recover
+|   |-- bzless -> bzmore
+|   |-- bzmore
+|   |-- cat
+|   |-- chgrp
+|   |-- chmod
+
