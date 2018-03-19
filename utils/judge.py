@@ -37,6 +37,8 @@ run_command = {
     'c++'   : './main',
     'c'     : './main',
     'python': 'python ./main.py',
+    'python2' : 'python2 ./main.py',
+    'python3' : 'python3 ./main.py',
     'java'  : 'java -Xmx512M -Xss64M -DONLINE_JUDGE=true Main',
     'pascal': './main',
 }
