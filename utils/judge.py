@@ -9,6 +9,8 @@ main_filename = {
     'python': 'main.py',
     'java'  : 'Main.java',
     'pascal': 'main.pas',
+    'python2' : 'main.py',
+    'python3' : 'main.py'
 }
 spj_filename = {
     'c++'   : 'spj.cpp',
@@ -16,6 +18,8 @@ spj_filename = {
     'python': 'spj.py',
     'java'  : 'Spj.java',
     'pascal': 'spj.pas',
+    'python2' : 'spj.py',
+    'python3' : 'spj.py'
 }
 compiler_command = {
     'c++'   : 'g++ main.cpp -O2 -std=c++11 -DONLINE_JUDGE -o main',
@@ -23,6 +27,9 @@ compiler_command = {
     'python': '',
     'java'  : 'javac Main.java',
     'pascal': 'fpc main.pas',
+    'python2' : '',
+    'python3' : ''
+
 }
 
 special_compiler_command = {
@@ -31,6 +38,8 @@ special_compiler_command = {
     'python': '',
     'java'  : 'javac Spj.java',
     'pascal': 'fpc spj.pas',
+    'python2' : '',
+    'python3' : ''
 }
 
 run_command = {
