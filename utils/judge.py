@@ -22,7 +22,7 @@ spj_filename = {
     'python3' : 'spj.py'
 }
 compiler_command = {
-    'c++'   : 'g++ main.cpp -O2 -std=c++11 -DONLINE_JUDGE -o main',
+    'c++'   : 'g++ main.cpp -O2 -std=c++14 -DONLINE_JUDGE -o main',
     'c'     : 'gcc main.c -lm  -O2 -std=c99 -DONLINE_JUDGE -o main',
     'python': '',
     'java'  : 'javac Main.java',
@@ -33,7 +33,7 @@ compiler_command = {
 }
 
 special_compiler_command = {
-    'c++'   : 'g++ spj.cpp -O2 -std=c++11 -DONLINE_JUDGE -o __special_compare__',
+    'c++'   : 'g++ spj.cpp -O2 -std=c++14 -DONLINE_JUDGE -o __special_compare__',
     'c'     : 'gcc spj.c   -O2 -std=c99 -DONLINE_JUDGE -o __special_compare__',
     'python': '',
     'java'  : 'javac Spj.java',
